@@ -23,9 +23,6 @@ export class Inventory extends BaseEntity {
   @Column('int')
   bin: number;
 
-  @Column('int')
-  quantity: number;
-
   @OneToOne(type => Comic, { eager: true })
   @JoinColumn()
   comic: Comic;
@@ -39,6 +36,15 @@ export class Inventory extends BaseEntity {
 
   @Column()
   userId: number;
+
+  @Column()
+  cost: number;
+
+  @Column()
+  aquired: Date;
+
+  @Column()
+  notes: string;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
