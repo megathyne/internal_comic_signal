@@ -15,13 +15,16 @@ import { User } from '../auth/user.entity';
 import { Comic } from '../comic/comic.entity';
 
 @Entity()
-@Unique(['comic'])
+@Unique(['tag'])
 export class Inventory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('int')
+  @Column()
   bin: number;
+
+  @Column()
+  tag: number;
 
   @OneToOne(type => Comic, { eager: true })
   @JoinColumn()
@@ -39,8 +42,8 @@ export class Inventory extends BaseEntity {
 
   @Column()
   cost: number;
-
-  @Column()
+  
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   aquired: Date;
 
   @Column()

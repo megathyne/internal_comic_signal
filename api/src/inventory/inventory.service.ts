@@ -31,14 +31,17 @@ export class InventoryService {
     return found;
   }
 
-  async postInventory(createInventoryDto: CreateInventoryDto, user: User) {
+  async postInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<void> {
     return this.inventoryRepository.createInventory(createInventoryDto, user);
   }
 
   async patchInventory(id: number, updateInventoryDto: UpdateInventoryDto, user: User): Promise<Inventory> {
     const inventory = await this.getInventoryById(id, user);
     inventory.bin = updateInventoryDto.bin;
-    inventory.quantity = updateInventoryDto.quantity;
+    inventory.tag = updateInventoryDto.tag;
+    inventory.cost = updateInventoryDto.cost;
+    inventory.aquired = updateInventoryDto.aquired;
+    inventory.notes = updateInventoryDto.notes;
     await inventory.save();
     return inventory;
   }

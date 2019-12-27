@@ -15,6 +15,9 @@ export class Comic extends BaseEntity {
   @Column('int')
   issue: number;
 
+  @Column({ nullable: true })
+  notes: string;
+
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createDateTime: Date;
@@ -23,5 +26,3 @@ export class Comic extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   lastChangedDateTime: Date;
 }
-
-

@@ -1,12 +1,18 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateInventoryDto {
-  @ApiModelProperty()
+  @ApiModelPropertyOptional()
   readonly bin: number;
 
-  @ApiModelProperty()
-  readonly comic: number;
+  @ApiModelPropertyOptional()
+  readonly tag: number;
 
-  @ApiModelProperty()
-  readonly quantity: number;
+  @ApiModelPropertyOptional()
+  readonly cost: number;
+
+  @ApiModelPropertyOptional({ type: 'string', format: 'date' })
+  readonly aquired: Date;
+
+  @ApiModelPropertyOptional()
+  readonly notes: string;
 }

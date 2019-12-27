@@ -20,7 +20,7 @@ export class InventoryRepository extends Repository<Inventory> {
 
     if (search) {
       query.andWhere(
-        '(inventory.comic LIKE :search OR inventory.bin LIKE :search OR inventory.quantity LIKE :search)',
+        '(inventory.comic LIKE :search OR inventory.bin LIKE :search OR inventory.cost LIKE :search OR inventory.notes LIKE :search)',
         { search: `%${search}%` },
       );
     }
@@ -37,16 +37,33 @@ export class InventoryRepository extends Repository<Inventory> {
     }
   }
 
+  async getCostsSum(user: User): Promise<Number> {
+    const query = this.createQueryBuilder('inventory');
+    query.select('SUM(inventory.cost)', 'sum');
+    query.where('inventory.userId = :userId', { userId: user.id });
+
+    try {
+      const { sum } = await query.getRawOne();
+      return sum;
+    } catch (error) {
+      this.logger.error(`Failed to calculate total inventory costs for user "${user.username}"`, error.stack);
+      throw new InternalServerErrorException();
+    }
+  }
+
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<void> {
-    const { bin, comicId, quantity } = createInventoryDto;
+    const { bin, comicId, tag, cost, aquired, notes } = createInventoryDto;
 
     const comic = await Comic.findOne(comicId);
 
     const inventory = this.create();
     inventory.bin = bin;
+    inventory.tag = tag;
     inventory.comic = comic;
-    inventory.quantity = quantity;
+    inventory.cost = cost;
+    inventory.aquired = aquired;
     inventory.user = user;
+    inventory.notes = notes;
 
     try {
       await inventory.save();

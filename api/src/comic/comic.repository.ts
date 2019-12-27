@@ -26,11 +26,12 @@ export class ComicRepository extends Repository<Comic> {
   }
 
   async createComic(createComicDto: CreateComicDto): Promise<void> {
-    const { series, volume, issue } = createComicDto;
+    const { series, volume, issue, notes } = createComicDto;
     const comic = this.create();
     comic.series = series;
     comic.volume = volume;
     comic.issue = issue;
+    comic.notes = notes;
 
     try {
       await comic.save();

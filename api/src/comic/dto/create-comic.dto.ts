@@ -1,4 +1,4 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 export class CreateComicDto {
   @ApiModelProperty()
@@ -9,4 +9,7 @@ export class CreateComicDto {
 
   @ApiModelProperty()
   readonly issue: number;
+
+  @ApiModelPropertyOptional()
+  readonly notes: string;
 }

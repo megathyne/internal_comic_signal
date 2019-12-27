@@ -3,6 +3,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ComicModule } from './comic/comic.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ComicModule } from './comic/comic.module';
     InventoryModule,
     AuthModule,
     ComicModule,
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [],

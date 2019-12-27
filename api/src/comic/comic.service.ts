@@ -26,7 +26,7 @@ export class ComicService {
     return found;
   }
 
-  async postComic(createComicDto: CreateComicDto) {
+  async postComic(createComicDto: CreateComicDto): Promise<void> {
     return this.comicRepository.createComic(createComicDto);
   }
 
