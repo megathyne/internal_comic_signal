@@ -34,7 +34,7 @@ export class InventoryController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   get(@Query() filterDto: GetInventoryFilterDto, @GetUser() user: User) {
-    this.logger.verbose(`User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(filterDto)}`);
+    this.logger.verbose(`User "${user.username}" retrieving inventory. Filters: ${JSON.stringify(filterDto)}`);
     return this.inventoryService.getInventory(filterDto, user);
   }
 
@@ -45,7 +45,7 @@ export class InventoryController {
   }
 
   @Post()
-  post(@Body() createInventoryDto: CreateInventoryDto, @GetUser() user: User): Promise<void> {
+  post(@Body() createInventoryDto: CreateInventoryDto, @GetUser() user: User): Promise<Inventory> {
     return this.inventoryService.postInventory(createInventoryDto, user);
   }
 

@@ -31,7 +31,7 @@ export class InventoryService {
     return found;
   }
 
-  async postInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<void> {
+  async postInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
     return this.inventoryRepository.createInventory(createInventoryDto, user);
   }
 

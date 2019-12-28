@@ -51,7 +51,7 @@ export class InventoryRepository extends Repository<Inventory> {
     }
   }
 
-  async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<void> {
+  async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
     const { bin, comicId, tag, cost, aquired, notes } = createInventoryDto;
 
     const comic = await Comic.findOne(comicId);
@@ -66,7 +66,9 @@ export class InventoryRepository extends Repository<Inventory> {
     inventory.notes = notes;
 
     try {
-      await inventory.save();
+      const item = await inventory.save();
+      delete item.user;
+      return item;
     } catch (error) {
       if (error.code === '23505') {
         // duplicate comic
