@@ -38,19 +38,17 @@ class App extends React.Component {
     const values = { username, password };
     const user = localStorage.getItem("accessToken");
     return (
-      <div className="App">
-        <header className="App-header">
-          {!user ? (
-            <Login
-              handleLogin={this.handleLogin}
-              handleChange={this.handleChange}
-              values={values}
-            />
-          ) : (
-            <Inventory />
-          )}
-        </header>
-      </div>
+      <body className="App">
+        {!user ? (
+          <Login
+            handleLogin={this.handleLogin}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        ) : (
+          <Inventory />
+        )}
+      </body>
     );
   }
 }

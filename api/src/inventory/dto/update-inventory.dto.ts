@@ -15,4 +15,7 @@ export class UpdateInventoryDto {
 
   @ApiModelPropertyOptional()
   readonly notes: string;
+
+  @ApiModelPropertyOptional()
+  readonly vendorId: number;
 }

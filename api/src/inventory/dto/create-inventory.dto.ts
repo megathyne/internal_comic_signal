@@ -11,6 +11,9 @@ export class CreateInventoryDto {
   readonly comicId: number;
 
   @ApiModelProperty()
+  readonly vendorId: number;
+
+  @ApiModelProperty()
   readonly cost: number;
 
   @ApiModelProperty({type: 'string', format: 'date'})

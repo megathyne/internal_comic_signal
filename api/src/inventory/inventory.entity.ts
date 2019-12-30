@@ -7,12 +7,12 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
 import { Comic } from '../comic/comic.entity';
+import { Vendor } from '../vendor/vendor.entity';
 
 @Entity()
 @Unique(['tag'])
@@ -30,6 +30,10 @@ export class Inventory extends BaseEntity {
   @JoinColumn()
   comic: Comic;
 
+  @ManyToOne(type => Vendor, { eager: true })
+  @JoinColumn()
+  vendor: Vendor;
+
   @ManyToOne(
     type => User,
     user => user.inventory,
@@ -40,7 +44,7 @@ export class Inventory extends BaseEntity {
   @Column()
   userId: number;
 
-  @Column()
+  @Column({ type: 'money' })
   cost: number;
 
   @Column({ type: 'date' })
@@ -48,6 +52,15 @@ export class Inventory extends BaseEntity {
 
   @Column({ default: '' })
   notes: string;
+
+  @Column({ type: 'float', nullable: true })
+  grade: number;
+
+  @Column({ type: 'boolean', nullable: true })
+  graded: boolean;
+
+  @Column({ type: 'money', nullable: true })
+  currentValue: number;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

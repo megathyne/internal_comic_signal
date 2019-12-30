@@ -1,12 +1,13 @@
 import React from "react";
 import { APIPost } from "../api/api";
+import Button from "@material-ui/core/Button";
+import Vendor from "../components/vendor";
 class AddInventory extends React.Component {
   state = {};
 
   handleSubmit = async () => {
     const { bin, tag, notes, cost, aquired } = this.state;
-    const { activeComic } = this.props;
-
+    const { activeComic, activeVendor } = this.props;
     try {
       await APIPost("inventory", {
         bin,
@@ -14,9 +15,9 @@ class AddInventory extends React.Component {
         notes,
         cost,
         aquired,
-        comicId: activeComic
+        comicId: activeComic,
+        vendorId: activeVendor
       });
-      this.props.updateInventory();
     } catch (error) {
       console.log(error);
     }
@@ -49,8 +50,17 @@ class AddInventory extends React.Component {
           <p>aquired</p>
           <input onChange={this.handleChange("aquired")} />
         </div>
-        <div>
-          <button onClick={this.handleSubmit}>Submit</button>
+        <div style={{ marginTop: "20px" }}>
+          <Vendor
+            vendors={this.props.vendors}
+            setActiveVendors={this.props.setActiveVendors}
+            getVendors={this.props.getVendors}
+          />
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <Button variant="contained" onClick={this.handleSubmit}>
+            Submit
+          </Button>
         </div>
       </div>
     );

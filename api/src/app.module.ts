@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ComicModule } from './comic/comic.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { VendorModule } from './vendor/vendor.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
     AuthModule,
     ComicModule,
     AnalyticsModule,
+    VendorModule,
   ],
   controllers: [],
   providers: [],

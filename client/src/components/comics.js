@@ -1,13 +1,7 @@
 import React from "react";
-import { APIGet } from "../api/api";
 class Comics extends React.Component {
   componentDidMount = async () => {
-    try {
-      const results = await APIGet("comic");
-      this.props.setComics(results);
-    } catch (error) {
-      console.log(error);
-    }
+    this.props.getComics();
   };
 
   render() {
