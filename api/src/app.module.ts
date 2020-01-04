@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ComicModule } from './comic/comic.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { VendorModule } from './vendor/vendor.module';
+import { GradeModule } from './grade/grade.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { VendorModule } from './vendor/vendor.module';
     ComicModule,
     AnalyticsModule,
     VendorModule,
+    GradeModule,
   ],
   controllers: [],
   providers: [],

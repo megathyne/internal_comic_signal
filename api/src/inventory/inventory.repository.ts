@@ -6,6 +6,7 @@ import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
 import { User } from '../auth/user.entity';
 import { Comic } from '../comic/comic.entity';
 import { Vendor } from 'src/vendor/vendor.entity';
+import { Grade } from 'src/grade/grade.entity';
 
 @EntityRepository(Inventory)
 export class InventoryRepository extends Repository<Inventory> {
@@ -17,7 +18,7 @@ export class InventoryRepository extends Repository<Inventory> {
 
     query.innerJoinAndSelect('inventory.comic', 'comic');
     query.innerJoinAndSelect('inventory.vendor', 'vendor');
-    
+    query.innerJoinAndSelect('inventory.grade', 'grade');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     if (search) {
@@ -54,15 +55,17 @@ export class InventoryRepository extends Repository<Inventory> {
   }
 
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
-    const { bin, comicId, tag, cost, aquired, notes, vendorId } = createInventoryDto;
+    const { bin, comicId, tag, cost, aquired, notes, vendorId, gradeId } = createInventoryDto;
 
     const comic = await Comic.findOne(comicId);
     const vendor = await Vendor.findOne(vendorId);
+    const grade = await Grade.findOne(gradeId);
 
     const inventory = this.create();
     inventory.bin = bin;
     inventory.tag = tag;
     inventory.comic = comic;
+    inventory.grade = grade;
     inventory.vendor = vendor;
     inventory.cost = cost;
     inventory.aquired = aquired;

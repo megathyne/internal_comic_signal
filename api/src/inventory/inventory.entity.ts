@@ -13,9 +13,9 @@ import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
 import { Comic } from '../comic/comic.entity';
 import { Vendor } from '../vendor/vendor.entity';
+import { Grade } from '../grade/grade.entity';
 
 @Entity()
-@Unique(['tag'])
 export class Inventory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,12 +23,19 @@ export class Inventory extends BaseEntity {
   @Column()
   bin: number;
 
-  @Column()
+  @Column({ unique: true })
   tag: number;
 
   @ManyToOne(type => Comic, { eager: true })
   @JoinColumn()
   comic: Comic;
+
+  @Column({ type: 'float', nullable: true })
+  purchasedGrade: number;
+
+  @ManyToOne(type => Grade, { eager: true })
+  @JoinColumn()
+  grade: Grade;
 
   @ManyToOne(type => Vendor, { eager: true })
   @JoinColumn()
@@ -52,12 +59,6 @@ export class Inventory extends BaseEntity {
 
   @Column({ default: '' })
   notes: string;
-
-  @Column({ type: 'float', nullable: true })
-  grade: number;
-
-  @Column({ type: 'boolean', nullable: true })
-  graded: boolean;
 
   @Column({ type: 'money', nullable: true })
   currentValue: number;
