@@ -17,8 +17,8 @@ export class InventoryRepository extends Repository<Inventory> {
     const query = this.createQueryBuilder('inventory');
 
     query.innerJoinAndSelect('inventory.comic', 'comic');
-    query.innerJoinAndSelect('inventory.vendor', 'vendor');
-    query.innerJoinAndSelect('inventory.grade', 'grade');
+    query.leftJoinAndSelect('inventory.vendor', 'vendor');
+    query.leftJoinAndSelect('inventory.grade', 'grade');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     if (search) {

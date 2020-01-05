@@ -49,7 +49,7 @@ class GetInventory extends React.Component {
                 <TableCell align="right">{row.notes}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
                 <TableCell align="right">{row.purchasedGrade}</TableCell>
-                <TableCell align="right">{row.grade.grade}</TableCell>
+                <TableCell align="right">{row.grade.grade || ''}</TableCell>
                 <TableCell align="right">{row.grade.grader}</TableCell>
                 <TableCell align="right">{row.aquired.split("T")[0]}</TableCell>
                 <TableCell align="right">{row.vendor.name}</TableCell>

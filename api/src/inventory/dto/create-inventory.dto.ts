@@ -15,11 +15,9 @@ export class CreateInventoryDto {
   readonly comicId: number;
 
   @ApiModelProperty()
-  @IsNotEmpty()
   readonly gradeId: number;
 
   @ApiModelProperty()
-  @IsNotEmpty()
   readonly vendorId: number;
 
   @ApiModelProperty()

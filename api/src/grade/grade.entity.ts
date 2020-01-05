@@ -7,6 +7,10 @@ export enum Grader {
   SELF = 'SELF',
 }
 
+export enum Pages {
+  WHITE = 'WHITE',
+}
+
 @Entity()
 export class Grade extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -17,6 +21,9 @@ export class Grade extends BaseEntity {
 
   @Column({ type: 'enum', enum: Grader, default: Grader.SELF })
   grader: Grader;
+
+  @Column({type: 'enum', enum: Pages})
+  pages: Pages;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
