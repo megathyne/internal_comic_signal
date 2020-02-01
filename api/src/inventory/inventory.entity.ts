@@ -26,6 +26,9 @@ export class Inventory extends BaseEntity {
   @Column({ unique: true })
   tag: number;
 
+  @Column({ unique: true, nullable: true })
+  serial: string;
+
   @ManyToOne(type => Comic, { eager: true })
   @JoinColumn()
   comic: Comic;
@@ -54,14 +57,14 @@ export class Inventory extends BaseEntity {
   @Column({ type: 'money' })
   cost: number;
 
+  @Column({ type: 'money', nullable: true })
+  value: number;
+
   @Column({ type: 'date' })
   aquired: Date;
 
   @Column({ default: '' })
   notes: string;
-
-  @Column({ type: 'money', nullable: true })
-  currentValue: number;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

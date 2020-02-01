@@ -1,7 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Inventory } from './inventory.entity';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
-import { Logger, InternalServerErrorException, ConflictException } from '@nestjs/common';
+import { Logger, InternalServerErrorException, ConflictException, BadRequestException } from '@nestjs/common';
 import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
 import { User } from '../auth/user.entity';
 import { Comic } from '../comic/comic.entity';
@@ -58,7 +58,17 @@ export class InventoryRepository extends Repository<Inventory> {
     const { bin, comicId, tag, cost, aquired, notes, vendorId, gradeId } = createInventoryDto;
 
     const comic = await Comic.findOne(comicId);
+    if (!comic) {
+      this.logger.error(`Faild to create an inventory for UserId: ${user.id}, ComicId: ${comicId} does not exist`);
+      throw new BadRequestException();
+    }
+
     const vendor = await Vendor.findOne(vendorId);
+    if (!vendor) {
+      this.logger.error(`Faild to create an inventory for UserId: ${user.id}, VendorId: ${vendorId} does not exist`);
+      throw new BadRequestException();
+    }
+
     const grade = await Grade.findOne(gradeId);
 
     const inventory = this.create();
@@ -80,14 +90,16 @@ export class InventoryRepository extends Repository<Inventory> {
       if (error.code === '23505') {
         // duplicate comic
         this.logger.error(
-          `Failed to create a inventory, Comic already exists. Data: ${JSON.stringify(createInventoryDto)}`,
+          `Failed to create a inventory for UserId: ${user.id}, Comic already exists. Data: ${JSON.stringify(
+            createInventoryDto,
+          )}`,
           error.stack,
         );
         throw new ConflictException('Comic already exists');
       }
 
       this.logger.error(
-        `Failed to create a inventory for user "${user.username}". Data: ${createInventoryDto}`,
+        `Failed to create a inventory for UserId: ${user.id}. Data: ${createInventoryDto}`,
         error.stack,
       );
       throw new InternalServerErrorException();

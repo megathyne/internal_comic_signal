@@ -1,34 +1,39 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateInventoryDto {
-  @ApiModelProperty()
-  @IsNotEmpty()
+  @ApiModelProperty({ example: 1 })
   readonly bin: number;
 
-  @ApiModelProperty()
-  @IsNotEmpty()
+  @ApiModelProperty({ example: 123 })
   readonly tag: number;
 
-  @ApiModelProperty()
+  @ApiModelProperty({ example: '3F45DF3YU55V' })
+  readonly serial: number;
+
+  @ApiModelProperty({ example: 1 })
   @IsNotEmpty()
   readonly comicId: number;
 
-  @ApiModelProperty()
+  @ApiModelProperty({ example: 1 })
   readonly gradeId: number;
 
-  @ApiModelProperty()
+  @ApiModelProperty({ example: 1 })
+  @IsNotEmpty()
   readonly vendorId: number;
 
-  @ApiModelProperty()
+  @ApiModelProperty({ example: 12.5 })
   @IsNotEmpty()
   readonly cost: number;
+
+  @ApiModelProperty({ example: 12.5 })
+  readonly value: number;
 
   @ApiModelProperty({ type: 'string', format: 'date' })
   @IsNotEmpty()
   readonly aquired: Date;
 
-  @ApiModelPropertyOptional()
+  @ApiModelPropertyOptional({ example: 'my note' })
   @IsNotEmpty()
   readonly notes: string;
 }

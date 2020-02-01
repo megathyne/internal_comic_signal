@@ -7,14 +7,22 @@ import {
   UpdateDateColumn,
   Unique,
   PrimaryGeneratedColumn,
+  ManyToOne,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { User } from '../auth/user.entity';
 
 @Entity()
 @Unique(['name', 'subvendor'])
 export class Vendor extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(
+    type => User,
+    { eager: false },
+  )
+  user: User;
 
   @Column('text')
   name: string;
