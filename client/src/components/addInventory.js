@@ -3,79 +3,137 @@ import { APIPost } from "../api/api";
 import Button from "@material-ui/core/Button";
 import Vendor from "../components/vendor";
 import Grade from "../components/grade";
-class AddInventory extends React.Component {
-  state = {};
+import {
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-  handleSubmit = async () => {
-    const { bin, tag, notes, cost, aquired } = this.state;
-    const { activeComic, activeVendor, activeGrade } = this.props;
-    const data = {
-      bin,
-      tag,
-      notes,
-      cost,
-      aquired,
-      comicId: activeComic,
-      vendorId: activeVendor,
-      gradeId: activeGrade
-    };
-    try {
-      await APIPost("inventory", data);
-      this.props.updateInventory();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
+}));
 
-  handleChange = input => event => {
-    this.setState({ [input]: event.target.value });
-  };
+// const classes = useStyles();
 
-  render() {
-    return (
+export default function AddInventory(props) {
+  const classes = useStyles();
+
+  const inputLabel = React.useRef(null);
+  // const [labelWidth, setLabelWidth] = React.useState(0);
+  // React.useEffect(() => {
+  //   setLabelWidth(inputLabel.current.offsetWidth);
+  // }, []);
+
+  return (
+    <div>
       <div>
+        <TextField
+          id="outlined-basic"
+          label="bin"
+          variant="outlined"
+          onChange={props.handleChange("bin")}
+        />
+
+        <TextField
+          id="outlined-basic"
+          label="tag"
+          variant="outlined"
+          onChange={props.handleChange("tag")}
+        />
+
+        <TextField
+          id="outlined-basic"
+          label="notes"
+          variant="outlined"
+          onChange={props.handleChange("notes")}
+        />
+        <TextField
+          id="outlined-basic"
+          label="cost"
+          variant="outlined"
+          onChange={props.handleChange("cost")}
+        />
+
+        <TextField
+          id="outlined-basic"
+          label="aquired"
+          variant="outlined"
+          onChange={props.handleChange("aquired")}
+        />
+      </div>
+      <div style={{ marginTop: "20px" }}>
         <div>
-          <p>bin</p>
-          <input onChange={this.handleChange("bin")} />
+          <FormControl className={classes.formControl}>
+            <InputLabel id="select-grade-label">Grade</InputLabel>
+            <Select
+              labelId="select-grade-label"
+              id="select-grade"
+              value={props.activeGrade}
+              onChange={props.setActiveGrade}
+            >
+              {props.grades
+                .sort((a, b) => a.grade - b.grade)
+                .map((item, i) => {
+                  const { id, grade, grader } = item;
+                  return (
+                    <option key={i} value={id}>{`${grade.toFixed(
+                      1
+                    )} - ${grader}`}</option>
+                  );
+                })}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="select-vendor-label">Vendor</InputLabel>
+            <Select
+              labelId="select-vendor-label"
+              id="select-vendor"
+              value={props.activeVendor}
+              onChange={props.setActiveVendor}
+            >
+              {props.vendors.map((item, i) => {
+                const { id, name } = item;
+                return <MenuItem key={i} value={id}>{`${name} `}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+
+          <FormControl className={classes.formControl}>
+            <InputLabel id="select-comic-label">Comic</InputLabel>
+            <Select
+              labelId="select-comic-label"
+              id="select-comic"
+              value={props.activeComic}
+              onChange={props.setActiveComic}
+            >
+              {props.comics.map((item, i) => {
+                const { id, issue, notes, series, volume } = item;
+                return (
+                  <MenuItem
+                    key={i}
+                    value={id}
+                  >{`${series} (${volume}) ${issue} ${notes}`}</MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
         </div>
+
         <div>
-          <p>tag</p>
-          <input onChange={this.handleChange("tag")} />
-        </div>
-        <div>
-          <p>notes</p>
-          <input onChange={this.handleChange("notes")} />
-        </div>
-        <div>
-          <p>cost</p>
-          <input onChange={this.handleChange("cost")} />
-        </div>
-        <div>
-          <p>aquired</p>
-          <input onChange={this.handleChange("aquired")} />
-        </div>
-        <div style={{ marginTop: "20px" }}>
-          <Grade
-            grades={this.props.grades}
-            setActiveGrade={this.props.setActiveGrade}
-            getGrades={this.props.getGrades}
-          />
-        </div>
-        <div style={{ marginTop: "20px" }}>
-          <Vendor
-            vendors={this.props.vendors}
-            setActiveVendor={this.props.setActiveVendor}
-            getVendors={this.props.getVendors}
-          />
-        </div>
-        <div style={{ marginTop: "20px" }}>
-          <Button variant="contained" onClick={this.handleSubmit}>
+          <Button variant="contained" onClick={props.addNewInventory}>
             Submit
           </Button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default AddInventory;

@@ -18,16 +18,13 @@ export class Vendor extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(
-    type => User,
-    { eager: false },
-  )
+  @ManyToOne(type => User, { eager: false })
   user: User;
 
   @Column('text')
   name: string;
 
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   subvendor: string;
 
   @Exclude()

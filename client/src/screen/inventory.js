@@ -3,6 +3,7 @@ import AddInventory from "../components/addInventory";
 import GetInventory from "../components/getInventory";
 import Comics from "../components/comics";
 import { APIGet } from "../api/api";
+import { APIPost } from "../api/api";
 
 class Inventory extends React.Component {
   constructor() {
@@ -18,6 +19,7 @@ class Inventory extends React.Component {
     this.getGrades = this.getGrades.bind(this);
     this.setActiveGrade = this.setActiveGrade.bind(this);
     this.setGrades = this.setGrades.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   state = {
@@ -26,6 +28,12 @@ class Inventory extends React.Component {
     vendors: [],
     grades: []
   };
+
+  componentWillMount() {
+    this.getComics();
+    this.getGrades();
+    this.getVendors();
+  }
 
   setInventory(inventory) {
     this.setState({ inventory });
@@ -89,17 +97,35 @@ class Inventory extends React.Component {
     this.setState({ activeComic: event.target.value });
   }
 
+  async addNewInventory(comic) {
+    const { bin, tag, notes, cost, aquired } = this.state;
+    const { activeComic, activeVendor, activeGrade } = this.state;
+    const data = {
+      bin,
+      tag,
+      notes,
+      cost,
+      aquired,
+      comicId: activeComic,
+      vendorId: activeVendor,
+      gradeId: activeGrade
+    };
+    try {
+      await APIPost("inventory", data);
+      this.props.updateInventory();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleChange = input => event => {
+    this.setState({ [input]: event.target.value });
+  };
+
   render() {
     return (
-      <div style={{ display: "flex" }}>
-        <div style={{ marginRight: "50px" }}>
-          <Comics
-            getComics={this.getComics}
-            setActiveComic={this.setActiveComic}
-            activeComic={this.state.activeComic}
-            setComics={this.setComics}
-            comics={this.state.comics}
-          />
+      <div>
+        <div>
           <AddInventory
             setActiveComic={this.setActiveComic}
             activeComic={this.state.activeComic}
@@ -112,7 +138,21 @@ class Inventory extends React.Component {
             getGrades={this.getGrades}
             setActiveGrade={this.setActiveGrade}
             activeGrade={this.state.activeGrade}
+            handleChange={this.handleChange}
+            getComics={this.getComics}
+            setActiveComic={this.setActiveComic}
+            activeComic={this.state.activeComic}
+            setComics={this.setComics}
+            comics={this.state.comics}
+            addNewInventory={this.addNewInventory}
           />
+          {/* <Comics
+            getComics={this.getComics}
+            setActiveComic={this.setActiveComic}
+            activeComic={this.state.activeComic}
+            setComics={this.setComics}
+            comics={this.state.comics}
+          /> */}
         </div>
         <div>
           <GetInventory
