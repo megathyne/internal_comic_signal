@@ -9,6 +9,10 @@ import {
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import { APIGet } from "../api/api";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import SelectComic from "./selectComic";
+import SelectIssue from "./selectIssue";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -20,32 +24,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+function sleep(delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(resolve, delay);
+  });
+}
+
 export default function AddInventory(props) {
+  const [open, setOpen] = React.useState(false);
+  const [options, setOptions] = React.useState([]);
+  const loading = open && options.length === 0;
+
   const classes = useStyles();
+
+  React.useEffect(() => {
+    let active = true;
+
+    if (!loading) {
+      return undefined;
+    }
+
+    (async () => {
+      const response = await APIGet("comic");
+      // await sleep(1e3); // For demo purposes.
+      // const comics = await response.json();
+      const comics = response;
+      console.log(comics);
+      if (active) {
+        setOptions(Object.keys(comics).map(key => comics[key]));
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loading]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
 
   return (
     <div>
-      <Autocomplete
-        freeSolo
-        onChange={props.setActiveComic}
-        id="combo-box-demo"
-        value={props.activeComic}
-        options={props.comics}
-        getOptionLabel={option =>
-          `${option.series} ${option.volume} ${option.issue} ${option.notes}`
-        }
-        style={{ width: 500 }}
-        renderInput={params => (
-          <TextField
-            {...params}
-            value={params.id}
-            label="Select Comic"
-            variant="outlined"
-            fullWidth
-          />
-        )}
+      <SelectComic setActiveComic={props.setActiveComic} />
+      <SelectIssue
+        activeComic={props.activeComic}
       />
-
       <div>
         <TextField
           id="outlined-basic"
@@ -119,7 +145,7 @@ export default function AddInventory(props) {
             </Select>
           </FormControl>
 
-          <FormControl className={classes.formControl}>
+          {/* <FormControl className={classes.formControl}>
             <InputLabel id="select-comic-label">Comic</InputLabel>
             <Select
               labelId="select-comic-label"
@@ -138,7 +164,7 @@ export default function AddInventory(props) {
                 );
               })}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
 
         <div>

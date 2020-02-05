@@ -101,9 +101,8 @@ class Inventory extends React.Component {
     this.setState({ activeGrade: event.target.value });
   }
 
-  setActiveComic(event) {
-    console.log("setActiveComic", event.target.value);
-    this.setState({ activeComic: event.target.value });
+  setActiveComic(event, value) {
+    this.setState({ activeComic: value });
   }
 
   addNewInventory = async comic => {

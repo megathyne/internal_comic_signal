@@ -13,7 +13,8 @@ export class ComicRepository extends Repository<Comic> {
     const query = this.createQueryBuilder('comic');
 
     if (search) {
-      query.where('(comic.name LIKE :search)', { search: `%${search}%` });
+      query.where('(comic.series LIKE :search)', { search: `%${search}%` });
+      query.andWhere('(comic.volume LIKE :search)', { search: `%${search}%` });
     }
 
     try {

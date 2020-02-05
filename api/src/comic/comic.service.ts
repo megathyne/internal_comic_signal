@@ -26,6 +26,17 @@ export class ComicService {
     return found;
   }
 
+  async getIssuesBySeries(id: number): Promise<Comic[]> {
+    const comic = await this.getComicById(id);
+
+    const issues = await this.comicRepository.find({
+      select: ['id', 'issue', 'notes'],
+      where: { series: comic.series, volume: comic.volume },
+    });
+
+    return issues;
+  }
+
   async postComic(createComicDto: CreateComicDto): Promise<void> {
     return this.comicRepository.createComic(createComicDto);
   }

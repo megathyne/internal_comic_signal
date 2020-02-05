@@ -37,6 +37,12 @@ export class ComicController {
     return this.comicService.getComic(filterDto);
   }
 
+  @Get('/series/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  getIssuesBySeries(@Param('id') id: number, @GetUser() user: User): Promise<Comic[]> {
+    return this.comicService.getIssuesBySeries(id);
+  }
+
   @Get('/:id')
   @UseInterceptors(ClassSerializerInterceptor)
   getComicById(@Param('id') id: number, @GetUser() user: User): Promise<Comic> {
