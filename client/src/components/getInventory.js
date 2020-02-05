@@ -10,71 +10,57 @@ import Paper from "@material-ui/core/Paper";
 import { APIGet } from "../api/api";
 import { Button } from "@material-ui/core";
 import FormDialog from "./editInventory";
-class GetInventory extends React.Component {
-  componentDidMount = async () => {
-    try {
-      const results = await APIGet("inventory");
-      this.props.setInventory(results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  render() {
-    return (
-      <div>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="right">Bin</TableCell>
-                <TableCell align="right">Tag</TableCell>
-                <TableCell align="right">Series</TableCell>
-                <TableCell align="right">Volume</TableCell>
-                <TableCell align="right">Issue</TableCell>
-                <TableCell align="right">notes</TableCell>
-                <TableCell align="right">cost</TableCell>
-                <TableCell align="right">purchase grade</TableCell>
-                <TableCell align="right">grader grade</TableCell>
-                <TableCell align="right">grader</TableCell>
-                <TableCell align="right">Aquired</TableCell>
-                <TableCell align="right">Vendor</TableCell>
+export default function GetInventory(props) {
+  return (
+    <div>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">Bin</TableCell>
+              <TableCell align="right">Tag</TableCell>
+              <TableCell align="right">Series</TableCell>
+              <TableCell align="right">Volume</TableCell>
+              <TableCell align="right">Issue</TableCell>
+              <TableCell align="right">notes</TableCell>
+              <TableCell align="right">cost</TableCell>
+              <TableCell align="right">purchase grade</TableCell>
+              <TableCell align="right">grader grade</TableCell>
+              <TableCell align="right">grader</TableCell>
+              <TableCell align="right">Aquired</TableCell>
+              <TableCell align="right">Vendor</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.inventory.map(row => (
+              <TableRow key={row.id}>
+                <TableCell align="right">{row.bin}</TableCell>
+                <TableCell align="right">{row.tag}</TableCell>
+                <TableCell align="right">{row.comic.series}</TableCell>
+                <TableCell align="right">{row.comic.volume}</TableCell>
+                <TableCell align="right">{row.comic.issue}</TableCell>
+                <TableCell align="right">{row.notes}</TableCell>
+                <TableCell align="right">{row.cost}</TableCell>
+                <TableCell align="right">{row.purchasedGrade}</TableCell>
+                <TableCell align="right">
+                  {row.grade ? row.grade.grade : ""}
+                </TableCell>
+                <TableCell align="right">
+                  {row.grade ? row.grade.grader : ""}
+                </TableCell>
+                <TableCell align="right">{row.aquired.split("T")[0]}</TableCell>
+                <TableCell align="right">
+                  {row.vendor ? row.vendor.name : ""}
+                </TableCell>
+                <TableCell align="right">
+                  <FormDialog data={row} />
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.props.inventory.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell align="right">{row.bin}</TableCell>
-                  <TableCell align="right">{row.tag}</TableCell>
-                  <TableCell align="right">{row.comic.series}</TableCell>
-                  <TableCell align="right">{row.comic.volume}</TableCell>
-                  <TableCell align="right">{row.comic.issue}</TableCell>
-                  <TableCell align="right">{row.notes}</TableCell>
-                  <TableCell align="right">{row.cost}</TableCell>
-                  <TableCell align="right">{row.purchasedGrade}</TableCell>
-                  <TableCell align="right">
-                    {row.grade ? row.grade.grade : ""}
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.grade ? row.grade.grader : ""}
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.aquired.split("T")[0]}
-                  </TableCell>
-                  <TableCell align="right">
-                    {row.vendor ? row.vendor.name : ""}
-                  </TableCell>
-                  <TableCell align="right">
-                    <FormDialog data={row}/>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    );
-  }
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
 }
-
-export default GetInventory;

@@ -1,8 +1,5 @@
 import React from "react";
-import { APIPost } from "../api/api";
-import Button from "@material-ui/core/Button";
-import Vendor from "../components/vendor";
-import Grade from "../components/grade";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import {
   TextField,
   Select,
@@ -10,6 +7,7 @@ import {
   InputLabel,
   FormControl
 } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -22,19 +20,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// const classes = useStyles();
-
 export default function AddInventory(props) {
   const classes = useStyles();
 
-  const inputLabel = React.useRef(null);
-  // const [labelWidth, setLabelWidth] = React.useState(0);
-  // React.useEffect(() => {
-  //   setLabelWidth(inputLabel.current.offsetWidth);
-  // }, []);
-
   return (
     <div>
+      <Autocomplete
+        freeSolo
+        onChange={props.setActiveComic}
+        id="combo-box-demo"
+        value={props.activeComic}
+        options={props.comics}
+        getOptionLabel={option =>
+          `${option.series} ${option.volume} ${option.issue} ${option.notes}`
+        }
+        style={{ width: 500 }}
+        renderInput={params => (
+          <TextField
+            {...params}
+            value={params.id}
+            label="Select Comic"
+            variant="outlined"
+            fullWidth
+          />
+        )}
+      />
+
       <div>
         <TextField
           id="outlined-basic"
@@ -56,6 +67,7 @@ export default function AddInventory(props) {
           variant="outlined"
           onChange={props.handleChange("notes")}
         />
+
         <TextField
           id="outlined-basic"
           label="cost"
@@ -114,6 +126,7 @@ export default function AddInventory(props) {
               id="select-comic"
               value={props.activeComic}
               onChange={props.setActiveComic}
+              autoWidth
             >
               {props.comics.map((item, i) => {
                 const { id, issue, notes, series, volume } = item;

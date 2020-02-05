@@ -38,7 +38,7 @@ class App extends React.Component {
     const values = { username, password };
     const user = localStorage.getItem("accessToken");
     return (
-      <body className="App">
+      <div className="App">
         {!user ? (
           <Login
             handleLogin={this.handleLogin}
@@ -48,7 +48,7 @@ class App extends React.Component {
         ) : (
           <Inventory />
         )}
-      </body>
+      </div>
     );
   }
 }
