@@ -4,6 +4,20 @@ import { Logger, ConflictException, InternalServerErrorException } from '@nestjs
 import { CreateComicDto } from './dto/create-comic.dto';
 import { GetComicFilterDto } from './dto/get-comic-filter.dto';
 
+// THis function should be removed if issues are extracted from comics into its own table for performance reasons
+function findDistinctSeriesAndVolumes(comics: Comic[]): Comic[] {
+  const reduced = comics.reduce((prev, curr) => {
+    if (!prev[curr.series + ' ' + curr.volume]) {
+      prev[curr.series + ' ' + curr.volume] = curr;
+      return prev;
+    } else {
+      return prev;
+    }
+  }, {});
+  const mapped = Object.keys(reduced).map(key => reduced[key]);
+  return mapped;
+}
+
 @EntityRepository(Comic)
 export class ComicRepository extends Repository<Comic> {
   private logger = new Logger('ComicRespository');
@@ -18,8 +32,8 @@ export class ComicRepository extends Repository<Comic> {
     }
 
     try {
-      const comic = await query.getMany();
-      return comic;
+      const comics = await query.getMany();
+      return findDistinctSeriesAndVolumes(comics);
     } catch (error) {
       this.logger.error(`Failed to get comic. Filters: ${JSON.stringify(filterDto)}`, error.stack);
       throw new InternalServerErrorException();

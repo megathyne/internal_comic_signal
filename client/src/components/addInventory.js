@@ -67,11 +67,11 @@ export default function AddInventory(props) {
   }, [open]);
 
   return (
-    <div>
-      <SelectComic setActiveComic={props.setActiveComic} />
-      <SelectIssue
-        activeComic={props.activeComic}
-      />
+    <div style={{ marginBottom: "20px" }}>
+      <div style={{ display: "flex", marginBottom: "20px" }}>
+        <SelectComic setActiveComic={props.setActiveComic} />
+        <SelectIssue activeComic={props.activeComic} />
+      </div>
       <div>
         <TextField
           id="outlined-basic"
@@ -144,27 +144,6 @@ export default function AddInventory(props) {
               })}
             </Select>
           </FormControl>
-
-          {/* <FormControl className={classes.formControl}>
-            <InputLabel id="select-comic-label">Comic</InputLabel>
-            <Select
-              labelId="select-comic-label"
-              id="select-comic"
-              value={props.activeComic}
-              onChange={props.setActiveComic}
-              autoWidth
-            >
-              {props.comics.map((item, i) => {
-                const { id, issue, notes, series, volume } = item;
-                return (
-                  <MenuItem
-                    key={i}
-                    value={id}
-                  >{`${series} (${volume}) ${issue} ${notes}`}</MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl> */}
         </div>
 
         <div>

@@ -49,7 +49,7 @@ class Inventory extends React.Component {
   }
 
   updateInventory(item) {
-    this.getComics();
+    this.getInventory();
   }
 
   setComics(comics) {

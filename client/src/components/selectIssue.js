@@ -1,13 +1,6 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {
-  TextField,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl
-} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { APIGet } from "../api/api";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -43,7 +36,7 @@ export default function SelectIssue(props) {
     }
 
     (async () => {
-      console.log(props.activeComic.id)
+      console.log(props.activeComic.id);
       const response = await APIGet("comic/series/" + props.activeComic.id);
       // await sleep(1e3); // For demo purposes.
       // const comics = await response.json();
