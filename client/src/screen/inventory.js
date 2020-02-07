@@ -91,17 +91,18 @@ class Inventory extends React.Component {
     }
   };
 
-  setActiveVendor(event) {
-    console.log("setActiveVendor", event.target.value);
-    this.setState({ activeVendor: event.target.value });
+  setActiveVendor(event, value) {
+    console.log("setActiveVendor", value);
+    this.setState({ activeVendor: value });
   }
 
-  setActiveGrade(event) {
-    console.log("setActiveGrade", event.target.value);
-    this.setState({ activeGrade: event.target.value });
+  setActiveGrade(event, value) {
+    console.log("setActiveGrade", value);
+    this.setState({ activeGrade: value });
   }
 
   setActiveComic(event, value) {
+    console.log("setActiveComic", value);
     this.setState({ activeComic: value });
   }
 
@@ -134,24 +135,22 @@ class Inventory extends React.Component {
     return (
       <div>
         <AddInventory
-          setActiveComic={this.setActiveComic}
+          addNewInventory={this.addNewInventory}
           activeComic={this.state.activeComic}
+          activeGrade={this.state.activeGrade}
+          activeVendor={this.state.activeVendor}
+          comics={this.state.comics}
+          getVendors={this.getVendors}
+          getGrades={this.getGrades}
+          getComics={this.getComics}
+          grades={this.state.grades}
+          handleChange={this.handleChange}
+          setActiveComic={this.setActiveComic}
+          setActiveVendor={this.setActiveVendor}
+          setActiveGrade={this.setActiveGrade}
+          setComics={this.setComics}
           updateInventory={this.updateInventory}
           vendors={this.state.vendors}
-          getVendors={this.getVendors}
-          setActiveVendor={this.setActiveVendor}
-          activeVendor={this.state.activeVendor}
-          grades={this.state.grades}
-          getGrades={this.getGrades}
-          setActiveGrade={this.setActiveGrade}
-          activeGrade={this.state.activeGrade}
-          handleChange={this.handleChange}
-          getComics={this.getComics}
-          setActiveComic={this.setActiveComic}
-          activeComic={this.state.activeComic}
-          setComics={this.setComics}
-          comics={this.state.comics}
-          addNewInventory={this.addNewInventory}
         />
         <GetInventory
           setInventory={this.setInventory}

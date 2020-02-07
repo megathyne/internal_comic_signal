@@ -54,14 +54,16 @@ export class InventoryController {
   @UseInterceptors(ClassSerializerInterceptor)
   patch(
     @Param('id') id: number,
-    @Body() updateInventory: UpdateInventoryDto,
+    @Body() updateInventoryDto: UpdateInventoryDto,
     @GetUser() user: User,
   ): Promise<Inventory> {
-    return this.inventoryService.patchInventory(id, updateInventory, user);
+    this.logger.verbose(`Updating inventory for UserId: ${user.id}. DTO: ${JSON.stringify(updateInventoryDto)}`);
+    return this.inventoryService.patchInventory(id, updateInventoryDto, user);
   }
 
   @Delete('/:id')
   delete(@Param('id') id: number, @GetUser() user: User): Promise<void> {
+    this.logger.verbose(`Deleting inventory for UserId: ${user.id}. InventoryId: ${id}`);
     return this.inventoryService.deleteInventory(id, user);
   }
 }

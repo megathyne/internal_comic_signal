@@ -33,9 +33,6 @@ export class Inventory extends BaseEntity {
   @JoinColumn()
   comic: Comic;
 
-  @Column({ type: 'float', nullable: true })
-  purchasedGrade: number;
-
   @ManyToOne(type => Grade, { eager: true })
   @JoinColumn()
   grade: Grade;

@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -7,8 +6,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { APIGet } from "../api/api";
-import { Button } from "@material-ui/core";
 import FormDialog from "./editInventory";
 
 export default function GetInventory(props) {
@@ -25,8 +22,7 @@ export default function GetInventory(props) {
               <TableCell align="right">Issue</TableCell>
               <TableCell align="right">notes</TableCell>
               <TableCell align="right">cost</TableCell>
-              <TableCell align="right">purchase grade</TableCell>
-              <TableCell align="right">grader grade</TableCell>
+              <TableCell align="right">grade</TableCell>
               <TableCell align="right">grader</TableCell>
               <TableCell align="right">Aquired</TableCell>
               <TableCell align="right">Vendor</TableCell>
@@ -42,7 +38,6 @@ export default function GetInventory(props) {
                 <TableCell align="right">{row.comic.issue}</TableCell>
                 <TableCell align="right">{row.notes}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
-                <TableCell align="right">{row.purchasedGrade}</TableCell>
                 <TableCell align="right">
                   {row.grade ? row.grade.grade : ""}
                 </TableCell>
