@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Login from "./screen/login";
 import Inventory from "./screen/inventory";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -39,15 +40,19 @@ class App extends React.Component {
     const user = localStorage.getItem("accessToken");
     return (
       <div className="App">
-        {!user ? (
-          <Login
-            handleLogin={this.handleLogin}
-            handleChange={this.handleChange}
-            values={values}
-          />
-        ) : (
-          <Inventory />
-        )}
+        <Router>
+          <Switch>
+            {!user ? (
+              <Login
+                handleLogin={this.handleLogin}
+                handleChange={this.handleChange}
+                values={values}
+              />
+            ) : (
+              <Inventory />
+            )}
+          </Switch>
+        </Router>
       </div>
     );
   }
