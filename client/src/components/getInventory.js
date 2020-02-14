@@ -33,9 +33,9 @@ export default function GetInventory(props) {
               <TableRow key={row.id}>
                 <TableCell align="right">{row.bin}</TableCell>
                 <TableCell align="right">{row.tag}</TableCell>
-                <TableCell align="right">{row.comic.series}</TableCell>
-                <TableCell align="right">{row.comic.volume}</TableCell>
-                <TableCell align="right">{row.comic.issue}</TableCell>
+                <TableCell align="right">{row.issue.series.name}</TableCell>
+                <TableCell align="right">{row.issue.series.volume}</TableCell>
+                <TableCell align="right">{row.issue.issueNumber}</TableCell>
                 <TableCell align="right">{row.notes}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
                 <TableCell align="right">

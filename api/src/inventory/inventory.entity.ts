@@ -11,9 +11,9 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
-import { Comic } from '../comic/comic.entity';
 import { Vendor } from '../vendor/vendor.entity';
 import { Grade } from '../grade/grade.entity';
+import { Issue } from '../issue/issue.entity';
 
 @Entity()
 export class Inventory extends BaseEntity {
@@ -29,9 +29,9 @@ export class Inventory extends BaseEntity {
   @Column({ unique: true, nullable: true })
   serial: string;
 
-  @ManyToOne(type => Comic, { eager: true })
+  @ManyToOne(type => Issue, { eager: false })
   @JoinColumn()
-  comic: Comic;
+  issue: Issue;
 
   @ManyToOne(type => Grade, { eager: true })
   @JoinColumn()

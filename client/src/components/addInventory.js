@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 // import { makeStyles } from "@material-ui/core/styles";
 import { APIGet } from "../api/api";
 // import CircularProgress from "@material-ui/core/CircularProgress";
-import SelectComic from "./selectComic";
+import SelectSeries from "./selectSeries";
 import SelectIssue from "./selectIssue";
 import SelectGrade from "./selectGrade";
 import SelectVendor from "./selectVendor";
@@ -76,8 +76,11 @@ export default function AddInventory(props) {
           justifyContent: "space-around"
         }}
       >
-        <SelectComic setActiveComic={props.setActiveComic} />
-        <SelectIssue activeComic={props.activeComic} />
+        <SelectSeries setActiveSeries={props.setActiveSeries} />
+        <SelectIssue
+          setActiveIssue={props.setActiveIssue}
+          activeSeries={props.activeSeries}
+        />
       </div>
 
       <div

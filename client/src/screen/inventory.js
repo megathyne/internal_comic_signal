@@ -7,29 +7,31 @@ import { APIPost } from "../api/api";
 class Inventory extends React.Component {
   constructor() {
     super();
-    this.setActiveComic = this.setActiveComic.bind(this);
-    this.setComics = this.setComics.bind(this);
-    this.setInventory = this.setInventory.bind(this);
-    this.updateInventory = this.updateInventory.bind(this);
-    this.getComics = this.getComics.bind(this);
-    this.getVendors = this.getVendors.bind(this);
-    this.setActiveVendor = this.setActiveVendor.bind(this);
-    this.setVendors = this.setVendors.bind(this);
+    this.addNewInventory = this.addNewInventory.bind(this);
     this.getGrades = this.getGrades.bind(this);
+    this.getSeries = this.getSeries.bind(this);
+    this.getVendors = this.getVendors.bind(this);
     this.setActiveGrade = this.setActiveGrade.bind(this);
+    this.setActiveSeries = this.setActiveSeries.bind(this);
+    this.setActiveIssue = this.setActiveIssue.bind(this);
+    this.setActiveVendor = this.setActiveVendor.bind(this);
     this.setGrades = this.setGrades.bind(this);
+    this.setInventory = this.setInventory.bind(this);
+    this.setSeries = this.setSeries.bind(this);
+    this.setVendors = this.setVendors.bind(this);
+    this.updateInventory = this.updateInventory.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   state = {
     inventory: [],
-    comics: [],
     vendors: [],
-    grades: []
+    grades: [],
+    series: []
   };
 
   componentDidMount() {
-    this.getComics();
+    this.getSeries();
     this.getGrades();
     this.getVendors();
     this.getInventory();
@@ -44,6 +46,17 @@ class Inventory extends React.Component {
     }
   };
 
+  getSeries = async () => {
+    try {
+      const results = await APIGet(
+        `series?search=${this.state.activeSeries.id}`
+      );
+      this.setSeries(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   setInventory(inventory) {
     this.setState({ inventory });
   }
@@ -52,18 +65,9 @@ class Inventory extends React.Component {
     this.getInventory();
   }
 
-  setComics(comics) {
-    this.setState({ comics });
+  setSeries(series) {
+    this.setState({ series });
   }
-
-  getComics = async () => {
-    try {
-      const results = await APIGet("comic");
-      this.setComics(results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   setVendors(vendors) {
     this.setState({ vendors });
@@ -101,21 +105,26 @@ class Inventory extends React.Component {
     this.setState({ activeGrade: value });
   }
 
-  setActiveComic(event, value) {
-    console.log("setActiveComic", value);
-    this.setState({ activeComic: value });
+  setActiveSeries(event, value) {
+    console.log("setActiveSeries", value);
+    this.setState({ activeSeries: value });
+  }
+
+  setActiveIssue(event, value) {
+    console.log("setActiveIssue", value);
+    this.setState({ activeIssue: value });
   }
 
   addNewInventory = async comic => {
     const { bin, tag, notes, cost, aquired } = this.state;
-    const { activeComic, activeVendor, activeGrade } = this.state;
+    const { activeIssue, activeVendor, activeGrade } = this.state;
     const data = {
       bin,
       tag,
       notes,
       cost,
       aquired,
-      comicId: activeComic,
+      issueId: activeIssue,
       vendorId: activeVendor,
       gradeId: activeGrade
     };
@@ -136,19 +145,20 @@ class Inventory extends React.Component {
       <div>
         <AddInventory
           addNewInventory={this.addNewInventory}
-          activeComic={this.state.activeComic}
+          activeSeries={this.state.activeSeries}
           activeGrade={this.state.activeGrade}
           activeVendor={this.state.activeVendor}
-          comics={this.state.comics}
+          series={this.state.series}
           getVendors={this.getVendors}
           getGrades={this.getGrades}
-          getComics={this.getComics}
+          getSeries={this.getSeries}
           grades={this.state.grades}
           handleChange={this.handleChange}
-          setActiveComic={this.setActiveComic}
+          setActiveSeries={this.setActiveSeries}
           setActiveVendor={this.setActiveVendor}
           setActiveGrade={this.setActiveGrade}
-          setComics={this.setComics}
+          setActiveIssue={this.setActiveIssue}
+          setSeries={this.setSeries}
           updateInventory={this.updateInventory}
           vendors={this.state.vendors}
         />

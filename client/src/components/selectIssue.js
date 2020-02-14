@@ -26,8 +26,6 @@ export default function SelectIssue(props) {
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
 
-  // const classes = useStyles();
-
   React.useEffect(() => {
     let active = true;
 
@@ -36,14 +34,11 @@ export default function SelectIssue(props) {
     }
 
     (async () => {
-      // console.log(props.activeComic.id);
-      const response = await APIGet("comic/series/" + props.activeComic.id);
-      // await sleep(1e3); // For demo purposes.
-      // const comics = await response.json();
-      const comics = response;
-      // console.log(comics);
+      console.log(props.activeSeries.id);
+      const response = await APIGet("issue/" + props.activeSeries.id);
+      const issues = response;
       if (active) {
-        setOptions(Object.keys(comics).map(key => comics[key]));
+        setOptions(Object.keys(issues).map(key => issues[key]));
       }
     })();
 
@@ -70,9 +65,10 @@ export default function SelectIssue(props) {
         setOpen(false);
       }}
       getOptionSelected={(option, value) => option.issue === value.issue}
-      getOptionLabel={option => `${option.issue} ${option.notes}`}
+      getOptionLabel={option => `${option.issueNumber} ${option.memo}`}
       options={options}
       loading={loading}
+      onChange={props.setActiveIssue}
       renderInput={params => (
         <TextField
           {...params}

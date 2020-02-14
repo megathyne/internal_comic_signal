@@ -21,7 +21,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 //   });
 // }
 
-export default function SelectComic(props) {
+export default function SelectSeries(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
@@ -36,12 +36,12 @@ export default function SelectComic(props) {
     }
 
     (async () => {
-      const response = await APIGet("comic");
+      const response = await APIGet("series");
       // await sleep(1e3); // For demo purposes.
       // const comics = await response.json();
-      const comics = response;
+      const series = response;
       if (active) {
-        setOptions(Object.keys(comics).map(key => comics[key]));
+        setOptions(Object.keys(series).map(key => series[key]));
       }
     })();
 
@@ -58,7 +58,7 @@ export default function SelectComic(props) {
 
   return (
     <Autocomplete
-      id="select-comic"
+      id="select-series"
       style={{ width: 510 }}
       open={open}
       onOpen={() => {
@@ -68,16 +68,16 @@ export default function SelectComic(props) {
         setOpen(false);
       }}
       getOptionSelected={(option, value) => option.series === value.series}
-      getOptionLabel={option => `${option.series} (${option.volume})`}
+      getOptionLabel={option => `${option.name} (${option.volume})`}
       options={options}
       loading={loading}
-      onChange={props.setActiveComic}
+      onChange={props.setActiveSeries}
       renderInput={params => {
         return (
           <TextField
             {...params}
             fullWidth
-            label="Select Comic"
+            label="Select Series"
             variant="outlined"
             InputProps={{
               ...params.InputProps,

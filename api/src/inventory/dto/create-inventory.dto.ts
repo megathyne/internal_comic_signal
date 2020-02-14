@@ -13,7 +13,7 @@ export class CreateInventoryDto {
 
   @ApiModelProperty({ example: 1 })
   @IsNotEmpty()
-  readonly comicId: number;
+  readonly issueId: number;
 
   @ApiModelProperty({ example: 1 })
   readonly gradeId: number;

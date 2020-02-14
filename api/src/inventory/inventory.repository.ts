@@ -4,9 +4,9 @@ import { CreateInventoryDto } from './dto/create-inventory.dto';
 import { Logger, InternalServerErrorException, ConflictException, BadRequestException } from '@nestjs/common';
 import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
 import { User } from '../auth/user.entity';
-import { Comic } from '../comic/comic.entity';
-import { Vendor } from 'src/vendor/vendor.entity';
-import { Grade } from 'src/grade/grade.entity';
+import { Vendor } from '../vendor/vendor.entity';
+import { Grade } from '../grade/grade.entity';
+import { Issue } from '../issue/issue.entity';
 
 @EntityRepository(Inventory)
 export class InventoryRepository extends Repository<Inventory> {
@@ -14,16 +14,17 @@ export class InventoryRepository extends Repository<Inventory> {
 
   async getInventory(filterDto: GetInventoryFilterDto, user: User): Promise<Inventory[]> {
     const { search } = filterDto;
-    const query = this.createQueryBuilder('inventory');
 
-    query.innerJoinAndSelect('inventory.comic', 'comic');
+    const query = this.createQueryBuilder('inventory');
+    query.innerJoinAndSelect('inventory.issue', 'issue');
+    query.innerJoinAndSelect('issue.series', 'series');
     query.leftJoinAndSelect('inventory.vendor', 'vendor');
     query.leftJoinAndSelect('inventory.grade', 'grade');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     if (search) {
       query.andWhere(
-        '(inventory.comic LIKE :search OR inventory.bin LIKE :search OR inventory.cost LIKE :search OR inventory.notes LIKE :search)',
+        '(inventory.issue LIKE :search OR inventory.bin LIKE :search OR inventory.cost LIKE :search OR inventory.notes LIKE :search)',
         { search: `%${search}%` },
       );
     }
@@ -55,11 +56,11 @@ export class InventoryRepository extends Repository<Inventory> {
   }
 
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
-    const { bin, comicId, tag, cost, aquired, notes, vendorId, gradeId } = createInventoryDto;
+    const { bin, issueId, tag, cost, aquired, notes, vendorId, gradeId } = createInventoryDto;
 
-    const comic = await Comic.findOne(comicId);
-    if (!comic) {
-      this.logger.error(`Faild to create an inventory for UserId: ${user.id}, ComicId: ${comicId} does not exist`);
+    const issue = await Issue.findOne(issueId);
+    if (!issue) {
+      this.logger.error(`Faild to create an inventory for UserId: ${user.id}, IssueId: ${issueId} does not exist`);
       throw new BadRequestException();
     }
 
@@ -74,7 +75,7 @@ export class InventoryRepository extends Repository<Inventory> {
     const inventory = this.create();
     inventory.bin = bin;
     inventory.tag = tag;
-    inventory.comic = comic;
+    inventory.issue = issue;
     inventory.grade = grade;
     inventory.vendor = vendor;
     inventory.cost = cost;

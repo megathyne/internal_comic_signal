@@ -3,15 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Issue } from './issue.entity';
 import { IssueRepository } from './issue.repository';
 import { GetIssueFilterDto } from './dto/get-issue-filter.dto';
+import { GetSeriesByIssueIdDto } from './dto/get-issue-by-series-id.dto';
 
 @Injectable()
 export class IssueService {
   private logger = new Logger('IssueService');
 
-  constructor(@InjectRepository(IssueRepository) private issueRepository: IssueRepository){}
+  constructor(@InjectRepository(IssueRepository) private issueRepository: IssueRepository) {}
 
-  async getIssue(filterDto:GetIssueFilterDto): Promise<Issue[]>{
+  async getIssue(filterDto: GetIssueFilterDto): Promise<Issue[]> {
     return await this.issueRepository.getIssue(filterDto);
   }
 
+  async getIssuesBySeries(getSeriesByIssueIdDto: GetSeriesByIssueIdDto): Promise<Issue[]> {
+    return await this.issueRepository.getIssueBySeries(getSeriesByIssueIdDto);
+  }
 }
