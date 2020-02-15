@@ -1,43 +1,16 @@
 import React from "react";
-// import Autocomplete from "@material-ui/lab/Autocomplete";
-import {
-  TextField,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  OutlinedInput
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-// import { makeStyles } from "@material-ui/core/styles";
 import { APIGet } from "../api/api";
-// import CircularProgress from "@material-ui/core/CircularProgress";
 import SelectSeries from "./selectSeries";
 import SelectIssue from "./selectIssue";
 import SelectGrade from "./selectGrade";
 import SelectVendor from "./selectVendor";
 
-// const useStyles = makeStyles(theme => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   }
-// }));
-
-// function sleep(delay = 0) {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, delay);
-//   });
-// }
-
 export default function AddInventory(props) {
   const [open] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
-
-  // const classes = useStyles();
 
   React.useEffect(() => {
     let active = true;
@@ -48,8 +21,6 @@ export default function AddInventory(props) {
 
     (async () => {
       const response = await APIGet("comic");
-      // await sleep(1e3); // For demo purposes.
-      // const comics = await response.json();
       const comics = response;
       if (active) {
         setOptions(Object.keys(comics).map(key => comics[key]));
@@ -91,14 +62,14 @@ export default function AddInventory(props) {
         }}
       >
         <TextField
-          id="outlined-basic"
+          id="outlined-bin"
           label="bin"
           variant="outlined"
           onChange={props.handleChange("bin")}
         />
 
         <TextField
-          id="outlined-basic"
+          id="outlined-tag"
           label="tag"
           variant="outlined"
           onChange={props.handleChange("tag")}

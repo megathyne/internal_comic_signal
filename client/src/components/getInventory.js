@@ -49,7 +49,7 @@ export default function GetInventory(props) {
                   {row.vendor ? row.vendor.name : ""}
                 </TableCell>
                 <TableCell align="right">
-                  <FormDialog data={row} />
+                  <FormDialog updateInventory={props.updateInventory} data={row} />
                 </TableCell>
               </TableRow>
             ))}

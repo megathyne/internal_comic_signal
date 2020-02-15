@@ -1,8 +1,7 @@
 import React from "react";
 import AddInventory from "../components/addInventory";
 import GetInventory from "../components/getInventory";
-import { APIGet } from "../api/api";
-import { APIPost } from "../api/api";
+import { APIGet, APIPatch, APIPost } from "../api/api";
 
 class Inventory extends React.Component {
   constructor() {
@@ -57,26 +56,6 @@ class Inventory extends React.Component {
     }
   };
 
-  setInventory(inventory) {
-    this.setState({ inventory });
-  }
-
-  updateInventory(item) {
-    this.getInventory();
-  }
-
-  setSeries(series) {
-    this.setState({ series });
-  }
-
-  setVendors(vendors) {
-    this.setState({ vendors });
-  }
-
-  setGrades(grades) {
-    this.setState({ grades });
-  }
-
   getVendors = async () => {
     try {
       const results = await APIGet("vendor");
@@ -95,25 +74,21 @@ class Inventory extends React.Component {
     }
   };
 
-  setActiveVendor(event, value) {
-    console.log("setActiveVendor", value);
-    this.setState({ activeVendor: value });
-  }
+  setSeries = series => this.setState({ series });
 
-  setActiveGrade(event, value) {
-    console.log("setActiveGrade", value);
-    this.setState({ activeGrade: value });
-  }
+  setVendors = vendors => this.setState({ vendors });
 
-  setActiveSeries(event, value) {
-    console.log("setActiveSeries", value);
-    this.setState({ activeSeries: value });
-  }
+  setGrades = grades => this.setState({ grades });
 
-  setActiveIssue(event, value) {
-    console.log("setActiveIssue", value);
-    this.setState({ activeIssue: value });
-  }
+  setInventory = inventory => this.setState({ inventory });
+
+  setActiveVendor = (event, value) => this.setState({ activeVendor: value });
+
+  setActiveGrade = (event, value) => this.setState({ activeGrade: value });
+
+  setActiveSeries = (event, value) => this.setState({ activeSeries: value });
+
+  setActiveIssue = (event, value) => this.setState({ activeIssue: value });
 
   addNewInventory = async comic => {
     const { bin, tag, notes, cost, aquired } = this.state;
@@ -136,9 +111,18 @@ class Inventory extends React.Component {
     }
   };
 
-  handleChange = input => event => {
-    this.setState({ [input]: event.target.value });
+  updateInventory = async item => {
+    try {
+      const results = await APIPatch("inventory/" + item.id, item);
+      this.getInventory();
+      console.log(results);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  handleChange = input => event =>
+    this.setState({ [input]: event.target.value });
 
   render() {
     return (
@@ -165,6 +149,7 @@ class Inventory extends React.Component {
         <GetInventory
           setInventory={this.setInventory}
           inventory={this.state.inventory}
+          updateInventory={this.updateInventory}
         />
       </div>
     );

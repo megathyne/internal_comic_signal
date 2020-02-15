@@ -7,60 +7,150 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function FormDialog() {
+export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
 
+  const [state, setState] = React.useState({
+    bin: props.data.bin,
+    tag: props.data.tag,
+    notes: props.data.notes,
+    cost: props.data.cost
+  });
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
+
   const handleClickOpen = () => {
+    setState({
+      id: props.data.id,
+      bin: props.data.bin,
+      tag: props.data.tag,
+      notes: props.data.notes,
+      cost: props.data.cost
+    });
     setOpen(true);
   };
 
   const handleClose = () => {
+    props.updateInventory({ ...state });
     setOpen(false);
   };
 
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        edit
+        Update
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
+        <DialogTitle id="form-dialog-title">Update</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-          Current: 
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="bin"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="tag"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="notes"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="cost"
-            fullWidth
-          />
+          <DialogContentText></DialogContentText>
+          <div
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+              justifyContent: "space-around"
+            }}
+          >
+            <TextField
+              disabled
+              id="current-bin"
+              label="Current Bin"
+              variant="outlined"
+              value={props.data.bin}
+              fullWidth
+            />
+            <TextField
+              id="new-bin"
+              label="New Bin"
+              variant="outlined"
+              name="bin"
+              value={state.bin}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+              justifyContent: "space-around"
+            }}
+          >
+            <TextField
+              disabled
+              id="current-tag"
+              label="Current Tag"
+              variant="outlined"
+              value={props.data.tag}
+              fullWidth
+            />
+            <TextField
+              id="new-tag"
+              label="New Tag"
+              variant="outlined"
+              name="tag"
+              value={state.tag}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+              justifyContent: "space-around"
+            }}
+          >
+            <TextField
+              disabled
+              id="current-note"
+              label="Current Notes"
+              variant="outlined"
+              value={props.data.notes}
+              fullWidth
+            />
+            <TextField
+              id="new-note"
+              label="New Notes"
+              variant="outlined"
+              name="notes"
+              value={state.notes}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+              justifyContent: "space-around"
+            }}
+          >
+            <TextField
+              disabled
+              id="current-cost"
+              label="Current Cost"
+              variant="outlined"
+              value={props.data.cost}
+              fullWidth
+            />
+            <TextField
+              id="new-cost"
+              label="New Cost"
+              variant="outlined"
+              name="cost"
+              value={state.cost}
+              onChange={handleChange}
+              fullWidth
+            />
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
