@@ -1,6 +1,25 @@
 version: '3.7'
 
 services:
+  client:
+    container_name: client
+    build:
+      context: ./client
+      target: build-deps
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${CLIENT_SERVER_PORT}:${CLIENT_SERVER_PORT}
+    environment:
+      PORT: ${CLIENT_SERVER_PORT}
+    command: yarn start
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - api
   api:
     container_name: api
     build:
@@ -12,10 +31,10 @@ services:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
       - 9229:9229
-    # command: npm run start:dev
-    command: npm run start:debugdocker
+    command: npm run start:dev
+    # command: npm run start:debugdocker
     env_file:
       - .env
     networks:
