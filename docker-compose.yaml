@@ -27,6 +27,10 @@ services:
       target: development
     environment:
       DB_HOST: database
+      DB_PORT: ${DB_PORT}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_DATABASE_NAME: ${DB_DATABASE_NAME}
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
