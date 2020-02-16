@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Login from "./screen/login";
 import Inventory from "./screen/inventory";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 class App extends React.Component {
   state = {

@@ -13,7 +13,8 @@ import { IssueModule } from './issue/issue.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      // host: 'localhost',
+      host: process.env.DB_HOST,
       port: 5432,
       username: 'postgres',
       password: 'postgres',
