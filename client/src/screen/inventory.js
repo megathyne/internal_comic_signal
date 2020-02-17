@@ -7,14 +7,26 @@ class Inventory extends React.Component {
   constructor() {
     super();
     this.addNewInventory = this.addNewInventory.bind(this);
-    this.getGrades = this.getGrades.bind(this);
+
+    this.getConditions = this.getConditions.bind(this);
+    this.getGraders = this.getGraders.bind(this);
+    this.getPages = this.getPages.bind(this);
+
     this.getSeries = this.getSeries.bind(this);
     this.getVendors = this.getVendors.bind(this);
-    this.setActiveGrade = this.setActiveGrade.bind(this);
+
+    this.setActiveCondition = this.setActiveCondition.bind(this);
+    this.setActiveGrader = this.setActiveGrader.bind(this);
+    this.setActivePage = this.setActivePage.bind(this);
+
     this.setActiveSeries = this.setActiveSeries.bind(this);
     this.setActiveIssue = this.setActiveIssue.bind(this);
     this.setActiveVendor = this.setActiveVendor.bind(this);
-    this.setGrades = this.setGrades.bind(this);
+
+    this.setConditions = this.setConditions.bind(this);
+    this.setGraders = this.setGraders.bind(this);
+    this.setPages = this.setPages.bind(this);
+
     this.setInventory = this.setInventory.bind(this);
     this.setSeries = this.setSeries.bind(this);
     this.setVendors = this.setVendors.bind(this);
@@ -25,13 +37,17 @@ class Inventory extends React.Component {
   state = {
     inventory: [],
     vendors: [],
-    grades: [],
+    condition: [],
+    graders: [],
+    pages: [],
     series: []
   };
 
   componentDidMount() {
     this.getSeries();
-    this.getGrades();
+    this.getConditions();
+    this.getGraders();
+    this.getPages();
     this.getVendors();
     this.getInventory();
   }
@@ -65,10 +81,28 @@ class Inventory extends React.Component {
     }
   };
 
-  getGrades = async () => {
+  getConditions = async () => {
     try {
-      const results = await APIGet("grade");
-      this.setGrades(results);
+      const results = await APIGet("condition");
+      this.setConditions(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getGraders = async () => {
+    try {
+      const results = await APIGet("grader");
+      this.setGraders(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  getPages = async () => {
+    try {
+      const results = await APIGet("page");
+      this.setPages(results);
     } catch (error) {
       console.log(error);
     }
@@ -78,13 +112,18 @@ class Inventory extends React.Component {
 
   setVendors = vendors => this.setState({ vendors });
 
-  setGrades = grades => this.setState({ grades });
+  setConditions = conditions => this.setState({ conditions });
+  setGraders = graders => this.setState({ graders });
+  setPages = pages => this.setState({ pages });
 
   setInventory = inventory => this.setState({ inventory });
 
   setActiveVendor = (event, value) => this.setState({ activeVendor: value });
 
-  setActiveGrade = (event, value) => this.setState({ activeGrade: value });
+  setActiveCondition = (event, value) =>
+    this.setState({ activeCondition: value });
+  setActiveGrader = (event, value) => this.setState({ activeGrader: value });
+  setActivePage = (event, value) => this.setState({ activePage: value });
 
   setActiveSeries = (event, value) => this.setState({ activeSeries: value });
 
@@ -130,17 +169,23 @@ class Inventory extends React.Component {
         <AddInventory
           addNewInventory={this.addNewInventory}
           activeSeries={this.state.activeSeries}
-          activeGrade={this.state.activeGrade}
+          activeCondition={this.state.activeCondition}
+          activeGrader={this.state.activeGrader}
+          activePage={this.state.activePage}
           activeVendor={this.state.activeVendor}
           series={this.state.series}
           getVendors={this.getVendors}
-          getGrades={this.getGrades}
+          getConditions={this.getConditions}
+          getGraders={this.getGraders}
+          getPages={this.getPages}
           getSeries={this.getSeries}
           grades={this.state.grades}
           handleChange={this.handleChange}
           setActiveSeries={this.setActiveSeries}
           setActiveVendor={this.setActiveVendor}
-          setActiveGrade={this.setActiveGrade}
+          setActiveCondition={this.setActiveCondition}
+          setActiveGrader={this.setActiveGrader}
+          setActivePage={this.setActivePage}
           setActiveIssue={this.setActiveIssue}
           setSeries={this.setSeries}
           updateInventory={this.updateInventory}

@@ -5,6 +5,7 @@ import { APIGet } from "../api/api";
 import SelectSeries from "./selectSeries";
 import SelectIssue from "./selectIssue";
 import SelectGrade from "./selectGrade";
+import SelectCondition from "./selectCondition";
 import SelectVendor from "./selectVendor";
 
 export default function AddInventory(props) {
@@ -109,6 +110,14 @@ export default function AddInventory(props) {
           setActiveGrade={props.setActiveGrade}
           grades={props.grades}
         />
+
+        <SelectCondition
+          activeCondition={props.activeCondition}
+          setActiveCondition={props.setActiveCondition}
+          conditions={props.conditions}
+        />
+
+        
 
         <SelectVendor
           activeVendor={props.activeVendor}
