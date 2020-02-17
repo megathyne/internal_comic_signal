@@ -24,5 +24,5 @@ numerical, abbreviation, name, code
  1.5, FR/GD, Fair/Good, FAIR_GOOD
  1.0, FR, Fair, FAIR
  0.5, PR, Poor, POOR
- 0.3, INC, Incomplete, INCOMEPLETE_3
- 0.1, INC, Incomplete, INCOMEPLETE_1
+ 0.3, INC, Incomplete, INCOMPLETE_3
+ 0.1, INC, Incomplete, INCOMPLETE_1

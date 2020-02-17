@@ -60,6 +60,16 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+  pgadmin:
+      container_name:  pgadmin
+      image: dpage/pgadmin4
+      environment: 
+        PGADMIN_DEFAULT_EMAIL: ceej989@email.com
+        PGADMIN_DEFAULT_PASSWORD: postgres123
+      networks: 
+        - webnet
+      ports:
+        - 3002:80
 networks:
   webnet:
 volumes:
