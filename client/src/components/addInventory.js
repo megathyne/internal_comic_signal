@@ -4,40 +4,41 @@ import Button from "@material-ui/core/Button";
 import { APIGet } from "../api/api";
 import SelectSeries from "./selectSeries";
 import SelectIssue from "./selectIssue";
-import SelectGrade from "./selectGrade";
+import SelectGrader from "./selectGrader";
 import SelectCondition from "./selectCondition";
 import SelectVendor from "./selectVendor";
+import SelectPage from "./selectPages";
 
 export default function AddInventory(props) {
-  const [open] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
-  const loading = open && options.length === 0;
+  // const [open] = React.useState(false);
+  // const [options, setOptions] = React.useState([]);
+  // const loading = open && options.length === 0;
 
-  React.useEffect(() => {
-    let active = true;
+  // React.useEffect(() => {
+  //   let active = true;
 
-    if (!loading) {
-      return undefined;
-    }
+  //   if (!loading) {
+  //     return undefined;
+  //   }
 
-    (async () => {
-      const response = await APIGet("comic");
-      const comics = response;
-      if (active) {
-        setOptions(Object.keys(comics).map(key => comics[key]));
-      }
-    })();
+  //   (async () => {
+  //     const response = await APIGet("comic");
+  //     const comics = response;
+  //     if (active) {
+  //       setOptions(Object.keys(comics).map(key => comics[key]));
+  //     }
+  //   })();
 
-    return () => {
-      active = false;
-    };
-  }, [loading]);
+  //   return () => {
+  //     active = false;
+  //   };
+  // }, [loading]);
 
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+  // React.useEffect(() => {
+  //   if (!open) {
+  //     setOptions([]);
+  //   }
+  // }, [open]);
 
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -105,19 +106,23 @@ export default function AddInventory(props) {
           justifyContent: "space-around"
         }}
       >
-        <SelectGrade
-          activeGrade={props.activeGrade}
-          setActiveGrade={props.setActiveGrade}
-          grades={props.grades}
-        />
-
         <SelectCondition
           activeCondition={props.activeCondition}
           setActiveCondition={props.setActiveCondition}
           conditions={props.conditions}
         />
 
-        
+        <SelectGrader
+          activeGrade={props.activeGrade}
+          setActiveGrade={props.setActiveGrade}
+          graders={props.graders}
+        />
+
+        <SelectPage
+          activePage={props.activePage}
+          setActivePage={props.setActivePage}
+          pages={props.pages}
+        />
 
         <SelectVendor
           activeVendor={props.activeVendor}

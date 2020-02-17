@@ -131,7 +131,13 @@ class Inventory extends React.Component {
 
   addNewInventory = async comic => {
     const { bin, tag, notes, cost, aquired } = this.state;
-    const { activeIssue, activeVendor, activeGrade } = this.state;
+    const {
+      activeIssue,
+      activeConditon,
+      activeGrader,
+      activePage,
+      activeVendor
+    } = this.state;
     const data = {
       bin,
       tag,
@@ -139,8 +145,10 @@ class Inventory extends React.Component {
       cost,
       aquired,
       issueId: activeIssue,
-      vendorId: activeVendor,
-      gradeId: activeGrade
+      conditionId: activeConditon,
+      graderId: activeGrader,
+      pageId: activePage,
+      vendorId: activeVendor
     };
     try {
       await APIPost("inventory", data);
@@ -179,7 +187,9 @@ class Inventory extends React.Component {
           getGraders={this.getGraders}
           getPages={this.getPages}
           getSeries={this.getSeries}
-          grades={this.state.grades}
+          conditions={this.state.conditions}
+          graders={this.state.graders}
+          pages={this.state.pages}
           handleChange={this.handleChange}
           setActiveSeries={this.setActiveSeries}
           setActiveVendor={this.setActiveVendor}

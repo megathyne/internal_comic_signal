@@ -20,10 +20,11 @@ export default function GetInventory(props) {
               <TableCell align="right">Series</TableCell>
               <TableCell align="right">Volume</TableCell>
               <TableCell align="right">Issue</TableCell>
-              <TableCell align="right">notes</TableCell>
-              <TableCell align="right">cost</TableCell>
-              <TableCell align="right">grade</TableCell>
-              <TableCell align="right">grader</TableCell>
+              <TableCell align="right">Notes</TableCell>
+              <TableCell align="right">Cost</TableCell>
+              <TableCell align="right">Condition</TableCell>
+              <TableCell align="right">Grader</TableCell>
+              <TableCell align="right">pages</TableCell>
               <TableCell align="right">Aquired</TableCell>
               <TableCell align="right">Vendor</TableCell>
             </TableRow>
@@ -38,12 +39,9 @@ export default function GetInventory(props) {
                 <TableCell align="right">{row.issue.issueNumber}</TableCell>
                 <TableCell align="right">{row.notes}</TableCell>
                 <TableCell align="right">{row.cost}</TableCell>
-                <TableCell align="right">
-                  {row.grade ? row.grade.grade : ""}
-                </TableCell>
-                <TableCell align="right">
-                  {row.grade ? row.grade.grader : ""}
-                </TableCell>
+                <TableCell align="right">{row.condition.abbreviation}</TableCell>
+                <TableCell align="right">{row.grader.name}</TableCell>
+                <TableCell align="right">{row.page.name}</TableCell>
                 <TableCell align="right">{row.aquired.split("T")[0]}</TableCell>
                 <TableCell align="right">
                   {row.vendor ? row.vendor.name : ""}

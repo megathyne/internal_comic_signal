@@ -2,20 +2,20 @@ import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 
-export default function SelectPage(props) {
+export default function SelectGrader(props) {
   return (
     <Autocomplete
-      id="select-page"
-      options={props.pages}
+      id="select-condition"
+      options={props.graders}
       getOptionLabel={option =>
         `${option.name}`
       }
-      onChange={props.setActivePage}
-      style={{ width: 250 }}
+      onChange={props.setActiveGrade}
+      style={{ width: 200 }}
       renderInput={params => (
         <TextField
           {...params}
-          label="Select Page"
+          label="Select Grader"
           variant="outlined"
           fullWidth
         />

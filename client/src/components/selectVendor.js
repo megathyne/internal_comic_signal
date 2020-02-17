@@ -9,7 +9,7 @@ export default function SelectVendor(props) {
       options={props.vendors}
       getOptionLabel={option => `${option.name}`}
       onChange={props.setActiveVendor}
-      style={{ width: 300 }}
+      style={{ width: 250 }}
       renderInput={params => (
         <TextField
           {...params}
