@@ -2,7 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
 import { Exclude } from 'class-transformer';
 
 @Entity()
-export class Grader extends BaseEntity {
+export class Page extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

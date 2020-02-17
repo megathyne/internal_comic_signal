@@ -1,6 +1,6 @@
-let csvToJson = require("convert-csv-to-json");
+const csvToJson = require("convert-csv-to-json");
 
-let data = csvToJson.fieldDelimiter(",").getJsonFromCsv("./condition.csv");
+const data = csvToJson.fieldDelimiter(",").getJsonFromCsv("./condition.csv");
 
 console.log(
   `INSERT INTO condition (numerical, abbreviation, name, code) VALUES`
