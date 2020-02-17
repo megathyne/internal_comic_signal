@@ -152,7 +152,7 @@ class Inventory extends React.Component {
     };
     try {
       await APIPost("inventory", data);
-      this.updateInventory();
+      this.getInventory();
     } catch (error) {
       console.log(error);
     }

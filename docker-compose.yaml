@@ -68,6 +68,8 @@ services:
         PGADMIN_DEFAULT_PASSWORD: postgres123
       networks: 
         - webnet
+      depends_on:
+        - database
       ports:
         - 3002:80
 networks:
