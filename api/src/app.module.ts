@@ -6,8 +6,10 @@ import { ComicModule } from './comic/comic.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { VendorModule } from './vendor/vendor.module';
 import { GradeModule } from './grade/grade.module';
+import { GraderModule } from './grader/grader.module';
 import { SeriesModule } from './series/series.module';
 import { IssueModule } from './issue/issue.module';
+import { ConditionModule } from './condition/condition.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { IssueModule } from './issue/issue.module';
     AnalyticsModule,
     VendorModule,
     GradeModule,
+    ConditionModule,
+    GraderModule,
     SeriesModule,
     IssueModule,
   ],

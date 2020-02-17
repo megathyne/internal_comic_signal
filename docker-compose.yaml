@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   client:
@@ -13,6 +13,7 @@ services:
       - ${CLIENT_SERVER_PORT}:${CLIENT_SERVER_PORT}
     environment:
       PORT: ${CLIENT_SERVER_PORT}
+      CHOKIDAR_USEPOLLING: "true"
     command: yarn start
     env_file:
       - .env
