@@ -15,8 +15,14 @@ export class CreateInventoryDto {
   @IsNotEmpty()
   readonly issueId: number;
 
-  @ApiModelProperty({ example: 1 })
-  readonly gradeId: number;
+  @ApiModelPropertyOptional({ example: 1 })
+  readonly conditionId: number;
+
+  @ApiModelPropertyOptional({ example: 1 })
+  readonly graderId: number;
+
+  @ApiModelPropertyOptional({ example: 1 })
+  readonly pageId: number;
 
   @ApiModelProperty({ example: 1 })
   @IsNotEmpty()

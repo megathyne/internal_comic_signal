@@ -5,11 +5,11 @@ import { AuthModule } from './auth/auth.module';
 import { ComicModule } from './comic/comic.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { VendorModule } from './vendor/vendor.module';
-import { GradeModule } from './grade/grade.module';
 import { GraderModule } from './grader/grader.module';
 import { SeriesModule } from './series/series.module';
 import { IssueModule } from './issue/issue.module';
 import { ConditionModule } from './condition/condition.module';
+import { PageModule } from './page/page.module';
 
 @Module({
   imports: [
@@ -28,10 +28,10 @@ import { ConditionModule } from './condition/condition.module';
     ComicModule,
     AnalyticsModule,
     VendorModule,
-    GradeModule,
     ConditionModule,
     GraderModule,
     SeriesModule,
+    PageModule,
     IssueModule,
   ],
   controllers: [],

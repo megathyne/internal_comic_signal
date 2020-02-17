@@ -12,8 +12,10 @@ import {
 import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
 import { Vendor } from '../vendor/vendor.entity';
-import { Grade } from '../grade/grade.entity';
 import { Issue } from '../issue/issue.entity';
+import { Condition } from '../condition/condition.entity';
+import { Grader } from '../grader/grader.entity';
+import { Page } from '../page/page.entity';
 
 @Entity()
 export class Inventory extends BaseEntity {
@@ -33,9 +35,17 @@ export class Inventory extends BaseEntity {
   @JoinColumn()
   issue: Issue;
 
-  @ManyToOne(type => Grade, { eager: true })
+  @ManyToOne(type => Condition, { eager: true, nullable: true })
   @JoinColumn()
-  grade: Grade;
+  condition: Condition;
+
+  @ManyToOne(type => Grader, { eager: true, nullable: true })
+  @JoinColumn()
+  grader: Grader;
+
+  @ManyToOne(type => Page, { eager: true, nullable: true })
+  @JoinColumn()
+  page: Page;
 
   @ManyToOne(type => Vendor, { eager: true })
   @JoinColumn()

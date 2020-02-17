@@ -5,8 +5,10 @@ import { Logger, InternalServerErrorException, ConflictException, BadRequestExce
 import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
 import { User } from '../auth/user.entity';
 import { Vendor } from '../vendor/vendor.entity';
-import { Grade } from '../grade/grade.entity';
 import { Issue } from '../issue/issue.entity';
+import { Condition } from '../condition/condition.entity';
+import { Grader } from 'src/grader/grader.entity';
+import { Page } from 'src/page/page.entity';
 
 @EntityRepository(Inventory)
 export class InventoryRepository extends Repository<Inventory> {
@@ -19,7 +21,9 @@ export class InventoryRepository extends Repository<Inventory> {
     query.innerJoinAndSelect('inventory.issue', 'issue');
     query.innerJoinAndSelect('issue.series', 'series');
     query.leftJoinAndSelect('inventory.vendor', 'vendor');
-    query.leftJoinAndSelect('inventory.grade', 'grade');
+    query.leftJoinAndSelect('inventory.condition', 'condition');
+    query.leftJoinAndSelect('inventory.grader', 'grader');
+    query.leftJoinAndSelect('inventory.page', 'page');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     if (search) {
@@ -56,7 +60,7 @@ export class InventoryRepository extends Repository<Inventory> {
   }
 
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
-    const { bin, issueId, tag, cost, aquired, notes, vendorId, gradeId } = createInventoryDto;
+    const { bin, issueId, tag, cost, aquired, notes, vendorId, conditionId, graderId, pageId } = createInventoryDto;
 
     const issue = await Issue.findOne(issueId);
     if (!issue) {
@@ -70,13 +74,17 @@ export class InventoryRepository extends Repository<Inventory> {
       throw new BadRequestException();
     }
 
-    const grade = await Grade.findOne(gradeId);
+    const condition = await Condition.findOne(conditionId);
+    const grader = await Grader.findOne(graderId);
+    const page = await Page.findOne(pageId);
 
     const inventory = this.create();
     inventory.bin = bin;
     inventory.tag = tag;
     inventory.issue = issue;
-    inventory.grade = grade;
+    inventory.condition = condition;
+    inventory.grader = grader;
+    inventory.page = page;
     inventory.vendor = vendor;
     inventory.cost = cost;
     inventory.aquired = aquired;
