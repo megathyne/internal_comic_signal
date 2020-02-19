@@ -8,10 +8,23 @@
       "remoteRoot": "/usr/src/app",
       "localRoot": "${workspaceFolder}/api",
       "protocol": "inspector",
+      "port": 9228,
+      "restart": true,
+      "address": "0.0.0.0",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Debug: ebay-api",
+      "remoteRoot": "/usr/src/app",
+      "localRoot": "${workspaceFolder}/ebay-api",
+      "protocol": "inspector",
       "port": 9229,
       "restart": true,
       "address": "0.0.0.0",
       "skipFiles": ["<node_internals>/**"]
     }
+
   ]
  }
