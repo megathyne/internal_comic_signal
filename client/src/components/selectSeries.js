@@ -5,22 +5,6 @@ import { TextField } from "@material-ui/core";
 import { APIGet } from "../api/api";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// const useStyles = makeStyles(theme => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   }
-// }));
-
-// function sleep(delay = 0) {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, delay);
-//   });
-// }
-
 export default function SelectSeries(props) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);

@@ -1,0 +1,18 @@
+INSERT INTO page (code, name) VALUES
+('WHITE','White'),
+('OFF_WHITE_TO_WHITE','Off-White to White'),
+('OFF_WHITE','Off-White'),
+('CREAM_TO_OFF_WHITE','Cream to Off-White'),
+('CREAM','Cream'),
+('LIGHT_TAN_TO_OFF_WHITE','Light Tan to Off-White'),
+('LIGHT_TAN_TO_CREAM','Light Tan to Cream'),
+('LIGHT_TAN','Light Tan'),
+('TAN_TO_OFF_WHITE','Tan to Off-White'),
+('TAN_TO_CREAM','Tan to Cream'),
+('TAN','Tan'),
+('DARK_TAN_TO_OFF_WHITE','Dark Tan to Off-White'),
+('DARK_TAN','Dark Tan'),
+('BROWN_TO_OFF_WHITE','Brown to Off-White'),
+('BROWN_TO_TAN','Brown to Tan'),
+('BROWN','Brown'),
+('BROWN_TO_BRITTLE','Brown to Brittle');

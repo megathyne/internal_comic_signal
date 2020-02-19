@@ -1,0 +1,5 @@
+INSERT INTO grader (code, name) VALUES
+('SELF','Self'),
+('VENDOR','Vendor'),
+('CGC','CGC'),
+('CBCS','CBCS');

@@ -57,15 +57,15 @@ services:
       POSTGRES_DB: ${DB_DATABASE_NAME}
       PG_DATA: /var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
   pgadmin:
       container_name:  pgadmin
       image: dpage/pgadmin4
       environment: 
-        PGADMIN_DEFAULT_EMAIL: ceej989@email.com
-        PGADMIN_DEFAULT_PASSWORD: postgres123
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USERNAME}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
       networks: 
         - webnet
       depends_on:

@@ -64,7 +64,7 @@ class Inventory extends React.Component {
   getSeries = async () => {
     try {
       const results = await APIGet(
-        `series?search=${this.state.activeSeries.id}`
+        `series`
       );
       this.setSeries(results);
     } catch (error) {
