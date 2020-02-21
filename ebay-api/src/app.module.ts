@@ -3,6 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FindingModule } from './finding/finding.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
+import { EbayItermModule } from './ebay-iterm/ebay-iterm.module';
+import { EbayItemModule } from './ebay-item/ebay-item.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { FindingModule } from './finding/finding.module';
       synchronize: true,
     }),
     FindingModule,
+    FileUploadModule,
+    EbayItermModule,
+    EbayItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],

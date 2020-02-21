@@ -1,96 +1,81 @@
 export class PaginationOutput {
-  'pageNumber': string;
-  'entriesPerPage': string;
-  'totalPages': string;
-  'totalEntries': string;
+  'pageNumber': string[];
+  'entriesPerPage': string[];
+  'totalPages': string[];
+  'totalEntries': string[];
 }
 
 export class PrimaryCategory {
-  'categoryId': string;
-  'categoryName': string;
+  'categoryId': string[];
+  'categoryName': string[];
 }
 
-export class ProductId {
-  'type': string;
-  '#text': string;
-}
-
-export class ShippingServiceCost {
-  'currencyId': string;
-  '#text': string;
+export class Cost {
+  '@currencyId': string[];
+  '__value__': string[];
 }
 
 export class ShippingInfo {
-  'shippingServiceCost': ShippingServiceCost;
-  'shippingType': string;
-  'expeditedShipping': string;
-  'oneDayShippingAvailable': string;
-  'handlingTime': string;
-  'shipToLocations': string;
-}
-
-export class CurrentPrice {
-  'currencyId': string;
-  '#text': string;
-}
-
-export class ConvertedCurrentPrice {
-  'currencyId': string;
-  '#text': string;
+  'shippingServiceCost': Cost[];
+  'shippingType': string[];
+  'shipToLocations': string[];
+  'expeditedShipping': string[];
+  'oneDayShippingAvailable': string[];
+  'handlingTime': string[];
 }
 
 export class SellingStatus {
-  'currentPrice': CurrentPrice;
-  'convertedCurrentPrice': ConvertedCurrentPrice;
-  'bidCount': string;
-  'sellingState': string;
+  'currentPrice': Cost[];
+  'convertedCurrentPrice': Cost[];
+  'bidCount': string[];
+  'sellingState': string[];
 }
 
 export class ListingInfo {
-  'bestOfferEnabled': string;
-  'buyItNowAvailable': string;
-  'startTime': Date;
-  'endTime': Date;
-  'listingType': string;
-  'gift': string;
+  'bestOfferEnabled': string[];
+  'buyItNowAvailable': string[];
+  'startTime': Date[];
+  'endTime': Date[];
+  'listingType': string[];
+  'gift': string[];
+  'watchCount': string[];
 }
 
 export class Condition {
-  'conditionId': string;
-  'conditionDisplayName': string;
+  'conditionId': string[];
+  'conditionDisplayName': string[];
 }
 
 export class Item {
-  'itemId': string;
-  'title': string;
-  'globalId': string;
-  'primaryCategory': PrimaryCategory;
-  'galleryURL': string;
-  'viewItemURL': string;
-  'productId': ProductId;
-  'paymentMethod': string;
-  'autoPay': string;
-  'postalCode': string;
-  'location': string;
-  'country': string;
-  'shippingInfo': ShippingInfo;
-  'sellingStatus': SellingStatus;
-  'listingInfo': ListingInfo;
-  'returnsAccepted': string;
-  'condition': Condition;
-  'isMultiVariationListing': 'false';
+  'itemId': string[];
+  'title': string[];
+  'globalId': string[];
+  'primaryCategory': PrimaryCategory[];
+  'galleryURL': string[];
+  'viewItemURL': string[];
+  'paymentMethod': string[];
+  'autoPay': string[];
+  'postalCode': string[];
+  'location': string[];
+  'country': string[];
+  'shippingInfo': ShippingInfo[];
+  'sellingStatus': SellingStatus[];
+  'listingInfo': ListingInfo[];
+  'returnsAccepted': string[];
+  'condition': Condition[];
+  'isMultiVariationListing': string[];
+  'topRatedListing': string[];
 }
 
 export class SearchResult {
-  'count': string;
+  '@count': string[];
   'item': Item[];
-  'paginationOutput': PaginationOutput;
 }
 
 export class findCompletedItemsResponse {
-  'xmlns': string;
-  'ack': string;
-  'version': string;
-  'timestamp': Date;
-  'searchResult': SearchResult;
+  'ack': string[];
+  'version': string[];
+  'timestamp': Date[];
+  'searchResult': SearchResult[];
+  'paginationOutput': PaginationOutput[];
 }
