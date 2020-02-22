@@ -2,7 +2,7 @@ FROM node:12.13-alpine As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+ADD package.json /usr/src/app
 
 RUN npm install --only=development
 

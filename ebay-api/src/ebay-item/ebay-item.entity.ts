@@ -1,16 +1,16 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-// import { Exclude } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class CompletedItem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Exclude()
+  @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createDateTime: Date;
 
-  // @Exclude()
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   lastChangedDateTime: Date;
 }
