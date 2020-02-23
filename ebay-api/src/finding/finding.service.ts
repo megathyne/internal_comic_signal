@@ -1,7 +1,8 @@
 import { Injectable, Logger, HttpService } from '@nestjs/common';
 import { FindCompletedItemsResponse, Item } from './dto/FindCompletedItemsResponse.dto';
 import { EbayItemService } from '../ebay-item/ebay-item.service';
-import { FindCompletedItemsConfig } from 'src/ebay-item/dto/find-completed-items-config.dto';
+import { FindCompletedItemsConfig } from '../finding/dto/find-completed-items-config.dto';
+
 
 @Injectable()
 export class FindingService {
