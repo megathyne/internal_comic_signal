@@ -1,9 +1,9 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Unique } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { PrimaryCategory } from '../finding/dto/findCompletedItemsResponse.dto';
 
 @Entity()
-export class CompletedItem extends BaseEntity {
+@Unique(['itemId'])
+export class EbayItem extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,20 +16,38 @@ export class CompletedItem extends BaseEntity {
   @Column()
   globalId: string;
 
-
   @Column()
   galleryURL: string;
 
   @Column()
   viewItemURL: string;
 
+  @Column({nullable: true})
+  primarycategoryId: string;
 
+  @Column({type: 'decimal', default: () => '0.00'})
+  finalPrice: string;
 
-  //@Exclude()
+  @Column({nullable: true})
+  location: string;
+
+  @Column({nullable: true})
+  country: string;
+
+  @Column({type: 'decimal', default: () => '0.00'})
+  shippingCost: string;
+
+  @Column({nullable: true})
+  listingType: string;
+
+  @Column({type: 'boolean', default: () => 'false'})
+  bestOfferEnabled: string;
+
+  @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createDateTime: Date;
 
-  //@Exclude()
+  @Exclude()
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   lastChangedDateTime: Date;
 }

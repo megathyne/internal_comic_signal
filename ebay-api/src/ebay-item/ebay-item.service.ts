@@ -1,9 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { EbayItemRepository } from './ebay-item.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ListingInfo } from '../finding/dto/findCompletedItemsResponse.dto';
+
+//need a function that must accept ebay-item.entity
+//calls Repository to save to (check if item exists first)
+//comment where code to import ebay images to S3 (S3 gives an id)
 
 @Injectable()
 export class EbayItemService {
+  private logger = new Logger ('EbayItemService');
+  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository){}
+
   data = {
-    itemId: ['233484176982'],
+    itemId: ['233484176985'],
     title: ['Spawn 297/298/299/300/301 Set NM McFarlane Image J. Scott Campbell B&W Variant'],
     globalId: ['EBAY-US'],
     primaryCategory: [{ categoryId: ['17079'], categoryName: ['Spawn'] }],
@@ -47,9 +57,30 @@ export class EbayItemService {
     isMultiVariationListing: ['false'],
     topRatedListing: ['false'],
   };
+
   mappedData = {
     itemId: this.data.itemId[0],
     title: this.data.title[0],
-    
+    globalId: this.data.globalId[0],
+    viewItemURL: this.data.viewItemURL[0],
+    galleryURL: this.data.galleryURL[0],
+    primaryCategoryId: this.data.primaryCategory[0].categoryId,
+    finalPrice: this.data.sellingStatus[0].currentPrice[0].__value__,
+    location: this.data.location,
+    country: this.data.country,
+    shippingCost: this.data.shippingInfo[0].shippingServiceCost[0].__value__,
+    listingType: this.data.listingInfo[0].listingType[0],
+    bestOfferEnabled: this.data.listingInfo[0].bestOfferEnabled[0],
   };
+
+  async createEbayItem(){
+    this.logger.log('In createEbayItem Service!')
+    this.logger.log(this.mappedData.primaryCategoryId);
+    this.logger.log(this.mappedData.finalPrice);
+    this.logger.log(this.mappedData.location);
+    this.logger.log(this.mappedData.country);
+    this.logger.log(this.mappedData.bestOfferEnabled);
+    
+    return this.ebayItemRepository.createEbayItem(this.mappedData);
+  }
 }
