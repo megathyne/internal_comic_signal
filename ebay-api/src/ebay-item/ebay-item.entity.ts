@@ -1,5 +1,5 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column } from 'typeorm';
-//import { Exclude } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import { PrimaryCategory } from '../finding/dto/findCompletedItemsResponse.dto';
 
 @Entity()

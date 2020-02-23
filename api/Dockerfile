@@ -1,10 +1,11 @@
 FROM node:12.13-alpine As development
+RUN npm i -g @nestjs/cli
 
 WORKDIR /usr/src/app
 
 ADD package.json /usr/src/app
 
-RUN npm install --only=development
+RUN npm install 
 
 COPY . .
 
