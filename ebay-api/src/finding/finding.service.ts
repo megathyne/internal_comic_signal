@@ -1,6 +1,7 @@
 import { Injectable, Logger, HttpService } from '@nestjs/common';
 import { FindCompletedItemsResponse, Item } from './dto/FindCompletedItemsResponse.dto';
 import { EbayItemService } from '../ebay-item/ebay-item.service';
+import { FindCompletedItemsConfig } from 'src/ebay-item/dto/find-completed-items-config.dto';
 
 @Injectable()
 export class FindingService {
@@ -10,16 +11,17 @@ export class FindingService {
 
   async apiRequest(pageNumber): Promise<FindCompletedItemsResponse> {
     const url = 'https://svcs.ebay.com/services/search/FindingService/v1';
-    const params = {
-      ['OPERATION-NAME']: 'findCompletedItems',
-      ['SERVICE-VERSION']: '1.13.0',
-      ['SECURITY-APPNAME']: process.env.EBAY_API_APPID,
-      ['RESPONSE-DATA-FORMAT']: 'JSON',
-      ['REST-PAYLOAD']: null,
-      ['categoryId']: 63,
-      ['itemFilter(0).name']: 'SoldItemsOnly',
-      ['itemFilter(0).value']: true,
-      ['paginationInput.pageNumber']: pageNumber,
+    const params: FindCompletedItemsConfig = {
+      'OPERATION-NAME': 'findCompletedItems',
+      'SERVICE-VERSION': '1.13.0',
+      'SECURITY-APPNAME': process.env.EBAY_API_APPID,
+      'RESPONSE-DATA-FORMAT': 'JSON',
+      'REST-PAYLOAD': null,
+      categoryId: 63,
+      buyerPostalCode: 10036,
+      'itemFilter(0).name': 'SoldItemsOnly',
+      'itemFilter(0).value': true,
+      'paginationInput.pageNumber': pageNumber,
     };
 
     try {
@@ -37,14 +39,13 @@ export class FindingService {
 
       // Store the values temporarily
       let items = initialResults.findCompletedItemsResponse[0].searchResult[0].item;
-      this.logger.log(items[0]);
 
       // We extract the current page number and the MAX page number
       const totalPages = parseInt(initialResults.findCompletedItemsResponse[0].paginationOutput[0].totalPages[0]);
 
       // Get the data from the remaining pages
       if (totalPages > 1) {
-        for (let i = 2; i <= 2; i++) {
+        for (let i = 2; i <= 10; i++) {
           // artificial limit to prevent being blocked by ebay api
           const results = await this.apiRequest(i);
           items = items.concat(results.findCompletedItemsResponse[0].searchResult[0].item);

@@ -7,23 +7,23 @@ import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
 export class EbayItemRepository extends Repository<EbayItem> {
   private logger = new Logger('EbayItem Repository');
 
-  async createEbayItem(data: CreateEbayItemDto): Promise<string> {
-    const eBI = this.create();
-    eBI.itemId = data.itemId;
-    eBI.title = data.title;
-    eBI.globalId = data.globalId;
-    eBI.viewItemURL = data.viewItemURL;
-    eBI.galleryURL = data.galleryURL;
-    eBI.primaryCategoryId = data.primaryCategoryId;
-    eBI.finalPrice = data.finalPrice;
-    eBI.location = data.location;
-    eBI.country = data.country;
-    eBI.shippingCost = data.shippingCost;
-    eBI.listingType = data.listingType;
-    eBI.bestOfferEnabled = data.bestOfferEnabled;
+  async createEbayItem(createEbayItemDto: CreateEbayItemDto): Promise<string> {
+    const ebayItem = this.create();
+    ebayItem.itemId = createEbayItemDto.itemId;
+    ebayItem.title = createEbayItemDto.title;
+    ebayItem.globalId = createEbayItemDto.globalId;
+    ebayItem.viewItemURL = createEbayItemDto.viewItemURL;
+    ebayItem.galleryURL = createEbayItemDto.galleryURL;
+    ebayItem.primaryCategoryId = createEbayItemDto.primaryCategoryId;
+    ebayItem.finalPrice = createEbayItemDto.finalPrice;
+    ebayItem.location = createEbayItemDto.location;
+    ebayItem.country = createEbayItemDto.country;
+    ebayItem.shippingCost = createEbayItemDto.shippingCost;
+    ebayItem.listingType = createEbayItemDto.listingType;
+    ebayItem.bestOfferEnabled = createEbayItemDto.bestOfferEnabled;
 
     try {
-      await eBI.save();
+      await ebayItem.save();
     } catch (error) {
       if (error.code === '23505') {
         //duplicate ebay item entry

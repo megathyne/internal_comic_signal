@@ -1,6 +1,6 @@
 import { Controller, Logger, Get } from '@nestjs/common';
 import { EbayItemService } from './ebay-item.service';
-import { Item } from 'src/finding/dto/FindCompletedItemsResponse.dto';
+import { Item } from '../finding/dto/FindCompletedItemsResponse.dto';
 
 @Controller('ebay-item')
 export class EbayItemController {
