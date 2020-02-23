@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EbayItemRepository } from './ebay-item.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Item } from '../finding/dto/FindCompletedItemsResponse.dto';
+import { Item } from '../finding/dto/findCompletedItemsResponse.dto';
 import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
 
 //need a function that must accept ebay-item.entity
