@@ -11,8 +11,8 @@ export class PrimaryCategory {
 }
 
 export class Cost {
-  '@currencyId': string[];
-  '__value__': string[];
+  '@currencyId': string;
+  '__value__': string;
 }
 
 export class ShippingInfo {
@@ -34,8 +34,8 @@ export class SellingStatus {
 export class ListingInfo {
   'bestOfferEnabled': string[];
   'buyItNowAvailable': string[];
-  'startTime': Date[];
-  'endTime': Date[];
+  'startTime': string[];
+  'endTime': string[];
   'listingType': string[];
   'gift': string[];
   'watchCount': string[];
@@ -72,10 +72,14 @@ export class SearchResult {
   'item': Item[];
 }
 
-export class findCompletedItemsResponse {
+export class FindCompletedItem {
   'ack': string[];
   'version': string[];
-  'timestamp': Date[];
+  'timestamp': string[];
   'searchResult': SearchResult[];
   'paginationOutput': PaginationOutput[];
+}
+
+export class FindCompletedItemsResponse {
+  'findCompletedItemsResponse': FindCompletedItem[];
 }

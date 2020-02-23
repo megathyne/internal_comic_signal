@@ -90,8 +90,8 @@ services:
     ports:
       - ${EBAY_API_SERVER_PORT}:${EBAY_API_SERVER_PORT}
       - 9229:9229
-    command: npm run start:dev
-    # command: npm run start:debugdocker
+    # command: npm run start:dev
+    command: npm run start:debugdocker
     env_file:
       - .env
     networks:

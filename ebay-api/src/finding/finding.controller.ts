@@ -1,6 +1,5 @@
 import { Controller, HttpModule, Get, UseInterceptors, Query, Logger } from '@nestjs/common';
 import { FindingService } from './finding.service';
-import { findCompletedItemsResponse } from './dto/findCompletedItemsResponse.dto';
 
 @Controller('finding')
 export class FindingController {
@@ -8,7 +7,7 @@ export class FindingController {
 
   constructor(private readonly findingService: FindingService) {}
 
-  @Get()
+  @Get('completed')
   get() {
     this.logger.verbose(`Initiating eBay API calls for completed items`);
     return this.findingService.getCompletedItems();

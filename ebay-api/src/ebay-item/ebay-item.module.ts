@@ -7,6 +7,7 @@ import { EbayItemRepository } from './ebay-item.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([EbayItemRepository])],
   providers: [EbayItemService],
-  controllers: [EbayItemController]
+  controllers: [EbayItemController],
+  exports: [EbayItemService],
 })
 export class EbayItemModule {}

@@ -1,20 +1,48 @@
 # internal_comic_signal
 
-### Sample .env file
-API_SERVER_PORT=3000
+## SETUP LOCAL DEVELOPMENT
+
+Create a .env file in the root directory with the following variables
+
+### Client
+
+```
 CLIENT_SERVER_PORT=3001
-PG_ADMIN_SERVER_PORT=3002
-EBAY_API_SERVER_PORT=3003
+```
+
+### API
+
+```
+API_SERVER_PORT=3000
 API_DB_PASSWORD=postgres
 API_DB_PORT=5432
 API_DB_USERNAME=postgres
 API_DB_DATABASE_NAME=dev
+```
+
+### Ebay-API
+
+```
+EBAY_API_SERVER_PORT=3003
+EBAY_API_APPID
 EBAY_DB_PASSWORD=postgres
 EBAY_DB_PORT=5433
 EBAY_DB_USERNAME=postgres
 EBAY_DB_DATABASE_NAME=dev
+```
+
+### AWS
+
+```
 AWS_S3_BUCKET_NAME=foo
 AWS_ACCESS_KEY_ID=foo
 AWS_SECRET_ACCESS_KEY=foo
+```
+
+### PG Admin
+
+```
+PG_ADMIN_SERVER_PORT=3002
 PGADMIN_USERNAME=ceej989@email.com
 PGADMIN_PASSWORD=postgres123
+```

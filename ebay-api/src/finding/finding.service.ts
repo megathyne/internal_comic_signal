@@ -1,39 +1,61 @@
 import { Injectable, Logger, HttpService } from '@nestjs/common';
-//import { findCompletedItemsResponse } from './dto/findCompletedItemsResponse.dto';
-//import { truncateSync } from 'fs';
+import { FindCompletedItemsResponse, Item } from './dto/FindCompletedItemsResponse.dto';
+import { EbayItemService } from '../ebay-item/ebay-item.service';
 
 @Injectable()
 export class FindingService {
   private logger = new Logger('FindingService');
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService, private readonly ebayItemService: EbayItemService) {}
+
+  async apiRequest(pageNumber): Promise<FindCompletedItemsResponse> {
+    const url = 'https://svcs.ebay.com/services/search/FindingService/v1';
+    const params = {
+      ['OPERATION-NAME']: 'findCompletedItems',
+      ['SERVICE-VERSION']: '1.13.0',
+      ['SECURITY-APPNAME']: process.env.EBAY_API_APPID,
+      ['RESPONSE-DATA-FORMAT']: 'JSON',
+      ['REST-PAYLOAD']: null,
+      ['categoryId']: 63,
+      ['itemFilter(0).name']: 'SoldItemsOnly',
+      ['itemFilter(0).value']: true,
+      ['paginationInput.pageNumber']: pageNumber,
+    };
+
+    try {
+      const response = await this.httpService.get(url, { params }).toPromise();
+      return response.data;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
 
   async getCompletedItems() {
-    this.logger.log('In getCompletedItems');
-    const URL = 'https://svcs.ebay.com/services/search/FindingService/v1';
     try {
-      //   const response = await this.httpService.get(
-      //     `https://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findCompletedItems&SERVICE-VERSION=1.7.0&SECURITY-APPNAME=ChrisJoh-CSignal-PRD-fca83364c-62f2e4a3&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=spawn%20300&itemFilter(0).name=SoldItemsOnly&itemFilter(0).value=true`,
-      //   ).toPromise();
+      // Call the above function ONCE to return the intial payload
+      const initialResults = await this.apiRequest(1);
 
-      const response = await this.httpService
-        .get(URL, {
-          params: {
-            'OPERATION-NAME': 'findCompletedItems',
-            'SERVICE-VERSION': '1.7.0',
-            'SECURITY-APPNAME': process.env.EBAY_API_APPID,
-            'RESPONSE-DATA-FORMAT': 'JSON',
-            'REST-PAYLOAD': 'null',
-            'keywords': 'spawn 300',
-            'itemFilter(0).name': 'SoldItemsOnly',
-            'itemFilter(0).value': 'true',
-            //'paginationInput.pageNumber':pageNumber
-          },
-        })
-        .toPromise();
+      // Store the values temporarily
+      let items = initialResults.findCompletedItemsResponse[0].searchResult[0].item;
+      this.logger.log(items[0]);
 
-      this.logger.log(response.data);
-      return response.data;
+      // We extract the current page number and the MAX page number
+      const totalPages = parseInt(initialResults.findCompletedItemsResponse[0].paginationOutput[0].totalPages[0]);
+
+      // Get the data from the remaining pages
+      if (totalPages > 1) {
+        for (let i = 2; i <= 2; i++) {
+          // artificial limit to prevent being blocked by ebay api
+          const results = await this.apiRequest(i);
+          items = items.concat(results.findCompletedItemsResponse[0].searchResult[0].item);
+        }
+      }
+
+      // Store the data in the database
+      for (let i = 0; i < items.length; i++) {
+        // this.logger.log(items[i].itemId[0]);
+        await this.ebayItemService.createEbayItem(items[i]);
+      }
     } catch (error) {
       this.logger.error(error);
     }

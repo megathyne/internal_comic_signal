@@ -23,7 +23,7 @@ export class EbayItem extends BaseEntity {
   viewItemURL: string;
 
   @Column({nullable: true})
-  primarycategoryId: string;
+  primaryCategoryId: string;
 
   @Column({type: 'decimal', default: () => '0.00'})
   finalPrice: string;
