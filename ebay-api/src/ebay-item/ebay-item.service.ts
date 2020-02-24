@@ -4,10 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../finding/dto/findCompletedItemsResponse.dto';
 import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
 
-//need a function that must accept ebay-item.entity
-//calls Repository to save to (check if item exists first)
-//comment where code to import ebay images to S3 (S3 gives an id)
-
 @Injectable()
 export class EbayItemService {
   private logger = new Logger('EbayItemService');
@@ -36,12 +32,12 @@ export class EbayItemService {
         viewItemURL: viewItemURL[0],
         galleryURL: galleryURL[0],
         primaryCategoryId: primaryCategory[0].categoryId[0],
-        finalPrice: sellingStatus[0].currentPrice[0].__value__[0],
+        finalPrice: parseFloat(sellingStatus[0].currentPrice[0].__value__),
         location: location[0],
         country: country[0],
-        shippingCost: shippingInfo[0].shippingServiceCost[0].__value__[0],
+        shippingCost: parseFloat(shippingInfo[0].shippingServiceCost[0].__value__),
         listingType: listingInfo[0].listingType[0],
-        bestOfferEnabled: listingInfo[0].bestOfferEnabled[0],
+        bestOfferEnabled: Boolean(listingInfo[0].bestOfferEnabled[0]),
       };
 
       return createEbayItemDto;

@@ -1,4 +1,4 @@
-import { Controller, HttpModule, Get, UseInterceptors, Query, Logger } from '@nestjs/common';
+import { Controller, Get, Logger } from '@nestjs/common';
 import { FindingService } from './finding.service';
 
 @Controller('finding')

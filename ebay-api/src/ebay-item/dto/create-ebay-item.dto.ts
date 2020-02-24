@@ -11,15 +11,15 @@ export class CreateEbayItemDto {
 
   primaryCategoryId: string;
 
-  finalPrice: string;
+  finalPrice: number;
 
   location: string;
 
   country: string;
 
-  shippingCost: string;
+  shippingCost: number;
 
   listingType: string;
 
-  bestOfferEnabled: string;
+  bestOfferEnabled: boolean;
 }

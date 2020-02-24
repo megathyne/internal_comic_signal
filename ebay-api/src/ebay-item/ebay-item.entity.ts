@@ -1,4 +1,12 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, Unique } from 'typeorm';
+import {
+  Entity,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Column,
+  Unique,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -22,26 +30,26 @@ export class EbayItem extends BaseEntity {
   @Column()
   viewItemURL: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   primaryCategoryId: string;
 
-  @Column({type: 'decimal', default: () => '0.00'})
-  finalPrice: string;
+  @Column({ type: 'money' })
+  finalPrice: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   location: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   country: string;
 
-  @Column({type: 'decimal', default: () => '0.00'})
-  shippingCost: string;
+  @Column({ type: 'money' })
+  shippingCost: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   listingType: string;
 
-  @Column({type: 'boolean', default: () => 'false'})
-  bestOfferEnabled: string;
+  @Column({ type: 'boolean' })
+  bestOfferEnabled: boolean;
 
   @Exclude()
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
