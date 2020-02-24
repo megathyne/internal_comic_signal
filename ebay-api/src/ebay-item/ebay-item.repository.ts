@@ -1,7 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { EbayItem } from './ebay-item.entity';
-import { Logger } from '@nestjs/common';
+import { Logger, InternalServerErrorException } from '@nestjs/common';
 import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
+import { GetEbayItemFilterDto } from './dto/get-ebay-item-filter.dto';
 
 @EntityRepository(EbayItem)
 export class EbayItemRepository extends Repository<EbayItem> {
@@ -31,6 +32,24 @@ export class EbayItemRepository extends Repository<EbayItem> {
         return 'Item Already Exists Goober!';
       }
       this.logger.error(`Unable to add eBay item.`, error);
+    }
+  }
+
+  async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
+    const { search } = filterDto;
+    const query = this.createQueryBuilder('ebay_item');
+
+    if (search) {
+      query.where('(ebay_item.title LIKE :search)', { search: `%${search}%` });
+    }
+
+    try {
+      const ebayItems = await query.getMany();
+      this.logger.verbose(ebayItems);
+      return ebayItems;
+    } catch (error) {
+      this.logger.error(`Failed to get ebay items. Filters: ${JSON.stringify(filterDto)}`, error.stack);
+      throw new InternalServerErrorException();
     }
   }
 }

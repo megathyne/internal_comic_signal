@@ -3,6 +3,8 @@ import { EbayItemRepository } from './ebay-item.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../finding/dto/findCompletedItemsResponse.dto';
 import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
+import { GetEbayItemFilterDto } from './dto/get-ebay-item-filter.dto';
+import { EbayItem } from './ebay-item.entity';
 
 @Injectable()
 export class EbayItemService {
@@ -54,5 +56,9 @@ export class EbayItemService {
     } catch (error) {
       this.logger.error('createEbayItem: ', error);
     }
+  }
+
+  async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
+    return await this.ebayItemRepository.getEbayItems(filterDto);
   }
 }

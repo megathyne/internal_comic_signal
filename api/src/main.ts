@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Comic Signal')
-    .setDescription('The comic signal API description')
+    .setDescription('Client API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
