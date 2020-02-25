@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApprovalRepository } from './approval.repository';
 import { Approval } from './approval.entity';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { CreateApprovalDto } from './dto/create-approval.dto';
 
 @Injectable()
