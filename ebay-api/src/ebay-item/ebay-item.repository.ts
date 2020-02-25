@@ -36,11 +36,12 @@ export class EbayItemRepository extends Repository<EbayItem> {
   }
 
   async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
-    const { search } = filterDto;
+    const { series, issue } = filterDto;
     const query = this.createQueryBuilder('ebay_item');
 
-    if (search) {
-      query.where('(LOWER(ebay_item.title) LIKE LOWER(:search))', { search: `%${search}%` });
+    if (series && issue) {
+      query.where('(LOWER(ebay_item.title) LIKE LOWER(:series))', { series: `%${series}%` });
+      query.andWhere('(LOWER(ebay_item.title) LIKE LOWER(:issue))', { issue: `%${issue}%` });
     }
 
     try {

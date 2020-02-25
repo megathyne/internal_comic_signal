@@ -11,7 +11,8 @@ export class EbayItemController {
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  @ApiQuery({ name: 'search', type: String, required: false })
+  @ApiQuery({ name: 'series', type: String, required: false })
+  @ApiQuery({ name: 'issue', type: String, required: false })
   get(@Query() filterDto: GetEbayItemFilterDto) {
     this.logger.log(`Retrieving ebay items. Filters: ${JSON.stringify(filterDto)}`);
     return this.ebayItemService.getEbayItems(filterDto);
