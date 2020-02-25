@@ -1,6 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApprovalRepository } from './approval.repository';
+import { Approval } from './approval.entity';
+import { User } from 'src/auth/user.entity';
+import { CreateApprovalDto } from './dto/create-approval.dto';
 
 @Injectable()
 export class ApprovalService {
@@ -8,9 +11,12 @@ export class ApprovalService {
 
   constructor(@InjectRepository(ApprovalRepository) private approvalRepository: ApprovalRepository) {}
 
-  async getApproval(): Promise<Approval[]> {}
+  async getApproval(): Promise<Approval[]> {
+    const u = User;
+    return await this.approvalRepository.
+  }
 
-  async createApproval(): Promise<void> {
-      
+  async createApproval(createApprovalDto: CreateApprovalDto, user: User): Promise<Approval> {
+    return this.approvalRepository.createApproval(createApprovalDto, user);
   }
 }
