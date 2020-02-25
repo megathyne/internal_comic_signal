@@ -40,7 +40,7 @@ export class EbayItemRepository extends Repository<EbayItem> {
     const query = this.createQueryBuilder('ebay_item');
 
     if (search) {
-      query.where('(ebay_item.title LIKE :search)', { search: `%${search}%` });
+      query.where('(LOWER(ebay_item.title) LIKE LOWER(:search))', { search: `%${search}%` });
     }
 
     try {
