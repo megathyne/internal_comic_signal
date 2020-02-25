@@ -11,7 +11,7 @@ import { Page } from './page.entity';
 @Controller('page')
 @UseGuards(AuthGuard('jwt'))
 export class PageController {
-  private logger = new Logger('GradeController');
+  private logger = new Logger('PageController');
 
   constructor(private readonly pageService: PageService) {}
 

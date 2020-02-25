@@ -33,8 +33,13 @@ export class EbayItem extends BaseEntity {
   @Column({ nullable: true })
   primaryCategoryId: string;
 
+<<<<<<< Updated upstream
   @Column({ type: 'money' })
   finalPrice: number;
+=======
+  @Column({type: 'money', default: () => '0.00'})
+  finalPrice: string;
+>>>>>>> Stashed changes
 
   @Column({ nullable: true })
   location: string;
@@ -42,8 +47,13 @@ export class EbayItem extends BaseEntity {
   @Column({ nullable: true })
   country: string;
 
+<<<<<<< Updated upstream
   @Column({ type: 'money' })
   shippingCost: number;
+=======
+  @Column({type: 'money', default: () => '0.00'})
+  shippingCost: string;
+>>>>>>> Stashed changes
 
   @Column({ nullable: true })
   listingType: string;
