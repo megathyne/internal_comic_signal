@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { InventoryModule } from './inventory/inventory.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { ComicModule } from './comic/comic.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { VendorModule } from './vendor/vendor.module';
 import { GraderModule } from './grader/grader.module';
@@ -10,6 +9,7 @@ import { SeriesModule } from './series/series.module';
 import { IssueModule } from './issue/issue.module';
 import { ConditionModule } from './condition/condition.module';
 import { PageModule } from './page/page.module';
+import { EbayApiModule } from './ebay-api/ebay-api.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { PageModule } from './page/page.module';
     }),
     InventoryModule,
     AuthModule,
-    ComicModule,
+    EbayApiModule,
     AnalyticsModule,
     VendorModule,
     ConditionModule,
