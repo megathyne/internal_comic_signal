@@ -46,3 +46,8 @@ PG_ADMIN_SERVER_PORT=3002
 PGADMIN_USERNAME=ceej989@email.com
 PGADMIN_PASSWORD=postgres123
 ```
+
+## SEED DATA (API-DATABASE)
+From ```/utilities/src```
+Run ```node index.js > index.txt```
+Copy files from txt and run in sql for api-database

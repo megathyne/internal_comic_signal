@@ -15,7 +15,7 @@ import { GetEbayItemResponseDto } from 'src/ebay-api/dto/get-ebay-item-response.
 export class ApprovalController {
   private logger = new Logger('ApprovalController');
 
-  constructor(private readonly approvalService: ApprovalService, private readonly ebayApiService: EbayApiService) {}
+  constructor(private readonly approvalService: ApprovalService) {}
 
   // @Get()
   // get(@GetUser() user: User): Promise<Approval[]> {
@@ -24,7 +24,7 @@ export class ApprovalController {
   // }
 
   @Get('pending')
-  getPending(@Query('inventoryId') inventoryId: number, @GetUser() user: User): Promise<GetEbayItemResponseDto> {
+  getPending(@Query('inventoryId') inventoryId: number, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
     this.logger.verbose(`UserId: ${user.id} Requesting pending approvals for InventoryId: ${inventoryId}`);
     return this.approvalService.getPending(inventoryId, user);
   }
