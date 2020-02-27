@@ -13,7 +13,7 @@ export class EbayApiService {
     try {
       this.logger.log(`Fetching ebay items for UserId: ${user.id}. Filter Dto: ${getEbayItemFilterDto}`);
       const response = await this.httpService
-        .get(process.env.EBAY_API_URL, {
+        .get(`http://${process.env.EBAY_API_URL}:${process.env.EBAY_API_PORT}/ebay-item`, {
           params: getEbayItemFilterDto,
         })
         .toPromise();

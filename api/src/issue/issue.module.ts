@@ -8,5 +8,6 @@ import { IssueRepository } from './issue.repository';
   imports: [TypeOrmModule.forFeature([IssueRepository])],
   providers: [IssueService],
   controllers: [IssueController],
+  exports: [IssueService]
 })
 export class IssueModule {}

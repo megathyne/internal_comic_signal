@@ -9,4 +9,8 @@ export class GetEbayItemFilterDto {
   @IsNotEmpty()
   issue: string;
 
+  @IsOptional()
+  @IsNotEmpty()
+  excludingIds: number[];
+
 }

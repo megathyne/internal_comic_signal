@@ -4,12 +4,12 @@ import { ApprovalRepository } from './approval.repository';
 import { Approval } from './approval.entity';
 import { User } from '../auth/user.entity';
 import { CreateApprovalDto } from './dto/create-approval.dto';
-import { GetEbayItemResponseDto } from 'src/ebay-api/dto/get-ebay-item-response.dto';
-import { EbayApiService } from 'src/ebay-api/ebay-api.service';
-import { InventoryService } from 'src/inventory/inventory.service';
-import { SeriesService } from 'src/series/series.service';
-import { IssueService } from 'src/issue/issue.service';
-import { GetEbayItemFilterDto } from 'src/ebay-api/dto/get-ebay-item-filter.dto';
+import { GetEbayItemResponseDto } from '../ebay-api/dto/get-ebay-item-response.dto';
+import { EbayApiService } from '../ebay-api/ebay-api.service';
+import { InventoryService } from '../inventory/inventory.service';
+import { SeriesService } from '../series/series.service';
+import { IssueService } from '../issue/issue.service';
+import { GetEbayItemFilterDto } from '../ebay-api/dto/get-ebay-item-filter.dto';
 
 @Injectable()
 export class ApprovalService {
@@ -33,26 +33,27 @@ export class ApprovalService {
   }
 
   async getPending(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
-    // Get Issue number
-    const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
-
-    // Get Series name
-    const series = await this.seriesService.getSeriesById(inventory.issue.id);
-
-    // Get the ids of approvals to filter out
-    const currentApprovals = await this.approvalRepository.find({
-      where: { userId: user.id, inventoryId: inventoryId },
-    });
-
-    const approvalIds = currentApprovals.map(item => item.id);
-
-    const getEbayItemFilterDto: GetEbayItemFilterDto = {
-      series: series.name,
-      issue: inventory.issue.issueNumber,
-      excludingIds: approvalIds,
-    };
-
     try {
+      // Get Issue number
+      const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
+
+      console.log('wooo')
+      // Get Series name
+      const series = await this.seriesService.getSeriesById(inventory.issue.id);
+
+      // Get the ids of approvals to filter out
+      const currentApprovals = await this.approvalRepository.find({
+        where: { userId: user.id, inventoryId: inventoryId },
+      });
+
+      const approvalIds = currentApprovals.map(item => item.ebayItemId);
+
+      const getEbayItemFilterDto: GetEbayItemFilterDto = {
+        series: series.name,
+        issue: inventory.issue.issueNumber,
+        excludingIds: approvalIds,
+      };
+
       const results = await this.ebayApiService.get(getEbayItemFilterDto, user);
       return results;
     } catch (error) {

@@ -4,6 +4,6 @@ import { EbayApiService } from './ebay-api.service';
 @Module({
   imports: [HttpModule],
   providers: [EbayApiService],
-  exports: [],
+  exports: [EbayApiService],
 })
 export class EbayApiModule {}

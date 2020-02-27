@@ -24,9 +24,11 @@ export class ApprovalController {
   // }
 
   @Get('pending')
-  getPending(@Query('inventoryId') inventoryId: number, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
+  getPending(@Query('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
+    let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
+
     this.logger.verbose(`UserId: ${user.id} Requesting pending approvals for InventoryId: ${inventoryId}`);
-    return this.approvalService.getPending(inventoryId, user);
+    return this.approvalService.getPending(parsedInventoryId, user);
   }
 
   @Post()

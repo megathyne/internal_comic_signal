@@ -36,12 +36,13 @@ export class EbayItemRepository extends Repository<EbayItem> {
   }
 
   async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
-    const { series, issue } = filterDto;
+    const { series, issue, excludingIds } = filterDto;
     const query = this.createQueryBuilder('ebay_item');
 
     if (series && issue) {
       query.where('(LOWER(ebay_item.title) LIKE LOWER(:series))', { series: `%${series}%` });
       query.andWhere('(LOWER(ebay_item.title) LIKE LOWER(:issue))', { issue: `%${issue}%` });
+      query.andWhere('ebay_item.id NOT IN (:...excludingIds)', { excludingIds: excludingIds });
     }
 
     try {

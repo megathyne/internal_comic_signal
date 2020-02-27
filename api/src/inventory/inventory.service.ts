@@ -21,14 +21,18 @@ export class InventoryService {
   }
 
   async getInventoryById(id: number, user: User): Promise<Inventory> {
-    const found = await this.inventoryRepository.findOne({ where: { id, userId: user.id } });
+    try {
+      const found = await this.inventoryRepository.findOne({ where: { id, userId: user.id } });
 
-    if (!found) {
-      this.logger.error(`Inventory with ID "${id}" not found`);
-      throw new NotFoundException(`Inventory with ID "${id}" not found`);
+      if (!found) {
+        this.logger.error(`Inventory with ID "${id}" not found`);
+        throw new NotFoundException(`Inventory with ID "${id}" not found`);
+      }
+
+      return found;
+    } catch (error) {
+      this.logger.error(error);
     }
-
-    return found;
   }
 
   async postInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {

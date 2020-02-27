@@ -10,6 +10,7 @@ import { IssueModule } from './issue/issue.module';
 import { ConditionModule } from './condition/condition.module';
 import { PageModule } from './page/page.module';
 import { EbayApiModule } from './ebay-api/ebay-api.module';
+import { ApprovalModule } from './approval/approval.module';
 
 @Module({
   imports: [
@@ -23,16 +24,17 @@ import { EbayApiModule } from './ebay-api/ebay-api.module';
       entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: true,
     }),
-    InventoryModule,
     AuthModule,
-    EbayApiModule,
     AnalyticsModule,
-    VendorModule,
+    ApprovalModule,
     ConditionModule,
     GraderModule,
-    SeriesModule,
-    PageModule,
+    EbayApiModule,
+    InventoryModule,
     IssueModule,
+    PageModule,
+    SeriesModule,
+    VendorModule,
   ],
   controllers: [],
   providers: [],

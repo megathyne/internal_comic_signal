@@ -31,7 +31,7 @@ export class Inventory extends BaseEntity {
   @Column({ unique: true, nullable: true })
   serial: string;
 
-  @ManyToOne(type => Issue, { eager: false })
+  @ManyToOne(type => Issue, { eager:  true })
   @JoinColumn()
   issue: Issue;
 

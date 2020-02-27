@@ -13,17 +13,16 @@ import { User } from '../auth/user.entity';
 import { Inventory } from '../inventory/inventory.entity';
 
 @Entity()
-@Unique(['userId','inventoryId','ebayItemId'])
+@Unique(['user', 'inventory', 'ebayItemId'])
 export class Approval extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  
   @ManyToOne(type => User, { eager: false })
-  userId: User;
+  user: User;
 
-  @ManyToOne(type => Inventory, {eager: false})
-  inventoryId: Inventory;
+  @ManyToOne(type => Inventory, { eager: false })
+  inventory: Inventory;
 
   @Column()
   ebayItemId: number;

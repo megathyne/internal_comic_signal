@@ -9,5 +9,6 @@ import { AuthModule } from '../auth/auth.module';
   imports: [TypeOrmModule.forFeature([InventoryRepository]), AuthModule],
   controllers: [InventoryController],
   providers: [InventoryService],
+  exports: [InventoryService]
 })
 export class InventoryModule {}

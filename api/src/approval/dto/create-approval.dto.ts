@@ -1,10 +1,12 @@
+import { ApiModelProperty } from '@nestjs/swagger';
+
 export class CreateApprovalDto {
-   
-    readonly userId: number;
+  @ApiModelProperty({ example: 1 })
+  readonly inventoryId: number;
 
-    readonly inventoryId: number;
+  @ApiModelProperty({ example: 1 })
+  readonly ebayItemId: number;
 
-    readonly ebayItemId: number;
-
-    readonly isApproved : boolean;
+  @ApiModelProperty({ example: 1 })
+  readonly isApproved: boolean;
 }
