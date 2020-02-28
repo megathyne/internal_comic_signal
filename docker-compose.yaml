@@ -5,14 +5,34 @@ services:
     container_name: client
     build:
       context: ./client
-      target: build-deps
+      target: react-build
     volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./client:/app
+      - /app/node_modules
     ports:
       - ${CLIENT_SERVER_PORT}:${CLIENT_SERVER_PORT}
     environment:
       PORT: ${CLIENT_SERVER_PORT}
+      CHOKIDAR_USEPOLLING: "true"
+    command: yarn start
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - api
+  client-new:
+    container_name: client-new
+    build:
+      context: ./client
+      target: react-build
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - ${CLIENT_NEW_SERVER_PORT}:${CLIENT_NEW_SERVER_PORT}
+    environment:
+      PORT: ${CLIENT_NEW_SERVER_PORT}
       CHOKIDAR_USEPOLLING: "true"
     command: yarn start
     env_file:
