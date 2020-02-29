@@ -11,17 +11,47 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Login(props) {
-  const classes = useStyles();
-  return (
-    <div className={classes.root}>
+export default class Login extends React.Component {
+  state = {
+    username: null,
+    password: null
+  };
+
+  handleChange = input => event => {
+    this.setState({ [input]: event.target.value });
+  };
+
+  handleLogin = async () => {
+    try {
+      const { username, password } = this.state;
+      const response = await fetch("http://localhost:3000/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+      const results = await response.json();
+      localStorage.setItem("accessToken", results.accessToken);
+      this.setState({
+        password: null
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  render() {
+    // const classes = useStyles(); need to undo the hooks
+    //className={classes.root}>
+    return (
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
             id="outlined-basic"
             label="username"
             variant="outlined"
-            onChange={props.handleChange("username")}
+            onChange={this.handleChange("username")}
           />
         </Grid>
         <Grid item xs={12}>
@@ -31,19 +61,19 @@ export default function Login(props) {
             type="password"
             variant="outlined"
             autoComplete="current-password"
-            onChange={props.handleChange("password")}
+            onChange={this.handleChange("password")}
           />
         </Grid>
         <Grid item xs={12}>
           <Button
             variant="contained"
             color="primary"
-            onClick={props.handleLogin}
+            onClick={this.handleLogin}
           >
             Login
           </Button>
         </Grid>
       </Grid>
-    </div>
-  );
+    );
+  }
 }

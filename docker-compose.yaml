@@ -24,10 +24,10 @@ services:
   client-new:
     container_name: client-new
     build:
-      context: ./client
+      context: ./client-new
       target: react-build
     volumes:
-      - ./client:/app
+      - ./client-new:/app
       - /app/node_modules
     ports:
       - ${CLIENT_NEW_SERVER_PORT}:${CLIENT_NEW_SERVER_PORT}

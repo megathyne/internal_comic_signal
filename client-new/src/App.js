@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route } from 'react-router-dom';
-
 import store, { history } from './store';
 
 import AppBar from './components/AppBar';

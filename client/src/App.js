@@ -1,9 +1,14 @@
 import React from "react";
-import "./App.css";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import store, { history } from "./store";
+
+import Auth from "./components/auth";
 import Login from "./screen/login";
 import Inventory from "./screen/inventory";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
 
+import "./App.css";
 class App extends React.Component {
   state = {
     username: null,
@@ -39,21 +44,26 @@ class App extends React.Component {
     const values = { username, password };
     const user = localStorage.getItem("accessToken");
     return (
-      <div className="App">
-        <Router>
-          <Switch>
-            {!user ? (
-              <Login
-                handleLogin={this.handleLogin}
-                handleChange={this.handleChange}
-                values={values}
-              />
-            ) : (
-              <Inventory />
-            )}
-          </Switch>
-        </Router>
-      </div>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <div className="App">
+            {/* <Router>
+              <Switch> */}
+                {!user ? (
+                  <Login
+                    handleLogin={this.handleLogin}
+                    handleChange={this.handleChange}
+                    values={values}
+                  />
+                ) : (
+                  <Inventory />
+                )}
+                <Route exact path="/dashboard" component={Auth(Inventory)} />
+              {/* </Switch>
+            </Router> */}
+          </div>
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }

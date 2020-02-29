@@ -4,7 +4,6 @@ const LOGIN_SAGA = "LOGIN_SAGA";
 const SET_TOKEN = "SET_TOKEN";
 
 export {
-  //eslint-disable-line
   GET_USERS_SAGA,
   SET_USERS,
   LOGIN_SAGA,

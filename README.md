@@ -8,6 +8,7 @@ Create a .env file in the root directory with the following variables
 
 ```
 CLIENT_SERVER_PORT=3001
+CLIENT_NEW_SERVER_PORT=3004
 ```
 
 ### API
