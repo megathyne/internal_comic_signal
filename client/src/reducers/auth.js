@@ -1,9 +1,9 @@
-import { SET_TOKEN } from "../constants";
+import { SET_TOKEN } from '../constants';
 
-const currentToken = localStorage.getItem("accessToken");
+const currentToken = localStorage.getItem('accessToken');
 const initialState = {
-  token: currentToken ? currentToken : "",
-  authenticated: currentToken ? true : false
+  token: currentToken ? currentToken : '',
+  authenticated: currentToken ? true : false,
 };
 
 export default function createState(state = initialState, action) {
@@ -12,7 +12,7 @@ export default function createState(state = initialState, action) {
       return {
         ...state,
         token: action.accessToken,
-        authenticated: true
+        authenticated: true,
       };
     }
     default:

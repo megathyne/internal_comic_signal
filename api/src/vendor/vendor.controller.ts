@@ -28,7 +28,7 @@ export class VendorController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   get(@GetUser() user: User): Promise<Vendor[]> {
-    this.logger.verbose(`User "${user.username}" retrieving all comics.`);
+    this.logger.verbose(`User "${user.username}" retrieving all vendors.`);
     return this.vendorService.getVendor(user);
   }
 

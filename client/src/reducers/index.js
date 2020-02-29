@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router'
-import createHistory from "history/createBrowserHistory";
+import { connectRouter } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import authReducer from './auth';
 
-
-export const history = createHistory();
+export const history = createBrowserHistory();
 
 // import usersReducer from './users';
 

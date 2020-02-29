@@ -18,7 +18,6 @@ export class SeriesRepository extends Repository<Series> {
 
     try {
       const series = await query.getMany();
-      this.logger.verbose(series)
       return series;
     } catch (error) {
       this.logger.error(`Failed to get series.  Filters: ${JSON.stringify(filterDto)}`, error.stack);

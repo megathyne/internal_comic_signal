@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 export default function SelectGrader(props) {
   return (
     <Autocomplete
-      id="select-condition"
+      id="select-grade"
       options={props.graders}
       getOptionLabel={option =>
         `${option.name}`

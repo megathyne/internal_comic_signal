@@ -20,7 +20,7 @@ export class SeriesController {
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiImplicitQuery({ name: 'search', type: String, required: false })
   get(@Query() filterDto: GetSeriesFilterDto, @GetUser() user: User): Promise<Series[]> {
-    this.logger.verbose(`User "${user.username}" retrieving all comics. Filters: ${JSON.stringify(filterDto)}`);
+    this.logger.verbose(`User "${user.username}" retrieving all Series. Filters: ${JSON.stringify(filterDto)}`);
     return this.seriesService.getSeries(filterDto);
   }
 }

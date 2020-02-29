@@ -1,9 +1,9 @@
-import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
+import React from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
 // import { makeStyles } from "@material-ui/core/styles";
-import { APIGet } from "../api/api";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { APIGet } from '../api/api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function SelectSeries(props) {
   const [open, setOpen] = React.useState(false);
@@ -20,10 +20,7 @@ export default function SelectSeries(props) {
     }
 
     (async () => {
-      const response = await APIGet("series");
-      // await sleep(1e3); // For demo purposes.
-      // const comics = await response.json();
-      const series = response;
+      const series = await APIGet('series');
       if (active) {
         setOptions(Object.keys(series).map(key => series[key]));
       }
@@ -67,12 +64,10 @@ export default function SelectSeries(props) {
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
+                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
                   {params.InputProps.endAdornment}
                 </React.Fragment>
-              )
+              ),
             }}
           />
         );
