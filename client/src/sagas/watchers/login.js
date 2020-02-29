@@ -1,12 +1,15 @@
-import { takeLatest, call } from 'redux-saga/effects';
+import { takeLatest, call, put } from "redux-saga/effects";
+import { push } from "connected-react-router";
 
-import { LOGIN_SAGA } from '../../constants';
-import { login } from '../../lib/api';
+import { LOGIN_SAGA, SET_TOKEN } from "../../constants";
+import { login } from "../../lib/api";
+import { saveToken } from "../../actions";
 
 function* workerLoginSaga(action) {
   const token = yield call(login, action.user);
-  console.log(token)
-  // yield(put(saveToken(token));
+  localStorage.setItem("accessToken", token.accessToken);
+  yield put(saveToken(token));
+  yield put(push("/"));
 }
 
 export default function* watchLoginSaga() {

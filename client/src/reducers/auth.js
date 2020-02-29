@@ -1,14 +1,20 @@
-import { SET_TOKEN } from '../constants';
+import { SET_TOKEN } from "../constants";
 
-const initialState = { token: "", authenticated: false };
+const currentToken = localStorage.getItem("accessToken");
+const initialState = {
+  token: currentToken ? currentToken : "",
+  authenticated: currentToken ? true : false
+};
 
 export default function createState(state = initialState, action) {
   switch (action.type) {
-    case SET_TOKEN:
+    case SET_TOKEN: {
       return {
         ...state,
-        token: action.token
+        token: action.accessToken,
+        authenticated: true
       };
+    }
     default:
       return state;
   }
