@@ -6,8 +6,6 @@ import { setCost } from '../../actions';
 
 export default function Cost(props) {
   const dispatch = useDispatch();
-
-  const handleChange = (event, data) => dispatch(setCost(data));
-
-  return <TextField id="outlined-cost" label="cost" variant="outlined" onChange={handleChange('cost')} />;
+  const handleChange = event => dispatch(setCost(event.target.value));
+  return <TextField id="outlined-cost" label="cost" variant="outlined" onChange={handleChange} />;
 }

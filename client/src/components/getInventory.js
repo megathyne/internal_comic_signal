@@ -1,14 +1,32 @@
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import FormDialog from "./editInventory";
+import React, { useEffect, useState } from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import FormDialog from './editInventory';
+import { useDispatch, useSelector } from 'react-redux';
+import { getInventorySaga } from '../actions';
 
 export default function GetInventory(props) {
+  const dispatch = useDispatch();
+  const { inventory } = useSelector(state => ({
+    inventory: state.addInventory.inventory,
+  }));
+
+  useEffect(() => {
+    const fetchGraders = async () => {
+      try {
+        dispatch(getInventorySaga());
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchGraders();
+  }, []);
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -30,7 +48,7 @@ export default function GetInventory(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.inventory.map(row => (
+            {inventory.map(row => (
               <TableRow key={row.id}>
                 <TableCell align="right">{row.bin}</TableCell>
                 <TableCell align="right">{row.tag}</TableCell>
@@ -42,10 +60,8 @@ export default function GetInventory(props) {
                 <TableCell align="right">{row.condition.abbreviation}</TableCell>
                 <TableCell align="right">{row.grader.name}</TableCell>
                 <TableCell align="right">{row.page.name}</TableCell>
-                <TableCell align="right">{row.aquired.split("T")[0]}</TableCell>
-                <TableCell align="right">
-                  {row.vendor ? row.vendor.name : ""}
-                </TableCell>
+                <TableCell align="right">{row.aquired.split('T')[0]}</TableCell>
+                <TableCell align="right">{row.vendor ? row.vendor.name : ''}</TableCell>
                 <TableCell align="right">
                   <FormDialog updateInventory={props.updateInventory} data={row} />
                 </TableCell>

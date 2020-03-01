@@ -19,7 +19,6 @@ export class IssueRepository extends Repository<Issue> {
 
     try {
       const issue = await query.getMany();
-      this.logger.verbose(issue);
       return issue;
     } catch (error) {
       this.logger.error(`Failed to get issue. Filters: ${(JSON.stringify(filterDto), error.stack)}`);
@@ -31,7 +30,6 @@ export class IssueRepository extends Repository<Issue> {
     const { seriesId } = getSeriesByIssueIdDto;
     try {
       const issues = await this.find({ series: { id: seriesId } });
-      this.logger.verbose(issues);
       return issues;
     } catch (error) {
       this.logger.error(`Failed to get issue by series id, SeriesId: ${seriesId} error.stack)}`);

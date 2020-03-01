@@ -9,10 +9,12 @@ import {
   SET_COST,
   SET_AQUIRED,
   SET_ACTIVE_CONDITION,
-  SET_GRADER,
-  SET_VENDOR,
-  GET_CONDITIONS_SAGA,
-  SET_CONDITIONS,
+  SET_ACTIVE_GRADER,
+  SET_ACTIVE_VENDOR,
+  SET_ACTIVE_PAGE,
+  CREATE_INVENTORY_SAGA,
+  GET_INVENTORY_SAGA,
+  SET_INVENTORY,
 } from '../constants';
 import { LOGIN_SAGA, SET_TOKEN } from '../constants';
 
@@ -36,25 +38,31 @@ export function loginSaga(user) {
   };
 }
 
+export function createInventorySaga(createInventory) {
+  return {
+    type: CREATE_INVENTORY_SAGA,
+    createInventory,
+  };
+}
+
+export function getInventorySaga() {
+  return {
+    type: GET_INVENTORY_SAGA,
+  };
+}
+
+export function setInventory(inventory) {
+  return {
+    type: SET_INVENTORY,
+    inventory,
+  };
+}
+
 export function saveToken(token) {
   return {
     type: SET_TOKEN,
     token,
   };
-}
-
-// ADD INVENTORY ACTIONS
-export function getConditionsSaga() {
-  return {
-    type: GET_CONDITIONS_SAGA,
-  };
-}
-
-export function setConditions(conditions){
-  return {
-    type: SET_CONDITIONS, 
-    conditions
-  }
 }
 
 export function setActiveSeries(activeSeries) {
@@ -113,16 +121,23 @@ export function setActiveCondition(activeCondition) {
   };
 }
 
-export function setGrader(grader) {
+export function setActivePage(activePage) {
   return {
-    type: SET_GRADER,
-    grader,
+    type: SET_ACTIVE_PAGE,
+    activePage,
   };
 }
 
-export function setVendor(vendor) {
+export function setActiveGrader(activeGrader) {
   return {
-    type: SET_VENDOR,
-    vendor,
+    type: SET_ACTIVE_GRADER,
+    activeGrader,
+  };
+}
+
+export function setActiveVendor(activeVendor) {
+  return {
+    type: SET_ACTIVE_VENDOR,
+    activeVendor,
   };
 }

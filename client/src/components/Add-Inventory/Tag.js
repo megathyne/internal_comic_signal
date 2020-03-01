@@ -6,8 +6,6 @@ import { setTag } from '../../actions';
 
 export default function Tag(props) {
   const dispatch = useDispatch();
-
-  const handleChange = (event, data) => dispatch(setTag(data));
-
-  return <TextField id="outlined-tag" label="tag" variant="outlined" onChange={handleChange('tag')} />;
+  const handleChange = event => dispatch(setTag(event.target.value));
+  return <TextField id="outlined-tag" label="tag" variant="outlined" onChange={handleChange} />;
 }

@@ -6,17 +6,17 @@ import {
   SET_NOTES,
   SET_COST,
   SET_AQUIRED,
-  SET_CONDITIONS,
   SET_ACTIVE_CONDITION,
-  SET_GRADER,
-  SET_VENDOR,
+  SET_ACTIVE_PAGE,
+  SET_ACTIVE_GRADER,
+  SET_ACTIVE_VENDOR,
+  SET_INVENTORY,
 } from '../constants';
 
 const initialState = {
   activeSeries: {},
   activeIssue: {},
-  activeCondition: {},
-  conditions: []
+  inventory: [],
 };
 
 export default function createState(state = initialState, action) {
@@ -57,26 +57,30 @@ export default function createState(state = initialState, action) {
         ...state,
         aquired: action.aquired,
       };
-    case SET_CONDITIONS: {
-      return {
-        ...state,
-        conditions: action.conditions
-      }
-    }
     case SET_ACTIVE_CONDITION:
       return {
         ...state,
-        activeCondition: action.condition,
+        activeCondition: action.activeCondition,
       };
-    case SET_GRADER:
+    case SET_ACTIVE_PAGE:
       return {
         ...state,
-        grader: action.grader,
+        activePage: action.activePage,
       };
-    case SET_VENDOR:
+    case SET_ACTIVE_GRADER:
       return {
         ...state,
-        vendor: action.vendor,
+        activeGrader: action.activeGrader,
+      };
+    case SET_ACTIVE_VENDOR:
+      return {
+        ...state,
+        activeVendor: action.activeVendor,
+      };
+    case SET_INVENTORY:
+      return {
+        ...state,
+        inventory: action.inventory,
       };
     default:
       return state;

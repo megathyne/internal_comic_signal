@@ -1,6 +1,4 @@
 import React from 'react';
-import { TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import SelectSeries from './selectSeries';
 import SelectIssue from './selectIssue';
 import Bin from './Add-Inventory/Bin';
@@ -12,8 +10,14 @@ import Tag from './Add-Inventory/Tag';
 import Notes from './Add-Inventory/Notes';
 import Cost from './Add-Inventory/Cost';
 import Aquired from './Add-Inventory/Aquired';
+import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { createInventorySaga } from '../actions';
 
 export default function AddInventory(props) {
+  const dispatch = useDispatch();
+  const handleClick = () => dispatch(createInventorySaga());
+
   return (
     <div style={{ marginBottom: '20px' }}>
       <div
@@ -48,22 +52,12 @@ export default function AddInventory(props) {
           justifyContent: 'space-around',
         }}
       >
-        <SelectCondition
-          activeCondition={props.activeCondition}
-          setActiveCondition={props.setActiveCondition}
-          conditions={props.conditions}
-        />
+        <SelectCondition />
+        <SelectGrader />
+        <SelectPage />
+        <SelectVendor />
 
-        <SelectGrader activeGrade={props.activeGrade} setActiveGrade={props.setActiveGrade} graders={props.graders} />
-
-        <SelectPage activePage={props.activePage} setActivePage={props.setActivePage} pages={props.pages} />
-
-        <SelectVendor
-          activeVendor={props.activeVendor}
-          setActiveVendor={props.setActiveVendor}
-          vendors={props.vendors}
-        />
-        <Button style={{ width: '300px' }} variant="contained" color="primary" onClick={props.addNewInventory}>
+        <Button style={{ width: '300px' }} variant="contained" color="primary" onClick={handleClick}>
           Submit
         </Button>
       </div>
