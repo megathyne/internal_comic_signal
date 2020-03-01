@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { setActiveCondition, getConditionsSaga } from '../actions';
+import { useDispatch } from 'react-redux';
+import { setActiveCondition } from '../actions';
 import { APIGet } from '../api/api';
 
 export default function SelectCondition(props) {
   const dispatch = useDispatch();
-  const conditions = useSelector(state => state.addInventory.conditions, shallowEqual);
   const handleChange = (event, data) => dispatch(setActiveCondition(data));
-
-  // https://blog.logrocket.com/patterns-for-data-fetching-in-react-981ced7e5c56/
   const [data, setData] = useState({ conditions: [], isFetching: false });
 
   useEffect(() => {
@@ -20,7 +17,7 @@ export default function SelectCondition(props) {
         const response = await APIGet('condition');
         setData({ conditions: response, isFetching: false });
       } catch (e) {
-        console.log('conditions error', e);
+        console.log(e);
         setData({ conditions: data.conditions, isFetching: false });
       }
     };

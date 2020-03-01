@@ -46,10 +46,10 @@ class Inventory extends React.Component {
   componentDidMount() {
     // this.getSeries();
     // this.getConditions();
-    this.getGraders();
-    this.getPages();
-    this.getVendors();
-    this.getInventory();
+    // this.getGraders();
+    // this.getPages();
+    // this.getVendors();
+    // this.getInventory();
   }
 
   getInventory = async () => {

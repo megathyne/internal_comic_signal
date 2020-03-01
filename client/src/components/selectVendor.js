@@ -1,23 +1,37 @@
-import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { setActiveVendor } from '../actions';
+import { APIGet } from '../api/api';
 
 export default function SelectVendor(props) {
+  const dispatch = useDispatch();
+  const handleChange = (event, data) => dispatch(setActiveVendor(data));
+  const [data, setData] = useState({ graders: [], isFetching: false });
+
+  useEffect(() => {
+    const fetchVendors = async () => {
+      try {
+        setData({ vendors: data.vendors, isFetching: true });
+        const response = await APIGet('vendor');
+        setData({ vendors: response, isFetching: false });
+      } catch (e) {
+        console.log(e);
+        setData({ vendors: data.vendors, isFetching: false });
+      }
+    };
+    fetchVendors();
+  }, []);
+
   return (
     <Autocomplete
       id="select-vendor"
-      options={props.vendors}
+      options={data.vendors}
       getOptionLabel={option => `${option.name}`}
-      onChange={props.setActiveVendor}
+      onChange={handleChange}
       style={{ width: 250 }}
-      renderInput={params => (
-        <TextField
-          {...params}
-          label="Select Vendor"
-          variant="outlined"
-          fullWidth
-        />
-      )}
+      renderInput={params => <TextField {...params} label="Select Vendor" variant="outlined" fullWidth />}
     />
   );
 }
