@@ -21,26 +21,6 @@ services:
       - webnet
     depends_on:
       - api
-  client-new:
-    container_name: client-new
-    build:
-      context: ./client-new
-      target: react-build
-    volumes:
-      - ./client-new:/app
-      - /app/node_modules
-    ports:
-      - ${CLIENT_NEW_SERVER_PORT}:${CLIENT_NEW_SERVER_PORT}
-    environment:
-      PORT: ${CLIENT_NEW_SERVER_PORT}
-      CHOKIDAR_USEPOLLING: "true"
-    command: yarn start
-    env_file:
-      - .env
-    networks:
-      - webnet
-    depends_on:
-      - api
   api:
     container_name: api
     build:

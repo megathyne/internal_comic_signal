@@ -1,16 +1,20 @@
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-// import { makeStyles } from "@material-ui/core/styles";
+
 import { APIGet } from '../api/api';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { setActiveSeries } from '../actions';
 
 export default function SelectSeries(props) {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
 
-  // const classes = useStyles();
+  const handleChange = (event, data) => dispatch(setActiveSeries(data));
 
   React.useEffect(() => {
     let active = true;
@@ -52,7 +56,7 @@ export default function SelectSeries(props) {
       getOptionLabel={option => `${option.name} (${option.volume})`}
       options={options}
       loading={loading}
-      onChange={props.setActiveSeries}
+      onChange={handleChange}
       renderInput={params => {
         return (
           <TextField

@@ -1,30 +1,22 @@
-import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core/styles";
-import { APIGet } from "../api/api";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import React from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
 
-// const useStyles = makeStyles(theme => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2)
-//   }
-// }));
+import { APIGet } from '../api/api';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-// function sleep(delay = 0) {
-//   return new Promise(resolve => {
-//     setTimeout(resolve, delay);
-//   });
-// }
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { setActiveIssue } from '../actions';
 
 export default function SelectIssue(props) {
+  const activeSeries = useSelector(state => state.addInventory.activeSeries, shallowEqual);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
+
+  const handleChange = (event, data) => dispatch(setActiveIssue(data));
 
   React.useEffect(() => {
     let active = true;
@@ -34,9 +26,7 @@ export default function SelectIssue(props) {
     }
 
     (async () => {
-      console.log(props.activeSeries.id);
-      const response = await APIGet("issue/" + props.activeSeries.id);
-      const issues = response;
+      const issues = await APIGet('issue/' + activeSeries.id);
       if (active) {
         setOptions(Object.keys(issues).map(key => issues[key]));
       }
@@ -68,7 +58,7 @@ export default function SelectIssue(props) {
       getOptionLabel={option => `${option.issueNumber} ${option.memo}`}
       options={options}
       loading={loading}
-      onChange={props.setActiveIssue}
+      onChange={handleChange}
       renderInput={params => (
         <TextField
           {...params}
@@ -80,12 +70,10 @@ export default function SelectIssue(props) {
             ...params.InputProps,
             endAdornment: (
               <React.Fragment>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
                 {params.InputProps.endAdornment}
               </React.Fragment>
-            )
+            ),
           }}
         />
       )}

@@ -3,10 +3,15 @@ import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import SelectSeries from './selectSeries';
 import SelectIssue from './selectIssue';
+import Bin from './Add-Inventory/Bin';
 import SelectGrader from './selectGrader';
 import SelectCondition from './selectCondition';
 import SelectVendor from './selectVendor';
 import SelectPage from './selectPages';
+import Tag from './Add-Inventory/Tag';
+import Notes from './Add-Inventory/Notes';
+import Cost from './Add-Inventory/Cost';
+import Aquired from './Add-Inventory/Aquired';
 
 export default function AddInventory(props) {
   return (
@@ -18,8 +23,8 @@ export default function AddInventory(props) {
           justifyContent: 'space-around',
         }}
       >
-        <SelectSeries getSeries={props.getSeries} series={props.series} setActiveSeries={props.setActiveSeries} />
-        <SelectIssue setActiveIssue={props.setActiveIssue} activeSeries={props.activeSeries} />
+        <SelectSeries />
+        <SelectIssue />
       </div>
 
       <div
@@ -29,15 +34,11 @@ export default function AddInventory(props) {
           justifyContent: 'space-around',
         }}
       >
-        <TextField id="outlined-bin" label="bin" variant="outlined" onChange={props.handleChange('bin')} />
-
-        <TextField id="outlined-tag" label="tag" variant="outlined" onChange={props.handleChange('tag')} />
-
-        <TextField id="outlined-notes" label="notes" variant="outlined" onChange={props.handleChange('notes')} />
-
-        <TextField id="outlined-cost" label="cost" variant="outlined" onChange={props.handleChange('cost')} />
-
-        <TextField id="outlined-aquired" label="aquired" variant="outlined" onChange={props.handleChange('aquired')} />
+        <Bin />
+        <Tag />
+        <Notes />
+        <Cost />
+        <Aquired />
       </div>
 
       <div

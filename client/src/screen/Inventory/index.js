@@ -12,14 +12,14 @@ class Inventory extends React.Component {
     this.getGraders = this.getGraders.bind(this);
     this.getPages = this.getPages.bind(this);
 
-    this.getSeries = this.getSeries.bind(this);
+    // this.getSeries = this.getSeries.bind(this);
     this.getVendors = this.getVendors.bind(this);
 
     this.setActiveCondition = this.setActiveCondition.bind(this);
     this.setActiveGrader = this.setActiveGrader.bind(this);
     this.setActivePage = this.setActivePage.bind(this);
 
-    this.setActiveSeries = this.setActiveSeries.bind(this);
+    // this.setActiveSeries = this.setActiveSeries.bind(this);
     this.setActiveIssue = this.setActiveIssue.bind(this);
     this.setActiveVendor = this.setActiveVendor.bind(this);
 
@@ -28,7 +28,7 @@ class Inventory extends React.Component {
     this.setPages = this.setPages.bind(this);
 
     this.setInventory = this.setInventory.bind(this);
-    this.setSeries = this.setSeries.bind(this);
+    // this.setSeries = this.setSeries.bind(this);
     this.setVendors = this.setVendors.bind(this);
     this.updateInventory = this.updateInventory.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -40,11 +40,11 @@ class Inventory extends React.Component {
     condition: [],
     graders: [],
     pages: [],
-    series: [],
+    // series: [],
   };
 
   componentDidMount() {
-    this.getSeries();
+    // this.getSeries();
     this.getConditions();
     this.getGraders();
     this.getPages();
@@ -61,14 +61,14 @@ class Inventory extends React.Component {
     }
   };
 
-  getSeries = async () => {
-    try {
-      const results = await APIGet(`series`);
-      this.setSeries(results);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // getSeries = async () => {
+  //   try {
+  //     const results = await APIGet(`series`);
+  //     this.setSeries(results);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   getVendors = async () => {
     try {
@@ -106,7 +106,7 @@ class Inventory extends React.Component {
     }
   };
 
-  setSeries = series => this.setState({ series });
+  // setSeries = series => this.setState({ series });
 
   setVendors = vendors => this.setState({ vendors });
 
@@ -122,7 +122,7 @@ class Inventory extends React.Component {
   setActiveGrader = (event, value) => this.setState({ activeGrader: value });
   setActivePage = (event, value) => this.setState({ activePage: value });
 
-  setActiveSeries = (event, value) => this.setState({ activeSeries: value });
+  // setActiveSeries = (event, value) => this.setState({ activeSeries: value });
 
   setActiveIssue = (event, value) => this.setState({ activeIssue: value });
 
@@ -166,28 +166,28 @@ class Inventory extends React.Component {
       <div>
         <AddInventory
           addNewInventory={this.addNewInventory}
-          activeSeries={this.state.activeSeries}
+          // activeSeries={this.state.activeSeries}
           activeCondition={this.state.activeCondition}
           activeGrader={this.state.activeGrader}
           activePage={this.state.activePage}
           activeVendor={this.state.activeVendor}
-          series={this.state.series}
+          // series={this.state.series}
           getVendors={this.getVendors}
           getConditions={this.getConditions}
           getGraders={this.getGraders}
           getPages={this.getPages}
-          getSeries={this.getSeries}
+          // getSeries={this.getSeries}
           conditions={this.state.conditions}
           graders={this.state.graders}
           pages={this.state.pages}
           handleChange={this.handleChange}
-          setActiveSeries={this.setActiveSeries}
+          // setActiveSeries={this.setActiveSeries}
           setActiveVendor={this.setActiveVendor}
           setActiveCondition={this.setActiveCondition}
           setActiveGrader={this.setActiveGrader}
           setActivePage={this.setActivePage}
           setActiveIssue={this.setActiveIssue}
-          setSeries={this.setSeries}
+          // setSeries={this.setSeries}
           updateInventory={this.updateInventory}
           vendors={this.state.vendors}
         />

@@ -1,25 +1,24 @@
-import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
+import React from 'react';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField } from '@material-ui/core';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { setActiveCondition } from '../actions';
 
 export default function SelectCondition(props) {
+  const dispatch = useDispatch();
+  const conditions = useSelector(state => state.addInventory.conditions, shallowEqual);
+  const handleChange = (event, data) => dispatch(setActiveCondition(data));
+
+  https://blog.logrocket.com/patterns-for-data-fetching-in-react-981ced7e5c56/
+
   return (
     <Autocomplete
       id="select-condition"
-      options={props.conditions}
-      getOptionLabel={option =>
-        `${option.numerical.toFixed(1)} ${option.abbreviation} ${option.name}`
-      }
-      onChange={props.setActiveCondition}
+      options={conditions}
+      getOptionLabel={option => `${option.numerical.toFixed(1)} ${option.abbreviation} ${option.name}`}
+      onChange={handleChange}
       style={{ width: 300 }}
-      renderInput={params => (
-        <TextField
-          {...params}
-          label="Select Condition"
-          variant="outlined"
-          fullWidth
-        />
-      )}
+      renderInput={params => <TextField {...params} label="Select Condition" variant="outlined" fullWidth />}
     />
   );
 }
