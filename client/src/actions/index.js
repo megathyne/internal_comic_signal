@@ -15,6 +15,8 @@ import {
   CREATE_INVENTORY_SAGA,
   GET_INVENTORY_SAGA,
   SET_INVENTORY,
+  GET_PENDING_APPROVALS_SAGA,
+  SET_PENDING_APPROVALS,
 } from '../constants';
 import { LOGIN_SAGA, SET_TOKEN } from '../constants';
 
@@ -139,5 +141,18 @@ export function setActiveVendor(activeVendor) {
   return {
     type: SET_ACTIVE_VENDOR,
     activeVendor,
+  };
+}
+
+export function getPendingApprovalsSaga(inventoryId) {
+  return {
+    type: GET_PENDING_APPROVALS_SAGA,
+  };
+}
+
+export function setPendingApprovals(pendingApprovals) {
+  return {
+    type: SET_PENDING_APPROVALS,
+    pendingApprovals,
   };
 }

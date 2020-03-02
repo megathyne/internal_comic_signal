@@ -1,25 +1,34 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { APIPatch } from '../../api/api';
 
-export default function FormDialog(props) {
+export default function UpdateInventory(props) {
   const [open, setOpen] = React.useState(false);
 
   const [state, setState] = React.useState({
     bin: props.data.bin,
     tag: props.data.tag,
     notes: props.data.notes,
-    cost: props.data.cost
+    cost: props.data.cost,
   });
 
   const handleChange = e => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
+  };
+
+  const updateInventory = async item => {
+    try {
+      const results = await APIPatch('inventory/' + item.id, item);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClickOpen = () => {
@@ -28,13 +37,13 @@ export default function FormDialog(props) {
       bin: props.data.bin,
       tag: props.data.tag,
       notes: props.data.notes,
-      cost: props.data.cost
+      cost: props.data.cost,
     });
     setOpen(true);
   };
 
   const handleClose = () => {
-    props.updateInventory({ ...state });
+    updateInventory({ ...state });
     setOpen(false);
   };
 
@@ -43,19 +52,15 @@ export default function FormDialog(props) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Update
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Update</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
           <div
             style={{
-              display: "flex",
-              marginBottom: "20px",
-              justifyContent: "space-around"
+              display: 'flex',
+              marginBottom: '20px',
+              justifyContent: 'space-around',
             }}
           >
             <TextField
@@ -78,9 +83,9 @@ export default function FormDialog(props) {
           </div>
           <div
             style={{
-              display: "flex",
-              marginBottom: "20px",
-              justifyContent: "space-around"
+              display: 'flex',
+              marginBottom: '20px',
+              justifyContent: 'space-around',
             }}
           >
             <TextField
@@ -103,9 +108,9 @@ export default function FormDialog(props) {
           </div>
           <div
             style={{
-              display: "flex",
-              marginBottom: "20px",
-              justifyContent: "space-around"
+              display: 'flex',
+              marginBottom: '20px',
+              justifyContent: 'space-around',
             }}
           >
             <TextField
@@ -128,9 +133,9 @@ export default function FormDialog(props) {
           </div>
           <div
             style={{
-              display: "flex",
-              marginBottom: "20px",
-              justifyContent: "space-around"
+              display: 'flex',
+              marginBottom: '20px',
+              justifyContent: 'space-around',
             }}
           >
             <TextField

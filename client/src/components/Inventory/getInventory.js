@@ -6,9 +6,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import FormDialog from './editInventory';
+import FormDialog from './UpdateInventory';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInventorySaga } from '../actions';
+import { getInventorySaga } from '../../actions';
+import UpdateInventory from './UpdateInventory';
+import PendingApprovals from './PendingApprovals';
 
 export default function GetInventory(props) {
   const dispatch = useDispatch();
@@ -63,7 +65,10 @@ export default function GetInventory(props) {
                 <TableCell align="right">{row.aquired.split('T')[0]}</TableCell>
                 <TableCell align="right">{row.vendor ? row.vendor.name : ''}</TableCell>
                 <TableCell align="right">
-                  <FormDialog updateInventory={props.updateInventory} data={row} />
+                  <UpdateInventory data={row} />
+                </TableCell>
+                <TableCell align="right">
+                  <PendingApprovals data={row} />
                 </TableCell>
               </TableRow>
             ))}

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { setActiveGrader } from '../actions';
-import { APIGet } from '../api/api';
+import { setActiveGrader } from '../../actions';
+import { APIGet } from '../../api/api';
 
 export default function SelectGrader(props) {
   const dispatch = useDispatch();

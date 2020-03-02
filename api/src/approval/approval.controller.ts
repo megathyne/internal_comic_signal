@@ -1,5 +1,5 @@
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
-import { Controller, UseGuards, Logger, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, UseGuards, Logger, Get, Post, Body, Query, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
@@ -23,8 +23,8 @@ export class ApprovalController {
   //   return this.approvalService.getApproval();
   // }
 
-  @Get('pending')
-  getPending(@Query('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
+  @Get('pending/:inventoryId')
+  getPending(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
     let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
 
     this.logger.verbose(`UserId: ${user.id} Requesting pending approvals for InventoryId: ${inventoryId}`);

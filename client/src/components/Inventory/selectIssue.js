@@ -1,12 +1,10 @@
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-
-import { APIGet } from '../api/api';
+import { APIGet } from '../../api/api';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { setActiveIssue } from '../actions';
+import { setActiveIssue } from '../../actions';
 
 export default function SelectIssue(props) {
   const activeSeries = useSelector(state => state.addInventory.activeSeries, shallowEqual);

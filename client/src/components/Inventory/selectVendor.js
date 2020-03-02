@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { setActiveVendor } from '../actions';
-import { APIGet } from '../api/api';
+import { setActiveVendor } from '../../actions';
+import { APIGet } from '../../api/api';
 
 export default function SelectVendor(props) {
   const dispatch = useDispatch();

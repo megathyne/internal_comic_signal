@@ -42,12 +42,14 @@ export class EbayItemRepository extends Repository<EbayItem> {
     if (series && issue) {
       query.where('(LOWER(ebay_item.title) LIKE LOWER(:series))', { series: `%${series}%` });
       query.andWhere('(LOWER(ebay_item.title) LIKE LOWER(:issue))', { issue: `%${issue}%` });
+    }
+
+    if (excludingIds) {
       query.andWhere('ebay_item.id NOT IN (:...excludingIds)', { excludingIds: excludingIds });
     }
 
     try {
       const ebayItems = await query.getMany();
-      this.logger.verbose(ebayItems);
       return ebayItems;
     } catch (error) {
       this.logger.error(`Failed to get ebay items. Filters: ${JSON.stringify(filterDto)}`, error.stack);

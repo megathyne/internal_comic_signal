@@ -37,16 +37,18 @@ export class ApprovalService {
       // Get Issue number
       const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
 
-      console.log('wooo')
       // Get Series name
-      const series = await this.seriesService.getSeriesById(inventory.issue.id);
+      const series = await this.seriesService.getSeriesById(inventory.issue.series.id);
 
       // Get the ids of approvals to filter out
       const currentApprovals = await this.approvalRepository.find({
         where: { userId: user.id, inventoryId: inventoryId },
       });
 
-      const approvalIds = currentApprovals.map(item => item.ebayItemId);
+      let approvalIds = [];
+      if (currentApprovals.length > 0) {
+        approvalIds = currentApprovals.map(item => item.ebayItemId);
+      }
 
       const getEbayItemFilterDto: GetEbayItemFilterDto = {
         series: series.name,

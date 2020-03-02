@@ -1,18 +1,18 @@
 import React from 'react';
 import SelectSeries from './selectSeries';
 import SelectIssue from './selectIssue';
-import Bin from './Add-Inventory/Bin';
+import Bin from './Bin';
 import SelectGrader from './selectGrader';
 import SelectCondition from './selectCondition';
 import SelectVendor from './selectVendor';
 import SelectPage from './selectPages';
-import Tag from './Add-Inventory/Tag';
-import Notes from './Add-Inventory/Notes';
-import Cost from './Add-Inventory/Cost';
-import Aquired from './Add-Inventory/Aquired';
+import Tag from './Tag';
+import Notes from './Notes';
+import Cost from './Cost';
+import Aquired from './Aquired';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { createInventorySaga } from '../actions';
+import { createInventorySaga } from '../../actions';
 
 export default function AddInventory(props) {
   const dispatch = useDispatch();
