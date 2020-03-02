@@ -27,6 +27,8 @@ export class EbayItemService {
     } = rawEbayItem;
 
     try {
+      const finalPrice = parseFloat(sellingStatus[0].currentPrice[0].__value__);
+      const shippingCost = parseFloat(shippingInfo[0].shippingServiceCost[0].__value__);
       const createEbayItemDto: CreateEbayItemDto = {
         itemId: itemId[0],
         title: title[0],
@@ -34,14 +36,14 @@ export class EbayItemService {
         viewItemURL: viewItemURL[0],
         galleryURL: galleryURL[0],
         primaryCategoryId: primaryCategory[0].categoryId[0],
-        finalPrice: parseFloat(sellingStatus[0].currentPrice[0].__value__),
+        finalPrice,
         location: location[0],
         country: country[0],
-        shippingCost: parseFloat(shippingInfo[0].shippingServiceCost[0].__value__),
+        shippingCost,
         listingType: listingInfo[0].listingType[0],
         bestOfferEnabled: Boolean(listingInfo[0].bestOfferEnabled[0]),
+        totalCost: finalPrice + shippingCost,
       };
-
       return createEbayItemDto;
     } catch (error) {
       this.logger.error(`Error converting raw ebay item for database use: ${error}, Raw ebay item: ${rawEbayItem}`);

@@ -22,6 +22,7 @@ export class EbayItemRepository extends Repository<EbayItem> {
     ebayItem.shippingCost = createEbayItemDto.shippingCost;
     ebayItem.listingType = createEbayItemDto.listingType;
     ebayItem.bestOfferEnabled = createEbayItemDto.bestOfferEnabled;
+    ebayItem.totalCost = ebayItem.totalCost;
 
     try {
       await ebayItem.save();

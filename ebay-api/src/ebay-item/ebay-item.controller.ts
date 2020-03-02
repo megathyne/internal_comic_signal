@@ -2,6 +2,7 @@ import { Controller, Logger, Get, UseInterceptors, ClassSerializerInterceptor, Q
 import { ApiQuery } from '@nestjs/swagger';
 import { GetEbayItemFilterDto } from './dto/get-ebay-item-filter.dto';
 import { EbayItemService } from './ebay-item.service';
+import { EbayItem } from './ebay-item.entity';
 
 @Controller('ebay-item')
 export class EbayItemController {
@@ -13,7 +14,7 @@ export class EbayItemController {
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiQuery({ name: 'series', type: String, required: false })
   @ApiQuery({ name: 'issue', type: String, required: false })
-  get(@Query() filterDto: GetEbayItemFilterDto) {
+  get(@Query() filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
     this.logger.log(`Retrieving ebay items. Filters: ${JSON.stringify(filterDto)}`);
     return this.ebayItemService.getEbayItems(filterDto);
   }

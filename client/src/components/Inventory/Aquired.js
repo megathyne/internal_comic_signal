@@ -7,5 +7,5 @@ import { setAquired } from '../../actions';
 export default function Aquired(props) {
   const dispatch = useDispatch();
   const handleChange = event => dispatch(setAquired(event.target.value));
-  return <TextField id="outlined-aquired" label="aquired" variant="outlined" onChange={handleChange} />;
+  return <TextField id="outlined-aquired" label="acquired" variant="outlined" onChange={handleChange} />;
 }

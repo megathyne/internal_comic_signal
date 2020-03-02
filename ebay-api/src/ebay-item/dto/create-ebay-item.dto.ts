@@ -19,6 +19,8 @@ export class CreateEbayItemDto {
 
   shippingCost: number;
 
+  totalCost: number;
+
   listingType: string;
 
   bestOfferEnabled: boolean;

@@ -8,4 +8,6 @@ export class GetEbayItemResponseDto {
   finalPrice: number;
 
   shippingCost: number;
+
+  totalCost: number;
 }

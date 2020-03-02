@@ -34,6 +34,7 @@ export default function PendingApprovalItem(props) {
             <p>Listing Type: {props.data.listingType}</p>
             <p>Price: {props.data.finalPrice}</p>
             <p>Shipping: {props.data.shippingCost}</p>
+            <p>Total Cost: {props.data.totalCost}</p>
           </Typography>
         </CardContent>
       </CardActionArea>
