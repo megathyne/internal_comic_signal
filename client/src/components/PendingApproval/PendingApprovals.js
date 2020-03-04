@@ -44,7 +44,7 @@ export default function PendingApprovals(props) {
         <DialogContent>
           <DialogContentText></DialogContentText>
           {data.pendingApprovals.map((item, i) => (
-            <PendingApprovalItem key={i} data={item} />
+            <PendingApprovalItem key={i} data={{ ...item, inventoryId: props.data.id }} />
           ))}
         </DialogContent>
         <DialogActions>
