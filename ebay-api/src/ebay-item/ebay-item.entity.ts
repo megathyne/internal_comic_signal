@@ -45,9 +45,9 @@ export class EbayItem extends BaseEntity {
   @Column({ type: 'money' })
   shippingCost: number;
 
-  @Column({type: 'money'})
+  @Column({ type: 'money', nullable: true })
   totalCost: number;
-  
+
   @Column({ nullable: true })
   listingType: string;
 

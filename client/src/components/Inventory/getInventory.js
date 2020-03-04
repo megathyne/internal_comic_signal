@@ -10,7 +10,7 @@ import FormDialog from './UpdateInventory';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInventorySaga } from '../../actions';
 import UpdateInventory from './UpdateInventory';
-import PendingApprovals from './PendingApprovals';
+import PendingApprovals from '../PendingApproval/PendingApprovals';
 
 export default function GetInventory(props) {
   const dispatch = useDispatch();

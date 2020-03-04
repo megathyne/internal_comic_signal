@@ -29,9 +29,9 @@ export default function PendingApprovals(props) {
     setOpen(false);
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = async () => {
+    await fetchPendingApprovals();
     setOpen(true);
-    fetchPendingApprovals();
   };
 
   return (
@@ -43,14 +43,7 @@ export default function PendingApprovals(props) {
         <DialogTitle id="form-dialog-title">Transactions to approve</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
-
           {data.pendingApprovals.map((item, i) => (
-            // <Fragment key={item.id}>
-            //   <p>{item.title}</p>
-            //   <p>Price: {item.finalPrice}</p>
-            //   <p>Shipping: {item.shippingCost}</p>
-            //   <hr></hr>
-            // </Fragment>
             <PendingApprovalItem key={i} data={item} />
           ))}
         </DialogContent>
