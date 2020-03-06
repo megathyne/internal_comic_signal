@@ -37,7 +37,7 @@ export class CreateInventoryDto {
 
   @ApiModelProperty({ type: 'string', format: 'date' })
   @IsNotEmpty()
-  readonly aquired: Date;
+  readonly acquired: Date;
 
   @ApiModelPropertyOptional({ example: 'my note' })
   @IsNotEmpty()

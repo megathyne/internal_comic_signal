@@ -68,7 +68,7 @@ export class Inventory extends BaseEntity {
   value: number;
 
   @Column({ type: 'date' })
-  aquired: Date;
+  acquired: Date;
 
   @Column({ default: '' })
   notes: string;

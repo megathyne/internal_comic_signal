@@ -1,7 +1,6 @@
 import React from 'react';
-import AddInventory from '../../components/Inventory/addInventory';
-import GetInventory from '../../components/Inventory/getInventory';
-import { APIGet, APIPatch, APIPost } from '../../api/api';
+import AddInventory from '../../components/Inventory/AddInventory';
+import GetInventory from '../../components/Inventory/GetInventory';
 
 class Inventory extends React.Component {
   render() {

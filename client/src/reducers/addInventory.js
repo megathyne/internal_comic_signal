@@ -14,8 +14,12 @@ import {
 } from '../constants';
 
 const initialState = {
-  activeSeries: {},
-  activeIssue: {},
+  activeSeries: null,
+  activeIssue: null,
+  bin: '',
+  tag: '',
+  cost: '',
+  notes: '',
   inventory: [],
 };
 
@@ -55,7 +59,7 @@ export default function createState(state = initialState, action) {
     case SET_AQUIRED:
       return {
         ...state,
-        aquired: action.aquired,
+        acquired: action.acquired,
       };
     case SET_ACTIVE_CONDITION:
       return {

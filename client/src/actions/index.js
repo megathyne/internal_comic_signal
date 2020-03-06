@@ -109,10 +109,10 @@ export function setCost(cost) {
   };
 }
 
-export function setAquired(aquired) {
+export function setAquired(acquired) {
   return {
     type: SET_AQUIRED,
-    aquired,
+    acquired,
   };
 }
 

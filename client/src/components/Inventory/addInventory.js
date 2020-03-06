@@ -1,66 +1,46 @@
-import React from 'react';
-import SelectSeries from './selectSeries';
-import SelectIssue from './selectIssue';
-import Bin from './Bin';
-import SelectGrader from './selectGrader';
-import SelectCondition from './selectCondition';
-import SelectVendor from './selectVendor';
-import SelectPage from './selectPages';
-import Tag from './Tag';
-import Notes from './Notes';
-import Cost from './Cost';
-import Aquired from './Aquired';
-import Button from '@material-ui/core/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { createInventorySaga } from '../../actions';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Stepper from "./Stepper";
 
-export default function AddInventory(props) {
-  const dispatch = useDispatch();
-  const handleClick = () => dispatch(createInventorySaga());
+export default function AddInventory() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <div style={{ marginBottom: '20px' }}>
-      <div
-        style={{
-          display: 'flex',
-          marginBottom: '20px',
-          justifyContent: 'space-around',
-        }}
+    <div style={{ marginTop: "30px" }}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Add Comic to Inventory
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
       >
-        <SelectSeries />
-        <SelectIssue />
-      </div>
-
-      <div
-        style={{
-          display: 'flex',
-          marginBottom: '20px',
-          justifyContent: 'space-around',
-        }}
-      >
-        <Bin />
-        <Tag />
-        <Notes />
-        <Cost />
-        <Aquired />
-      </div>
-
-      <div
-        style={{
-          display: 'flex',
-          marginBottom: '20px',
-          justifyContent: 'space-around',
-        }}
-      >
-        <SelectCondition />
-        <SelectGrader />
-        <SelectPage />
-        <SelectVendor />
-
-        <Button style={{ width: '300px' }} variant="contained" color="primary" onClick={handleClick}>
-          Submit
-        </Button>
-      </div>
+        <DialogTitle id="form-dialog-title">Add Comic</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Add all the relevant info so we can get prices for it!
+          </DialogContentText>
+          <Stepper />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
