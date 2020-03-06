@@ -44,7 +44,7 @@ export class InventoryService {
     inventory.bin = updateInventoryDto.bin;
     inventory.tag = updateInventoryDto.tag;
     inventory.cost = updateInventoryDto.cost;
-    inventory.aquired = updateInventoryDto.aquired;
+    inventory.acquired = updateInventoryDto.acquired;
     inventory.notes = updateInventoryDto.notes;
     await inventory.save();
     return inventory;

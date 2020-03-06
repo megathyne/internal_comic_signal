@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveGrader } from '../../actions';
 import { APIGet } from '../../api/api';
 
 export default function SelectGrader(props) {
   const dispatch = useDispatch();
+  const activeGrader = useSelector(state => state.addInventory.activeGrader);
   const handleChange = (event, data) => dispatch(setActiveGrader(data));
   const [data, setData] = useState({ graders: [], isFetching: false });
 
@@ -30,6 +31,7 @@ export default function SelectGrader(props) {
       options={data.graders}
       getOptionLabel={option => `${option.name}`}
       onChange={handleChange}
+      value={activeGrader}
       style={{ width: 200 }}
       renderInput={params => <TextField {...params} label="Select Grader" variant="outlined" fullWidth />}
     />

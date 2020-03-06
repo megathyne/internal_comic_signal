@@ -60,7 +60,7 @@ export class InventoryRepository extends Repository<Inventory> {
   }
 
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
-    const { bin, issueId, tag, cost, aquired, notes, vendorId, conditionId, graderId, pageId } = createInventoryDto;
+    const { bin, issueId, tag, cost, acquired, notes, vendorId, conditionId, graderId, pageId } = createInventoryDto;
 
     const issue = await Issue.findOne(issueId);
     if (!issue) {
@@ -87,7 +87,7 @@ export class InventoryRepository extends Repository<Inventory> {
     inventory.page = page;
     inventory.vendor = vendor;
     inventory.cost = cost;
-    inventory.aquired = aquired;
+    inventory.acquired = acquired;
     inventory.user = user;
     inventory.notes = notes;
 

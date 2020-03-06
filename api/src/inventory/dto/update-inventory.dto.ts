@@ -11,7 +11,7 @@ export class UpdateInventoryDto {
   readonly cost: number;
 
   @ApiModelPropertyOptional({ type: 'string', format: 'date' })
-  readonly aquired: Date;
+  readonly acquired: Date;
 
   @ApiModelPropertyOptional()
   readonly notes: string;

@@ -10,7 +10,7 @@ const getBin = state => state.addInventory.bin;
 const getTag = state => state.addInventory.tag;
 const getNotes = state => state.addInventory.notes;
 const getCost = state => state.addInventory.cost;
-const getAquired = state => state.addInventory.aquired;
+const getAquired = state => state.addInventory.acquired;
 const getActiveConditionId = state => state.addInventory.activeCondition.id;
 const getActivePageId = state => state.addInventory.activePage.id;
 const getActiveGraderId = state => state.addInventory.activeGrader.id;
@@ -22,7 +22,7 @@ function* workerCreateInventorySaga() {
     tag: yield select(getTag),
     notes: yield select(getNotes),
     cost: yield select(getCost),
-    aquired: yield select(getAquired),
+    acquired: yield select(getAquired),
     issueId: yield select(getActiveIssueId),
     conditionId: yield select(getActiveConditionId),
     graderId: yield select(getActiveGraderId),
