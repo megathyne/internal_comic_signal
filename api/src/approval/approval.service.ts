@@ -42,7 +42,8 @@ export class ApprovalService {
 
       // Get the ids of approvals to filter out
       const currentApprovals = await this.approvalRepository.find({
-        where: { userId: user.id, inventoryId: inventoryId },
+        select: ["ebayItemId"],
+        where: { userId: user.id, inventory: inventoryId },
       });
 
       let approvalIds = [];

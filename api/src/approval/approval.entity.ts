@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   ManyToOne,
   Unique,
+  JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
@@ -19,9 +20,11 @@ export class Approval extends BaseEntity {
   id: number;
 
   @ManyToOne(type => User, { eager: false })
+  @JoinColumn()
   user: User;
 
   @ManyToOne(type => Inventory, { eager: false })
+  @JoinColumn()
   inventory: Inventory;
 
   @Column()

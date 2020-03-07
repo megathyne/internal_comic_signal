@@ -14,7 +14,7 @@ export class ApprovalRepository extends Repository<Approval> {
       const { inventoryId, ebayItemId, isApproved } = createApprovalDto;
 
       const inventory = await Inventory.findOne(inventoryId);
-
+      console.log(inventory)
       const approval = this.create();
       approval.user = user;
       approval.inventory = inventory;
