@@ -28,7 +28,7 @@ export class FindingService {
       const response = await this.httpService.get(url, { params }).toPromise();
       return response.data;
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error(`Error making api request to ebay. Params: ${params}`, error);
     }
   }
 
@@ -45,7 +45,7 @@ export class FindingService {
 
       // Get the data from the remaining pages
       if (totalPages > 1) {
-        for (let i = 2; i <= 10; i++) {
+        for (let i = 2; i <= 20; i++) {
           // artificial limit to prevent being blocked by ebay api
           const results = await this.apiRequest(i);
           items = items.concat(results.findCompletedItemsResponse[0].searchResult[0].item);
@@ -58,7 +58,7 @@ export class FindingService {
         await this.ebayItemService.createEbayItem(items[i]);
       }
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error('Error in getCompletedItem: ', error);
     }
   }
 }

@@ -17,17 +17,19 @@ export class ApprovalController {
 
   constructor(private readonly approvalService: ApprovalService) {}
 
-  // @Get()
-  // get(@GetUser() user: User): Promise<Approval[]> {
-  //   this.logger.verbose(`User "${user.username}" retrieving all ebay data matching inventory`);
-  //   return this.approvalService.getApproval();
+  // @Get(':inventoryId')
+  // get(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
+  //   let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
+
+  //   this.logger.verbose(`User "${user.username}" Requesting completed approvals for InventoryId: ${inventoryId}`);
+  //   return this.approvalService.getCompleted(parsedInventoryId, user);
   // }
 
   @Get('pending/:inventoryId')
   getPending(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
     let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
 
-    this.logger.verbose(`UserId: ${user.id} Requesting pending approvals for InventoryId: ${inventoryId}`);
+    this.logger.verbose(`User "${user.username}" Requesting pending approvals for InventoryId: ${inventoryId}`);
     return this.approvalService.getPending(parsedInventoryId, user);
   }
 

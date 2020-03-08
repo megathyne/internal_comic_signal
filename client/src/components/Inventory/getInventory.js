@@ -9,7 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInventorySaga } from '../../actions';
 import UpdateInventory from './UpdateInventory';
-import PendingApprovals from '../PendingApproval/PendingApprovals';
+import PendingApprovals from '../Approval/PendingApprovals';
+import CompletedApprovals from '../Approval/CompletedApprovals';
 
 export default function GetInventory(props) {
   const dispatch = useDispatch();
@@ -68,6 +69,9 @@ export default function GetInventory(props) {
                 </TableCell>
                 <TableCell align="right">
                   <PendingApprovals data={row} />
+                </TableCell>
+                <TableCell align="right">
+                  <CompletedApprovals data={row} />
                 </TableCell>
               </TableRow>
             ))}
