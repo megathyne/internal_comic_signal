@@ -24,8 +24,6 @@ const useStyles = makeStyles({
 });
 
 export default function PendingApprovalItem(props) {
-  console.log(props.data);
-
   const approveTransaction = async () => {
     await APIPost('approval', {
       inventoryId: props.data.inventoryId,

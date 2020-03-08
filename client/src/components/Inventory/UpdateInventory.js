@@ -25,7 +25,7 @@ export default function UpdateInventory(props) {
 
   const updateInventory = async item => {
     try {
-      const results = await APIPatch('inventory/' + item.id, item);
+      await APIPatch('inventory/' + item.id, item);
     } catch (error) {
       console.log(error);
     }

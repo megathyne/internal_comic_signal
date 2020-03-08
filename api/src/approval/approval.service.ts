@@ -23,9 +23,17 @@ export class ApprovalService {
     private issueService: IssueService,
   ) {}
 
-  // async getApproval(): Promise<Approval[]> {
-  //   const u = User;
-  //   return await this.approvalRepository.
+  // async getCompleted(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
+  //   // Get the ids of approvals to return
+  //   const completedApprovals = await this.approvalRepository.find({
+  //     select: ['ebayItemId'],
+  //     where: { userId: user.id, inventory: inventoryId },
+  //   });
+
+  //   let ebayIds = [];
+  //   if (completedApprovals.length > 0) {
+  //     ebayIds = completedApprovals.map(item => item.ebayItemId);
+  //   }
   // }
 
   async createApproval(createApprovalDto: CreateApprovalDto, user: User): Promise<Approval> {
@@ -42,18 +50,19 @@ export class ApprovalService {
 
       // Get the ids of approvals to filter out
       const currentApprovals = await this.approvalRepository.find({
-        where: { userId: user.id, inventoryId: inventoryId },
+        select: ['ebayItemId'],
+        where: { userId: user.id, inventory: inventoryId },
       });
 
-      let approvalIds = [];
+      let ebayIds = [];
       if (currentApprovals.length > 0) {
-        approvalIds = currentApprovals.map(item => item.ebayItemId);
+        ebayIds = currentApprovals.map(item => item.ebayItemId);
       }
 
       const getEbayItemFilterDto: GetEbayItemFilterDto = {
         series: series.name,
         issue: inventory.issue.issueNumber,
-        excludingIds: approvalIds,
+        excludingIds: ebayIds,
       };
 
       const results = await this.ebayApiService.get(getEbayItemFilterDto, user);

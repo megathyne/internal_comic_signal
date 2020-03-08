@@ -14,6 +14,7 @@ export default function SelectSeries(props) {
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
 
+  const activeSeries = useSelector(state => state.addInventory.activeSeries, shallowEqual);
   const handleChange = (event, data) => dispatch(setActiveSeries(data));
 
   React.useEffect(() => {
@@ -57,6 +58,7 @@ export default function SelectSeries(props) {
       options={options}
       loading={loading}
       onChange={handleChange}
+      value={activeSeries}
       renderInput={params => {
         return (
           <TextField

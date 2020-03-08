@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -6,11 +6,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import FormDialog from './UpdateInventory';
 import { useDispatch, useSelector } from 'react-redux';
 import { getInventorySaga } from '../../actions';
 import UpdateInventory from './UpdateInventory';
-import PendingApprovals from '../PendingApproval/PendingApprovals';
+import PendingApprovals from '../Approval/PendingApprovals';
+import CompletedApprovals from '../Approval/CompletedApprovals';
 
 export default function GetInventory(props) {
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ export default function GetInventory(props) {
               <TableCell align="right">Condition</TableCell>
               <TableCell align="right">Grader</TableCell>
               <TableCell align="right">pages</TableCell>
-              <TableCell align="right">Aquired</TableCell>
+              <TableCell align="right">Acquired</TableCell>
               <TableCell align="right">Vendor</TableCell>
             </TableRow>
           </TableHead>
@@ -62,13 +62,16 @@ export default function GetInventory(props) {
                 <TableCell align="right">{row.condition.abbreviation}</TableCell>
                 <TableCell align="right">{row.grader.name}</TableCell>
                 <TableCell align="right">{row.page.name}</TableCell>
-                <TableCell align="right">{row.aquired.split('T')[0]}</TableCell>
+                <TableCell align="right">{row.acquired.split('T')[0]}</TableCell>
                 <TableCell align="right">{row.vendor ? row.vendor.name : ''}</TableCell>
                 <TableCell align="right">
                   <UpdateInventory data={row} />
                 </TableCell>
                 <TableCell align="right">
                   <PendingApprovals data={row} />
+                </TableCell>
+                <TableCell align="right">
+                  <CompletedApprovals data={row} />
                 </TableCell>
               </TableRow>
             ))}

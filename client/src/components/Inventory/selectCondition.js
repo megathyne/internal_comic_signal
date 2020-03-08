@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveCondition } from '../../actions';
 import { APIGet } from '../../api/api';
 
 export default function SelectCondition(props) {
   const dispatch = useDispatch();
+  const activeCondition = useSelector(state => state.addInventory.activeCondition);
   const handleChange = (event, data) => dispatch(setActiveCondition(data));
   const [data, setData] = useState({ conditions: [], isFetching: false });
 
@@ -30,6 +31,7 @@ export default function SelectCondition(props) {
       options={data.conditions}
       getOptionLabel={option => `${option.numerical.toFixed(1)} ${option.abbreviation} ${option.name}`}
       onChange={handleChange}
+      value={activeCondition}
       style={{ width: 300 }}
       renderInput={params => <TextField {...params} label="Select Condition" variant="outlined" fullWidth />}
     />

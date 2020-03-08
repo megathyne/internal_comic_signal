@@ -27,14 +27,24 @@ export class EbayItemService {
     } = rawEbayItem;
 
     try {
-      const finalPrice = parseFloat(sellingStatus[0].currentPrice[0].__value__);
-      const shippingCost = parseFloat(shippingInfo[0].shippingServiceCost[0].__value__);
+      let finalPrice = 0; // International sellers sometimes sell on US ebay. Need to check converted price first
+      if (sellingStatus[0].convertedCurrentPrice) {
+        finalPrice = parseFloat(sellingStatus[0].convertedCurrentPrice[0].__value__);
+      } else {
+        finalPrice = parseFloat(sellingStatus[0].currentPrice[0].__value__);
+      }
+
+      let shippingCost = 0; // Sometimes international auctions dont have a calculated price
+      if (shippingInfo[0].shippingServiceCost) {
+        shippingCost = parseFloat(shippingInfo[0].shippingServiceCost[0].__value__);
+      }
+
       const createEbayItemDto: CreateEbayItemDto = {
         itemId: itemId[0],
         title: title[0],
         globalId: globalId[0],
         viewItemURL: viewItemURL[0],
-        galleryURL: galleryURL[0],
+        galleryURL: galleryURL ? galleryURL[0] : '',
         primaryCategoryId: primaryCategory[0].categoryId[0],
         finalPrice,
         location: location[0],
@@ -46,7 +56,9 @@ export class EbayItemService {
       };
       return createEbayItemDto;
     } catch (error) {
-      this.logger.error(`Error converting raw ebay item for database use: ${error}, Raw ebay item: ${rawEbayItem}`);
+      this.logger.error(
+        `Error converting raw ebay item for database use: ${error}, Raw ebay item: ${JSON.stringify(rawEbayItem)}`,
+      );
     }
   }
 

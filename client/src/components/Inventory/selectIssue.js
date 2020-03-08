@@ -8,6 +8,7 @@ import { setActiveIssue } from '../../actions';
 
 export default function SelectIssue(props) {
   const activeSeries = useSelector(state => state.addInventory.activeSeries, shallowEqual);
+  const activeissue = useSelector(state => state.addInventory.activeIssue);
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
@@ -56,6 +57,7 @@ export default function SelectIssue(props) {
       getOptionLabel={option => `${option.issueNumber} ${option.memo}`}
       options={options}
       loading={loading}
+      value={activeissue}
       onChange={handleChange}
       renderInput={params => (
         <TextField
