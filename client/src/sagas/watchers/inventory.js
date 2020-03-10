@@ -1,10 +1,8 @@
 import { takeLatest, select, call, put } from 'redux-saga/effects';
-
 import { CREATE_INVENTORY_SAGA, GET_INVENTORY_SAGA } from '../../constants';
 import { APIPost, APIGet } from '../../api/api';
 import { setInventory } from '../../actions';
 
-const getActiveSeries = state => state.addInventory.activeSeries;
 const getActiveIssueId = state => state.addInventory.activeIssue.id;
 const getBin = state => state.addInventory.bin;
 const getTag = state => state.addInventory.tag;
@@ -29,7 +27,7 @@ function* workerCreateInventorySaga() {
     pageId: yield select(getActivePageId),
     vendorId: yield select(getActiveVendorId),
   };
-  const response = yield call(APIPost, 'inventory', createInventoryDto);
+  yield call(APIPost, 'inventory', createInventoryDto);
   const inventory = yield call(APIGet, 'inventory');
   yield put(setInventory(inventory));
 }

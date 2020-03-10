@@ -5,15 +5,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getPendingApprovalsSaga } from '../../actions';
-import { useDispatch } from 'react-redux';
 import { APIGet } from '../../api/api';
 import PendingApprovalItem from './PendingApprovalItem';
 
 export default function PendingApprovals(props) {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState({ pendingApprovals: [], isFetching: false });
-  const dispatch = useDispatch();
 
   const fetchPendingApprovals = async () => {
     try {

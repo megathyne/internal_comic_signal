@@ -11,19 +11,18 @@ export default function SelectPage(props) {
   const handleChange = (event, data) => dispatch(setActivePage(data));
   const [data, setData] = useState({ pages: [], isFetching: false });
 
-  const fetchGraders = async () => {
-    try {
-      setData({ pages: data.pages, isFetching: true });
-      const response = await APIGet('page');
-      setData({ pages: response, isFetching: false });
-    } catch (e) {
-      console.log(e);
-      setData({ pages: data.pages, isFetching: false });
-    }
-  };
-
   useEffect(() => {
-    fetchGraders();
+    const fetchPages = async () => {
+      try {
+        // setData({ pages: data.pages, isFetching: true });
+        const response = await APIGet('page');
+        setData({ pages: response, isFetching: false });
+      } catch (e) {
+        console.log(e);
+        // setData({ pages: data.pages, isFetching: false });
+      }
+    };
+    fetchPages();
   }, []);
 
   return (

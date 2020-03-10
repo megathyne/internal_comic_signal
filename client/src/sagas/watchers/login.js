@@ -10,7 +10,7 @@ function* setAuthToken(token) {
 
 function* workerLoginSaga(action) {
   const token = yield call(APIPost, 'auth/signin', action.user);
-  if (token.statusCode != 400) {
+  if (token.statusCode !== 400) {
     yield call(setAuthToken, token);
     yield put(saveToken(token));
     yield put(push('/'));
