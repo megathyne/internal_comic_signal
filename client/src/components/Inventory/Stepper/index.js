@@ -124,7 +124,6 @@ export default function HorizontalLinearStepper() {
     dispatch({
       type: 'reset',
     });
-    console.log(stepReducer);
     setActiveStep(0);
   };
 

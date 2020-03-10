@@ -11,17 +11,18 @@ export default function SelectGrader(props) {
   const handleChange = (event, data) => dispatch(setActiveGrader(data));
   const [data, setData] = useState({ graders: [], isFetching: false });
 
+  const fetchGraders = async () => {
+    try {
+      setData({ graders: data.graders, isFetching: true });
+      const response = await APIGet('grader');
+      setData({ graders: response, isFetching: false });
+    } catch (e) {
+      console.log(e);
+      setData({ graders: data.graders, isFetching: false });
+    }
+  };
+
   useEffect(() => {
-    const fetchGraders = async () => {
-      try {
-        setData({ graders: data.graders, isFetching: true });
-        const response = await APIGet('grader');
-        setData({ graders: response, isFetching: false });
-      } catch (e) {
-        console.log(e);
-        setData({ graders: data.graders, isFetching: false });
-      }
-    };
     fetchGraders();
   }, []);
 

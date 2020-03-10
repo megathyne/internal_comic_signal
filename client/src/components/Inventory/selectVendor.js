@@ -11,17 +11,18 @@ export default function SelectVendor(props) {
   const handleChange = (event, data) => dispatch(setActiveVendor(data));
   const [data, setData] = useState({ graders: [], isFetching: false });
 
+  const fetchVendors = async () => {
+    try {
+      setData({ vendors: data.vendors, isFetching: true });
+      const response = await APIGet('vendor');
+      setData({ vendors: response, isFetching: false });
+    } catch (e) {
+      console.log(e);
+      setData({ vendors: data.vendors, isFetching: false });
+    }
+  };
+
   useEffect(() => {
-    const fetchVendors = async () => {
-      try {
-        setData({ vendors: data.vendors, isFetching: true });
-        const response = await APIGet('vendor');
-        setData({ vendors: response, isFetching: false });
-      } catch (e) {
-        console.log(e);
-        setData({ vendors: data.vendors, isFetching: false });
-      }
-    };
     fetchVendors();
   }, []);
 

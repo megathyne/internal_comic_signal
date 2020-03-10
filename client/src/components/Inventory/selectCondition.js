@@ -11,17 +11,18 @@ export default function SelectCondition(props) {
   const handleChange = (event, data) => dispatch(setActiveCondition(data));
   const [data, setData] = useState({ conditions: [], isFetching: false });
 
+  const fetchConditions = async () => {
+    try {
+      setData({ conditions: data.conditions, isFetching: true });
+      const response = await APIGet('condition');
+      setData({ conditions: response, isFetching: false });
+    } catch (e) {
+      console.log(e);
+      setData({ conditions: data.conditions, isFetching: false });
+    }
+  };
+
   useEffect(() => {
-    const fetchConditions = async () => {
-      try {
-        setData({ conditions: data.conditions, isFetching: true });
-        const response = await APIGet('condition');
-        setData({ conditions: response, isFetching: false });
-      } catch (e) {
-        console.log(e);
-        setData({ conditions: data.conditions, isFetching: false });
-      }
-    };
     fetchConditions();
   }, []);
 

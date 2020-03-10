@@ -1,18 +1,18 @@
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = 'http://localhost:3000/';
 
 export async function APIGet(endpoint) {
   try {
     const response = await fetch(BASE_URL + endpoint, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-      }
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
     });
     const results = await response.json();
 
     if (results.statusCode === 401) {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem('accessToken');
     } else {
       return results;
     }
@@ -24,17 +24,17 @@ export async function APIGet(endpoint) {
 export async function APIPost(endpoint, data) {
   try {
     const response = await fetch(BASE_URL + endpoint, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     const results = await response.json();
 
     if (results.statusCode === 401) {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem('accessToken');
     } else {
       return results;
     }
@@ -46,16 +46,16 @@ export async function APIPost(endpoint, data) {
 export async function APIPatch(endpoint, data) {
   try {
     const response = await fetch(BASE_URL + endpoint, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     const results = await response.json();
     if (results.statusCode === 401) {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem('accessToken');
     } else {
       return results;
     }

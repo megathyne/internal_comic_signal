@@ -16,8 +16,8 @@ export default class App extends React.Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/" component={Auth(Inventory)} />
+              <Route path="/login" component={Login} />
+              <Auth path="/" component={Inventory} />
             </Switch>
           </ConnectedRouter>
         </Provider>

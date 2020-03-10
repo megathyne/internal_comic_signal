@@ -27,7 +27,6 @@ function* workerCreateInventorySaga() {
     conditionId: yield select(getActiveConditionId),
     graderId: yield select(getActiveGraderId),
     pageId: yield select(getActivePageId),
-    graderId: yield select(getActiveGraderId),
     vendorId: yield select(getActiveVendorId),
   };
   const response = yield call(APIPost, 'inventory', createInventoryDto);

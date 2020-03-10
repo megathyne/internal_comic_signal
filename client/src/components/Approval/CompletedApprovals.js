@@ -15,7 +15,7 @@ export default function CompletedApprovals(props) {
   const fetchCompletedApprovals = async () => {
     try {
       setData({ completedApprovals: data.completedApprovals, isFetching: true });
-      const response = await APIGet(`approval`);
+      const response = await APIGet(`approval/${props.data.id}`);
       setData({ completedApprovals: response, isFetching: false });
     } catch (e) {
       console.log(e);
@@ -40,9 +40,9 @@ export default function CompletedApprovals(props) {
         <DialogTitle id="form-dialog-title">Transactions that have been processed</DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
-          {/* {data.completedApprovals.map((item, i) => (
-              <CompletedApprovalItem key={i} data={{ ...item, inventoryId: props.data.id }} />
-            ))} */}
+          {data.completedApprovals.map((item, i) => (
+            <CompletedApprovalItem key={i} data={{ ...item, inventoryId: props.data.id }} />
+          ))}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

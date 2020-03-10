@@ -18,14 +18,15 @@ export default function GetInventory(props) {
     inventory: state.addInventory.inventory,
   }));
 
+  const fetchGraders = async () => {
+    try {
+      dispatch(getInventorySaga());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    const fetchGraders = async () => {
-      try {
-        dispatch(getInventorySaga());
-      } catch (e) {
-        console.log(e);
-      }
-    };
     fetchGraders();
   }, []);
 
