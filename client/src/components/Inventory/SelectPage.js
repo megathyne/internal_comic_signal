@@ -24,6 +24,7 @@ export default function SelectPage(props) {
     };
     fetchGraders();
   }, []);
+  
   return (
     <Autocomplete
       id="select-page"

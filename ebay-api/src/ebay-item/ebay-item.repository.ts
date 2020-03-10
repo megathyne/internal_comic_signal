@@ -56,4 +56,13 @@ export class EbayItemRepository extends Repository<EbayItem> {
       throw new InternalServerErrorException();
     }
   }
+
+  async getByIds(ids: string[]): Promise<EbayItem[]> {
+    try {
+      return await this.findByIds(ids)
+    } catch (error) {
+      this.logger.error(`Failed to get ebay items by ids. Ids: ${JSON.stringify(ids)}`, error.stack);
+      throw new InternalServerErrorException();
+    }
+  }
 }

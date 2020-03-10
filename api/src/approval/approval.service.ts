@@ -21,20 +21,27 @@ export class ApprovalService {
     private inventoryService: InventoryService,
     private seriesService: SeriesService,
     private issueService: IssueService,
-  ) {}
+  ) { }
 
-  // async getCompleted(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
-  //   // Get the ids of approvals to return
-  //   const completedApprovals = await this.approvalRepository.find({
-  //     select: ['ebayItemId'],
-  //     where: { userId: user.id, inventory: inventoryId },
-  //   });
+  async getCompleted(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
+    try {
+      // Get the ids of approvals to return
+      const completedApprovals = await this.approvalRepository.find({
+        select: ['ebayItemId'],
+        where: { userId: user.id, inventory: inventoryId },
+      });
 
-  //   let ebayIds = [];
-  //   if (completedApprovals.length > 0) {
-  //     ebayIds = completedApprovals.map(item => item.ebayItemId);
-  //   }
-  // }
+      let ebayIds = [];
+      if (completedApprovals.length > 0) {
+        ebayIds = completedApprovals.map(item => item.ebayItemId);
+      }
+
+      const results = await this.ebayApiService.getByIds(ebayIds, user)
+      return results;
+    } catch (error) {
+      this.logger.error(error)
+    }
+  }
 
   async createApproval(createApprovalDto: CreateApprovalDto, user: User): Promise<Approval> {
     return this.approvalRepository.createApproval(createApprovalDto, user);

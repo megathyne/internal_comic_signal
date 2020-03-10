@@ -8,7 +8,7 @@ import { EbayItem } from './ebay-item.entity';
 export class EbayItemController {
   private logger = new Logger('EbayItemController');
 
-  constructor(private readonly ebayItemService: EbayItemService) {}
+  constructor(private readonly ebayItemService: EbayItemService) { }
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
@@ -17,5 +17,12 @@ export class EbayItemController {
   get(@Query() filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
     this.logger.log(`Retrieving ebay items. Filters: ${JSON.stringify(filterDto)}`);
     return this.ebayItemService.getEbayItems(filterDto);
+  }
+
+  @Get('ids')
+  @UseInterceptors(ClassSerializerInterceptor)
+  getByIds(@Query() ebayItemIds: string[]): Promise<EbayItem[]> {
+    this.logger.log(`Retrieving ebay items by ebayItemIds: ${ebayItemIds}`)
+    return this.ebayItemService.getByIds(ebayItemIds)
   }
 }
