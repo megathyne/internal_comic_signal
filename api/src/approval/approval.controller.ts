@@ -15,15 +15,15 @@ import { GetEbayItemResponseDto } from 'src/ebay-api/dto/get-ebay-item-response.
 export class ApprovalController {
   private logger = new Logger('ApprovalController');
 
-  constructor(private readonly approvalService: ApprovalService) {}
+  constructor(private readonly approvalService: ApprovalService) { }
 
-  // @Get(':inventoryId')
-  // get(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
-  //   let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
+  @Get(':inventoryId')
+  get(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
+    let parsedInventoryId = parseInt(inventoryId); // needs to be replaced with a pipe
 
-  //   this.logger.verbose(`User "${user.username}" Requesting completed approvals for InventoryId: ${inventoryId}`);
-  //   return this.approvalService.getCompleted(parsedInventoryId, user);
-  // }
+    this.logger.verbose(`User "${user.username}" Requesting completed approvals for InventoryId: ${inventoryId}`);
+    return this.approvalService.getCompleted(parsedInventoryId, user);
+  }
 
   @Get('pending/:inventoryId')
   getPending(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
