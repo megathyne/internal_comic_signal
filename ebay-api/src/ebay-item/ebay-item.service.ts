@@ -62,10 +62,9 @@ export class EbayItemService {
     }
   }
 
-  async createEbayItem(rawEbayItem: Item) {
+  async createEbayItem(rawEbayItem: Item): Promise<void> {
     try {
       const mappedData = await this.dataMapper(rawEbayItem);
-
       return this.ebayItemRepository.createEbayItem(mappedData);
     } catch (error) {
       this.logger.error('createEbayItem: ', error);

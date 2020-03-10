@@ -8,6 +8,6 @@ import { EbayItemRepository } from './ebay-item.repository';
   imports: [TypeOrmModule.forFeature([EbayItemRepository])],
   providers: [EbayItemService],
   controllers: [EbayItemController],
-  exports: [EbayItemService],
+  exports: [EbayItemService, TypeOrmModule],
 })
 export class EbayItemModule {}

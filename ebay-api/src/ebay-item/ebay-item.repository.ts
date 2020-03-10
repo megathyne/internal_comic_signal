@@ -8,7 +8,7 @@ import { GetEbayItemFilterDto } from './dto/get-ebay-item-filter.dto';
 export class EbayItemRepository extends Repository<EbayItem> {
   private logger = new Logger('EbayItem Repository');
 
-  async createEbayItem(createEbayItemDto: CreateEbayItemDto): Promise<string> {
+  async createEbayItem(createEbayItemDto: CreateEbayItemDto): Promise<void> {
     const ebayItem = this.create();
     ebayItem.itemId = createEbayItemDto.itemId;
     ebayItem.title = createEbayItemDto.title;
@@ -30,7 +30,6 @@ export class EbayItemRepository extends Repository<EbayItem> {
       if (error.code === '23505') {
         //duplicate ebay item entry
         this.logger.error(`Failed to add item, already exists!`);
-        return 'Item Already Exists Goober!';
       }
       this.logger.error(`Unable to add eBay item.`, error);
     }
