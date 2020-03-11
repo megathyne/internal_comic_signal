@@ -5,9 +5,9 @@ import SelectPage from '../SelectPage';
 
 export default function StepFour(props) {
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: '20px', marginBottom: '20px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+      <div>
+        <div style={{ marginBottom: '20px' }}>
           <SelectCondition />
         </div>
         <div>

@@ -7,7 +7,7 @@ import { User } from 'src/auth/user.entity';
 export class EbayApiService {
   private logger = new Logger('EbayApiService');
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService) {}
 
   async get(getEbayItemFilterDto: GetEbayItemFilterDto, user: User): Promise<GetEbayItemResponseDto[]> {
     this.logger.log(`Fetching ebay items for UserId: ${user.id}. Filter Dto: ${getEbayItemFilterDto}`);
@@ -23,19 +23,19 @@ export class EbayApiService {
     }
   }
 
-  async  getByIds(ids: string[], user: User): Promise<GetEbayItemResponseDto[]> {
-    this.logger.log(`Fetching ebay items by ids for UserId: ${user.id}. Ids ${ids}`)
+  async getByIds(ids: string[], user: User): Promise<GetEbayItemResponseDto[]> {
+    this.logger.log(`Fetching ebay items by ids for UserId: ${user.id}. Ids ${ids}`);
     try {
       const response = await this.httpService
         .get(`http://${process.env.EBAY_API_URL}:${process.env.EBAY_API_PORT}/ebay-item/ids`, {
-          params: ids
+          params: {
+            ebayItemIds: ids,
+          },
         })
-        .toPromise()
-      return response.data
-
+        .toPromise();
+      return response.data;
     } catch (error) {
-      this.logger.error(error)
+      this.logger.error(error);
     }
   }
 }
-

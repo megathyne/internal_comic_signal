@@ -12,19 +12,19 @@ export default function SelectPage(props) {
   const [data, setData] = useState({ pages: [], isFetching: false });
 
   useEffect(() => {
-    const fetchGraders = async () => {
+    const fetchPages = async () => {
       try {
-        setData({ pages: data.pages, isFetching: true });
+        // setData({ pages: data.pages, isFetching: true });
         const response = await APIGet('page');
         setData({ pages: response, isFetching: false });
       } catch (e) {
         console.log(e);
-        setData({ pages: data.pages, isFetching: false });
+        // setData({ pages: data.pages, isFetching: false });
       }
     };
-    fetchGraders();
+    fetchPages();
   }, []);
-  
+
   return (
     <Autocomplete
       id="select-page"

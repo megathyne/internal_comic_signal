@@ -2,7 +2,7 @@ import { SET_TOKEN } from '../constants';
 
 const currentToken = localStorage.getItem('accessToken');
 const initialState = {
-  token: currentToken ? currentToken : '',
+  // token: currentToken ? currentToken : null,
   authenticated: currentToken ? true : false,
 };
 
@@ -11,7 +11,7 @@ export default function createState(state = initialState, action) {
     case SET_TOKEN: {
       return {
         ...state,
-        token: action.accessToken,
+        // token: action.accessToken,
         authenticated: true,
       };
     }

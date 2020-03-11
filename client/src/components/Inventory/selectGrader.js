@@ -14,12 +14,12 @@ export default function SelectGrader(props) {
   useEffect(() => {
     const fetchGraders = async () => {
       try {
-        setData({ graders: data.graders, isFetching: true });
+        // setData({ graders: data.graders, isFetching: true });
         const response = await APIGet('grader');
         setData({ graders: response, isFetching: false });
       } catch (e) {
         console.log(e);
-        setData({ graders: data.graders, isFetching: false });
+        // setData({ graders: data.graders, isFetching: false });
       }
     };
     fetchGraders();
@@ -32,7 +32,7 @@ export default function SelectGrader(props) {
       getOptionLabel={option => `${option.name}`}
       onChange={handleChange}
       value={activeGrader}
-      style={{ width: 200 }}
+      style={{ width: 250 }}
       renderInput={params => <TextField {...params} label="Select Grader" variant="outlined" fullWidth />}
     />
   );

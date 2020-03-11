@@ -14,9 +14,15 @@ export class AnalyticsController {
 
   constructor(private readonly analyticsService: AnalyticsService) {}
 
-  @Get()
-  get(@GetUser() user: User): Promise<Number> {
+  @Get('costs')
+  getTotalCosts(@GetUser() user: User): Promise<Number> {
     this.logger.verbose(`User "${user.username}" retrieving costs of inventory`);
     return this.analyticsService.getTotalCosts(user);
+  }
+
+  @Get('value')
+  get(@GetUser() user: User): Promise<Number> {
+    this.logger.verbose(`User "${user.username}" retrieving value of inventory`);
+    return this.analyticsService.getTotalValue(user);
   }
 }

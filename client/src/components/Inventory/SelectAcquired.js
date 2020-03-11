@@ -10,11 +10,10 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 export default function SelectAcquired(props) {
   const dispatch = useDispatch();
   const acquired = useSelector(state => state.addInventory.acquired);
-  const handleChange = event => dispatch(setAquired(event.target.value));
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'))
-  const handleDateChange = date => {
-    setSelectedDate(date);
+  const handleChange = event => {
+    console.log(event);
+    dispatch(setAquired(event));
   };
 
   return (
@@ -24,21 +23,15 @@ export default function SelectAcquired(props) {
           disableToolbar
           variant="inline"
           format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={selectedDate}
-          onChange={handleDateChange}
+          margin="dense"
+          id="date-picker-acquired"
+          label="acquired"
+          value={acquired}
+          onChange={handleChange}
+          style={{ width: 225 }}
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
-        />
-        <TextField
-          id="outlined-acquired"
-          label="acquired"
-          variant="outlined"
-          value={acquired}
-          onChange={handleChange}
         />
       </Grid>
     </MuiPickersUtilsProvider>

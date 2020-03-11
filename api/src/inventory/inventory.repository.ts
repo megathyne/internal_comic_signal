@@ -47,12 +47,12 @@ export class InventoryRepository extends Repository<Inventory> {
 
   async getCostsSum(user: User): Promise<Number> {
     const query = this.createQueryBuilder('inventory');
-    query.select('SUM(inventory.cost)', 'sum');
+    query.select('SUM(inventory.cost)', 'costsSum');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     try {
-      const { sum } = await query.getRawOne();
-      return sum;
+      const response = await query.getRawOne();
+      return response;
     } catch (error) {
       this.logger.error(`Failed to calculate total inventory costs for user "${user.username}"`, error.stack);
       throw new InternalServerErrorException();

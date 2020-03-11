@@ -14,14 +14,15 @@ export default function SelectCondition(props) {
   useEffect(() => {
     const fetchConditions = async () => {
       try {
-        setData({ conditions: data.conditions, isFetching: true });
+        //setData({ conditions: data.conditions, isFetching: true });
         const response = await APIGet('condition');
         setData({ conditions: response, isFetching: false });
       } catch (e) {
         console.log(e);
-        setData({ conditions: data.conditions, isFetching: false });
+        //setData({ conditions: data.conditions, isFetching: false });
       }
     };
+
     fetchConditions();
   }, []);
 
@@ -32,7 +33,7 @@ export default function SelectCondition(props) {
       getOptionLabel={option => `${option.numerical.toFixed(1)} ${option.abbreviation} ${option.name}`}
       onChange={handleChange}
       value={activeCondition}
-      style={{ width: 300 }}
+      style={{ width: 250 }}
       renderInput={params => <TextField {...params} label="Select Condition" variant="outlined" fullWidth />}
     />
   );

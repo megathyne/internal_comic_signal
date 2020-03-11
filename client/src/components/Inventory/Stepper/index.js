@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -75,7 +75,6 @@ export default function HorizontalLinearStepper() {
   const [skipped, setSkipped] = React.useState(new Set());
 
   const steps = getSteps();
-  const stepReducer = useSelector(state => state.addInventory);
   const dispatch = useDispatch();
   const handleClick = () => dispatch(createInventorySaga());
 
@@ -124,7 +123,6 @@ export default function HorizontalLinearStepper() {
     dispatch({
       type: 'reset',
     });
-    console.log(stepReducer);
     setActiveStep(0);
   };
 
@@ -149,7 +147,7 @@ export default function HorizontalLinearStepper() {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          <div>
+          <div style={{marginBottom: '160px'}}>
             <Typography className={classes.instructions}>All steps completed - you&apos;re finished</Typography>
             <Button onClick={handleReset} className={classes.button}>
               Add more

@@ -5,45 +5,40 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { APIGet } from '../../api/api';
-import PendingApprovalItem from './PendingApprovalItem';
+import PendingApprovals from '../Approval/PendingApprovals';
+import CompletedApprovals from '../Approval/CompletedApprovals';
 
-export default function PendingApprovals(props) {
+export default function InventoryDetails(props) {
   const [open, setOpen] = React.useState(false);
-  const [data, setData] = useState({ pendingApprovals: [], isFetching: false });
-
-  const fetchPendingApprovals = async () => {
-    try {
-      setData({ pendingApprovals: data.pendingApprovals, isFetching: true });
-      const response = await APIGet(`approval/pending/${props.data.id}`);
-      setData({ pendingApprovals: response, isFetching: false });
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleClickOpen = async () => {
-    await fetchPendingApprovals();
     setOpen(true);
   };
+
+  const title =
+    props.data.issue.series.name + ' (' + props.data.issue.series.volume + ') ' + props.data.issue.issueNumber;
 
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Pending Transactions
+        Details
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Transactions to approve</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {title}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText></DialogContentText>
-          {data.pendingApprovals.map((item, i) => (
-            <PendingApprovalItem key={i} data={{ ...item, inventoryId: props.data.id }} />
-          ))}
+          <div style={{ display: 'flex' }}>
+            <PendingApprovals data={props.data} />
+            <CompletedApprovals data={props.data} />
+          </div>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Close

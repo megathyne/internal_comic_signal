@@ -21,6 +21,11 @@ const initialState = {
   cost: '',
   notes: '',
   inventory: [],
+  acquired: new Date(),
+  activeVendor: null,
+  activeCondition: null,
+  activeGrader: null,
+  activePage: null,
 };
 
 export default function createState(state = initialState, action) {

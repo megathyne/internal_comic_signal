@@ -14,12 +14,12 @@ export default function SelectVendor(props) {
   useEffect(() => {
     const fetchVendors = async () => {
       try {
-        setData({ vendors: data.vendors, isFetching: true });
+        // setData({ vendors: data.vendors, isFetching: true });
         const response = await APIGet('vendor');
         setData({ vendors: response, isFetching: false });
       } catch (e) {
         console.log(e);
-        setData({ vendors: data.vendors, isFetching: false });
+        // setData({ vendors: data.vendors, isFetching: false });
       }
     };
     fetchVendors();
