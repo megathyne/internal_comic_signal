@@ -11,6 +11,7 @@ import { getInventorySaga } from '../../actions';
 import UpdateInventory from './UpdateInventory';
 import PendingApprovals from '../Approval/PendingApprovals';
 import CompletedApprovals from '../Approval/CompletedApprovals';
+import InventoryDetails from '../InventoryDetails';
 
 export default function GetInventory(props) {
   const dispatch = useDispatch();
@@ -68,11 +69,8 @@ export default function GetInventory(props) {
                 <TableCell align="right">
                   <UpdateInventory data={row} />
                 </TableCell>
-                <TableCell align="right">
-                  <PendingApprovals data={row} />
-                </TableCell>
-                <TableCell align="right">
-                  <CompletedApprovals data={row} />
+                <TableCell>
+                  <InventoryDetails data={row} />
                 </TableCell>
               </TableRow>
             ))}

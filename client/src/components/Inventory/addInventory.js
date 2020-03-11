@@ -6,9 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Stepper from './Stepper';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 export default function AddInventory() {
   const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,7 +27,7 @@ export default function AddInventory() {
       <Button size="medium" variant="outlined" color="primary" onClick={handleClickOpen}>
         Add Comic to Inventory
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth={true} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add Comic</DialogTitle>
         <DialogContent>
           <DialogContentText>Add all the relevant info so we can get prices for it!</DialogContentText>

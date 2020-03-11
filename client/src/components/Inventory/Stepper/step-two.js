@@ -4,8 +4,8 @@ import SelectTag from '../SelectTag';
 
 export default function StepTwo(props) {
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ marginRight: '30px' }}>
+    <div>
+      <div style={{ marginBottom: '20px' }}>
         <SelectBin />
       </div>
       <div>

@@ -32,7 +32,7 @@ export default function SelectGrader(props) {
       getOptionLabel={option => `${option.name}`}
       onChange={handleChange}
       value={activeGrader}
-      style={{ width: 200 }}
+      style={{ width: 250 }}
       renderInput={params => <TextField {...params} label="Select Grader" variant="outlined" fullWidth />}
     />
   );

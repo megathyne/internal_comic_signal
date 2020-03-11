@@ -33,7 +33,7 @@ export default function SelectCondition(props) {
       getOptionLabel={option => `${option.numerical.toFixed(1)} ${option.abbreviation} ${option.name}`}
       onChange={handleChange}
       value={activeCondition}
-      style={{ width: 300 }}
+      style={{ width: 250 }}
       renderInput={params => <TextField {...params} label="Select Condition" variant="outlined" fullWidth />}
     />
   );

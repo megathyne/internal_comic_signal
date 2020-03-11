@@ -1,3 +1,5 @@
+import { push } from 'connected-react-router';
+
 const BASE_URL = 'http://localhost:3000/';
 
 export async function APIGet(endpoint) {
@@ -11,8 +13,9 @@ export async function APIGet(endpoint) {
     });
     const results = await response.json();
 
-    if (results.statusCode === 401) {
+    if (response.status === 401) {
       localStorage.removeItem('accessToken');
+      push('/login');
     } else {
       return results;
     }
@@ -33,8 +36,9 @@ export async function APIPost(endpoint, data) {
     });
     const results = await response.json();
 
-    if (results.statusCode === 401) {
+    if (response.status === 401) {
       localStorage.removeItem('accessToken');
+      push('/login');
     } else {
       return results;
     }
@@ -54,8 +58,9 @@ export async function APIPatch(endpoint, data) {
       body: JSON.stringify(data),
     });
     const results = await response.json();
-    if (results.statusCode === 401) {
+    if (response.status === 401) {
       localStorage.removeItem('accessToken');
+      push('/login');
     } else {
       return results;
     }

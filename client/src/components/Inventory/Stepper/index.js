@@ -147,7 +147,7 @@ export default function HorizontalLinearStepper() {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          <div>
+          <div style={{marginBottom: '160px'}}>
             <Typography className={classes.instructions}>All steps completed - you&apos;re finished</Typography>
             <Button onClick={handleReset} className={classes.button}>
               Add more
