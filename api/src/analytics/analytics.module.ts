@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AnalyticsController } from './analytics.controller';
 import { AnalyticsService } from './analytics.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { InventoryRepository } from '../inventory/inventory.repository';
+import { InventoryModule } from 'src/inventory/inventory.module';
+import { ApprovalModule } from 'src/approval/approval.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InventoryRepository])],
+  imports: [InventoryModule, ApprovalModule],
   controllers: [AnalyticsController],
   providers: [AnalyticsService],
 })

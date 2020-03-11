@@ -21,7 +21,7 @@ export class ApprovalService {
     private inventoryService: InventoryService,
     private seriesService: SeriesService,
     private issueService: IssueService,
-  ) { }
+  ) {}
 
   async getCompleted(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
     try {
@@ -34,12 +34,34 @@ export class ApprovalService {
       let ebayIds = [];
       if (completedApprovals.length > 0) {
         ebayIds = completedApprovals.map(item => item.ebayItemId);
+        const results = await this.ebayApiService.getByIds(ebayIds, user);
+        return results;
+      } else {
+        return [];
       }
-
-      const results = await this.ebayApiService.getByIds(ebayIds, user)
-      return results;
     } catch (error) {
-      this.logger.error(error)
+      this.logger.error(error);
+    }
+  }
+
+  async getCompletedByApproved(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
+    try {
+      // Get the ids of approvals to return
+      const completedApprovals = await this.approvalRepository.find({
+        select: ['ebayItemId'],
+        where: { userId: user.id, inventory: inventoryId, isApproved: true },
+      });
+
+      let ebayIds = [];
+      if (completedApprovals.length > 0) {
+        ebayIds = completedApprovals.map(item => item.ebayItemId);
+        const results = await this.ebayApiService.getByIds(ebayIds, user);
+        return results;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      this.logger.error(error);
     }
   }
 

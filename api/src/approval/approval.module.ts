@@ -10,8 +10,16 @@ import { SeriesModule } from '../series/series.module';
 import { IssueModule } from '../issue/issue.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ApprovalRepository]), AuthModule, EbayApiModule, InventoryModule, SeriesModule, IssueModule],
+  imports: [
+    TypeOrmModule.forFeature([ApprovalRepository]),
+    AuthModule,
+    EbayApiModule,
+    InventoryModule,
+    SeriesModule,
+    IssueModule,
+  ],
   controllers: [ApprovalController],
   providers: [ApprovalService],
+  exports: [ApprovalService],
 })
 export class ApprovalModule {}

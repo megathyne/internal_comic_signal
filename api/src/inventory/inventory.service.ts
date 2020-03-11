@@ -35,6 +35,10 @@ export class InventoryService {
     }
   }
 
+  async getCostsSum(user: User): Promise<Number> {
+    return this.inventoryRepository.getCostsSum(user);
+  }
+
   async postInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
     return this.inventoryRepository.createInventory(createInventoryDto, user);
   }

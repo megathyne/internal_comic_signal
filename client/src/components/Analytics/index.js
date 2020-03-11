@@ -3,13 +3,14 @@ import { APIGet } from '../../api/api';
 import { Typography, TextField } from '@material-ui/core';
 
 export default function Analytics(props) {
-  const [data, setData] = useState({ costsSum: '$150' });
+  const [data, setData] = useState({ costsSum: '$150', valueSum: 0 });
 
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await APIGet('analytics');
-        setData({ costsSum: response.costsSum });
+        const costsResponse = await APIGet('analytics/costs');
+        const valueResponse = await APIGet('analytics/value');
+        setData({ valueSum: valueResponse.valueSum, costsSum: costsResponse.costsSum });
       } catch (error) {
         console.log(error);
       }
@@ -18,15 +19,27 @@ export default function Analytics(props) {
   }, []);
 
   return (
-    <TextField
-      id="outlined-read-only-input"
-      size="small"
-      label="Total Costs"
-      value={data.costsSum}
-      InputProps={{
-        readOnly: true,
-      }}
-      variant="outlined"
-    />
+    <div>
+      <TextField
+        id="outlined-read-only-input-costs"
+        size="small"
+        label="Total Costs"
+        value={data.costsSum}
+        InputProps={{
+          readOnly: true,
+        }}
+        variant="outlined"
+      />
+      <TextField
+        id="outlined-read-only-input-costs"
+        size="small"
+        label="Total Costs"
+        value={'$' + data.valueSum}
+        InputProps={{
+          readOnly: true,
+        }}
+        variant="outlined"
+      />
+    </div>
   );
 }
