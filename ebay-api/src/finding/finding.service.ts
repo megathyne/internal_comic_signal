@@ -1,5 +1,5 @@
 import { Injectable, Logger, HttpService } from '@nestjs/common';
-import { FindCompletedItemsResponse } from './dto/findCompletedItemsResponse.dto';
+import { FindCompletedItemsResponse, Item } from './dto/findCompletedItemsResponse.dto';
 import { EbayItemService } from '../ebay-item/ebay-item.service';
 import { FindCompletedItemsConfig } from '../finding/dto/find-completed-items-config.dto';
 
@@ -8,6 +8,10 @@ export class FindingService {
   private logger = new Logger('FindingService');
 
   constructor(private readonly httpService: HttpService, private readonly ebayItemService: EbayItemService) {}
+
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   async apiRequest(pageNumber): Promise<FindCompletedItemsResponse> {
     const url = 'https://svcs.ebay.com/services/search/FindingService/v1';
@@ -32,33 +36,43 @@ export class FindingService {
     }
   }
 
+  async storeBatch(items: Item[]): Promise<void> {
+    try {
+      for (let i = 0; i < items.length; i++) {
+        await this.ebayItemService.createEbayItem(items[i]);
+      }
+    } catch (error) {
+      this.logger.error('Error trying to store completed items ', error);
+    }
+  }
+
   async getCompletedItems() {
     try {
+      let initialPage = 1;
+
       // Call the above function ONCE to return the intial payload
-      const initialResults = await this.apiRequest(1);
+      const initialResults = await this.apiRequest(initialPage);
 
       // Store the values temporarily
       let items = initialResults.findCompletedItemsResponse[0].searchResult[0].item;
 
+      if (items.length > 0) {
+        await this.storeBatch(items);
+      } else {
+        return 'success';
+      }
+
       // We extract the current page number and the MAX page number
       const totalPages = parseInt(initialResults.findCompletedItemsResponse[0].paginationOutput[0].totalPages[0]);
 
-      // Get the data from the remaining pages
-      if (totalPages > 1) {
-        for (let i = 2; i <= 20; i++) {
-          // artificial limit to prevent being blocked by ebay api
-          const results = await this.apiRequest(i);
-          items = items.concat(results.findCompletedItemsResponse[0].searchResult[0].item);
-        }
-      }
-
-      // Store the data in the database
-      for (let i = 0; i < items.length; i++) {
-        // this.logger.log(items[i].itemId[0]);
-        await this.ebayItemService.createEbayItem(items[i]);
+      for (let i = initialPage + 1; i <= totalPages; i++) {
+        await this.delay(3000); // Artifical Delays
+        const results = await this.apiRequest(i);
+        items = results.findCompletedItemsResponse[0].searchResult[0].item;
+        await this.storeBatch(items);
       }
     } catch (error) {
       this.logger.error('Error in getCompletedItem: ', error);
-    }
+    } 
   }
 }
