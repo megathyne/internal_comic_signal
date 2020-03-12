@@ -162,8 +162,25 @@ services:
       - ${EBAY_DB_PORT}:5432
     volumes:
       - pgebaydata:/var/lib/postgresql/data
+  gcd-info-mysql:
+    container_name: gcd-info-mysql
+    image: mysql:5.7
+    networks:
+      - webnet
+    environment:
+      MYSQL_PASSWORD: ${GCD_DB_PASSWORD}
+      MYSQL_USER: ${GCD_DB_USERNAME}
+      MYSQL_DATABASE: ${GCD_DB_DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${GCD_DB_ROOT}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - ${GCD_DB_PORT}:3306
+    volumes:
+      - mysqlgcddata:/var/lib/postgresql/data
+    
 networks:
   webnet:
 volumes:
   pgapidata:
   pgebaydata:
+  mysqlgcddata:
