@@ -7,9 +7,19 @@ import { GraderModule } from 'src/grader/grader.module';
 import { PageModule } from 'src/page/page.module';
 import { VendorModule } from 'src/vendor/vendor.module';
 import { InventorySeederService } from './inventory-seeder.service';
+import { SeriesModule } from 'src/series/series.module';
 
 @Module({
-  imports: [InventoryModule, AuthModule, IssueModule, ConditionModule, GraderModule, PageModule, VendorModule],
+  imports: [
+    InventoryModule,
+    AuthModule,
+    SeriesModule,
+    IssueModule,
+    ConditionModule,
+    GraderModule,
+    PageModule,
+    VendorModule,
+  ],
   providers: [InventorySeederService],
   exports: [InventorySeederService],
 })

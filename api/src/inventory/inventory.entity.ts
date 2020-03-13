@@ -48,7 +48,7 @@ export class Inventory extends BaseEntity {
   @JoinColumn()
   page: Page;
 
-  @ManyToOne(type => Vendor, { eager: true })
+  @ManyToOne(type => Vendor, { eager: true, nullable: true })
   @JoinColumn()
   vendor: Vendor;
 
@@ -62,7 +62,7 @@ export class Inventory extends BaseEntity {
   @Column()
   userId: number;
 
-  @Column({ type: 'money' })
+  @Column({ type: 'money', default: 0 })
   cost: number;
 
   @Column({ type: 'money', nullable: true })

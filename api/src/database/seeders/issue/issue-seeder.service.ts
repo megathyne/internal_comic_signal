@@ -21,7 +21,6 @@ export class IssueSeederService {
     try {
       for (let i = 0; i < seriesData.length; i++) {
         const elementSeries = seriesData[i];
-
         const series = await this.seriesRepository.findOne({
           where: {
             name: elementSeries.name,
@@ -31,7 +30,6 @@ export class IssueSeederService {
 
         for (let k = 0; k < issueData.length; k++) {
           const elementIssue = issueData[k];
-
           const exists = await this.issueRepository.findOne({
             where: {
               issueNumber: elementIssue.issueNumber,
