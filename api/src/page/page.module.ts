@@ -7,7 +7,8 @@ import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PageRepository]), AuthModule],
+  providers: [PageService, TypeOrmModule],
   controllers: [PageController],
-  providers: [PageService],
+  exports: [PageService, TypeOrmModule],
 })
 export class PageModule {}

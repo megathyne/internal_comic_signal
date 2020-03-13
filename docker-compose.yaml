@@ -47,6 +47,33 @@ services:
     networks:
       - webnet
     depends_on:
+      - api-seeder
+  api-seeder:
+    container_name: api-seeder
+    build:
+      context: ./api
+      target: development
+    environment:
+      DB_HOST: api-database
+      DB_PORT: ${API_DB_PORT}
+      DB_PASSWORD: ${API_DB_PASSWORD}
+      DB_USERNAME: ${API_DB_USERNAME}
+      DB_DATABASE_NAME: ${API_DB_DATABASE_NAME}
+      EBAY_API_URL: ebay-api
+      EBAY_API_PORT: ${EBAY_API_SERVER_PORT}
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${API_SEEDER_SERVER_PORT}:${API_SEEDER_SERVER_PORT}
+      # - 9228:9229
+    # command: npm run start:dev
+    command: npm run seed
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
       - api-database
   api-database:
     container_name: api-database
@@ -63,13 +90,13 @@ services:
     volumes:
       - pgapidata:/var/lib/postgresql/data
   pgadmin:
-    container_name:  pgadmin
+    container_name: pgadmin
     image: dpage/pgadmin4
-    environment: 
+    environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USERNAME}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
       PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: 50
-    networks: 
+    networks:
       - webnet
     depends_on:
       - api-database
@@ -124,7 +151,7 @@ services:
     networks:
       - webnet
     depends_on:
-      - ebay-api-migration      
+      - ebay-api-migration
   ebay-api-migration:
     container_name: ebay-api-migration
     build:

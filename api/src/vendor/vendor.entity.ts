@@ -13,7 +13,7 @@ import { Exclude } from 'class-transformer';
 import { User } from '../auth/user.entity';
 
 @Entity()
-@Unique(['name', 'subvendor'])
+@Unique(['name', 'subvendor', 'user'])
 export class Vendor extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;

@@ -18,20 +18,21 @@ import { Grader } from '../grader/grader.entity';
 import { Page } from '../page/page.entity';
 
 @Entity()
+@Unique(['user', 'tag'])
 export class Inventory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   bin: number;
 
-  @Column({ unique: true })
+  @Column({ nullable: true })
   tag: number;
 
   @Column({ unique: true, nullable: true })
   serial: string;
 
-  @ManyToOne(type => Issue, { eager:  true })
+  @ManyToOne(type => Issue, { eager: true })
   @JoinColumn()
   issue: Issue;
 
