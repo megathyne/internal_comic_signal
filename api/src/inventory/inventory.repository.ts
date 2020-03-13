@@ -45,9 +45,9 @@ export class InventoryRepository extends Repository<Inventory> {
     }
   }
 
-  async getCostsSum(user: User): Promise<Number> {
+  async getCostsSum(user: User): Promise<any> {
     const query = this.createQueryBuilder('inventory');
-    query.select('SUM(inventory.cost)', 'costsSum');
+    query.select('coalesce(SUM(inventory.cost), CAST(0 AS money))', 'costsSum');
     query.where('inventory.userId = :userId', { userId: user.id });
 
     try {

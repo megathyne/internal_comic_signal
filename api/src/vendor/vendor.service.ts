@@ -12,7 +12,7 @@ export class VendorService {
   constructor(@InjectRepository(VendorRepository) private vendorRepository: VendorRepository) {}
 
   async getVendor(user: User): Promise<Vendor[]> {
-    return await this.vendorRepository.find({ where: { userId: user.id } });
+    return await this.vendorRepository.find({ where: { user } });
   }
 
   async postVendor(createVendorDto: CreateVendorDto, user: User): Promise<Vendor> {

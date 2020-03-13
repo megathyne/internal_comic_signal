@@ -3,7 +3,7 @@ import { APIGet } from '../../api/api';
 import { Typography, TextField } from '@material-ui/core';
 
 export default function Analytics(props) {
-  const [data, setData] = useState({ costsSum: '$150', valueSum: 0 });
+  const [data, setData] = useState({ costsSum: 0, valueSum: 0 });
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -33,8 +33,8 @@ export default function Analytics(props) {
       <TextField
         id="outlined-read-only-input-costs"
         size="small"
-        label="Total Costs"
-        value={'$' + data.valueSum}
+        label="Total Value"
+        value={data.valueSum}
         InputProps={{
           readOnly: true,
         }}
