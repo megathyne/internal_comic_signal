@@ -14,6 +14,8 @@ import { PageRepository } from 'src/page/page.repository';
 import { vendorData } from '../vendor/vendor-data';
 import { VendorRepository } from 'src/vendor/vendor.repository';
 import { inventoryData } from './inventory-data';
+import { seriesData } from '../series/series-data';
+import { SeriesRepository } from 'src/series/series.repository';
 
 @Injectable()
 export class InventorySeederService {
@@ -25,6 +27,9 @@ export class InventorySeederService {
 
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+
+    @InjectRepository(SeriesRepository)
+    private seriesRepository: SeriesRepository,
 
     @InjectRepository(IssueRepository)
     private issueRepository: IssueRepository,
@@ -45,76 +50,91 @@ export class InventorySeederService {
   async create(): Promise<void> {
     try {
       // For each user
-      for (let i = 0; i < authData.length; i++) {
-        const elementAuth = authData[i];
-
+      for (let h = 0; h < authData.length; h++) {
+        const elementAuth = authData[h];
         const user = await this.userRepository.findOne({
           where: {
             username: elementAuth.username,
           },
         });
 
-        // For each issue
-        for (let j = 0; j < issueData.length; j++) {
-          const elementIssue = issueData[j];
-
-          const issue = await this.issueRepository.findOne({
+        // For each series
+        for (let i = 0; i < seriesData.length; i++) {
+          const elementSeries = seriesData[i];
+          const series = await this.seriesRepository.findOne({
             where: {
-              issueNumber: elementIssue.issueNumber,
+              name: elementSeries.name,
+              volume: elementSeries.volume,
             },
           });
 
-          // For a single condition
-          const elementCondition = conditionData[0];
-          const condition = await this.condtionRepository.findOne({
-            where: { numerical: elementCondition.numerical },
-          });
-
-          // For a single grader
-          const elementGrader = graderData[0];
-          const grader = await this.graderRepository.findOne({
-            where: { code: elementGrader.code },
-          });
-
-          // For a single page
-          const elementPage = pageData[0];
-          const page = await this.pageRepository.findOne({
-            where: { code: elementPage.code },
-          });
-
-          // For a single vendor
-          const elementVendor = vendorData[0];
-          const vendor = await this.vendorRepository.findOne({
-            where: {
-              name: elementVendor.name,
-              subvendor: elementVendor.subvendor,
-              user,
-            },
-          });
-
-          for (let k = 0; k < inventoryData.length; k++) {
-            const elementInventory = inventoryData[k];
-            const exists = await this.inventoryRepository.findOne({
+          // For each issue
+          for (let j = 0; j < issueData.length; j++) {
+            const elementIssue = issueData[j];
+            const issue = await this.issueRepository.findOne({
               where: {
-                tag: elementInventory.tag,
-                user: user,
+                issueNumber: elementIssue.issueNumber,
+                memo: elementIssue.memo,
+                series,
               },
             });
 
-            if (!exists) {
-              const inventory = this.inventoryRepository.create({
-                ...elementInventory,
+            // For a single condition
+            const elementCondition = conditionData[0];
+            const condition = await this.condtionRepository.findOne({
+              where: { numerical: elementCondition.numerical },
+            });
+
+            // For a single grader
+            const elementGrader = graderData[0];
+            const grader = await this.graderRepository.findOne({
+              where: { code: elementGrader.code },
+            });
+
+            // For a single page
+            const elementPage = pageData[0];
+            const page = await this.pageRepository.findOne({
+              where: { code: elementPage.code },
+            });
+
+            // For a single vendor
+            const elementVendor = vendorData[0];
+            const vendor = await this.vendorRepository.findOne({
+              where: {
+                name: elementVendor.name,
+                subvendor: elementVendor.subvendor,
                 user,
-                issue,
-                condition,
-                grader,
-                page,
-                vendor,
+              },
+            });
+
+            for (let k = 0; k < inventoryData.length; k++) {
+              const elementInventory = inventoryData[k];
+              const exists = await this.inventoryRepository.findOne({
+                where: {
+                  bin: elementInventory.bin,
+                  cost: elementInventory.cost,
+                  acquired: elementInventory.acquired,
+                  notes: elementInventory.notes,
+                  issue,
+                  user,
+                },
               });
-              const results = await inventory.save();
-              this.logger.log(`Inventory ${results.tag} - ${results.bin} - Created`);
-            } else {
-              this.logger.log(`Inventory ${elementInventory.tag} - ${elementInventory.bin} - Created`);
+
+              if (!exists) {
+                const inventory = this.inventoryRepository.create({
+                  ...elementInventory,
+                  user,
+                  issue,
+                  condition,
+                  grader,
+                  page,
+                  vendor,
+                });
+                const results = await inventory.save();
+                this.logger.log(`Inventory ${results.bin} - ${results.cost} - Created`);
+              } else {
+                this.logger.log(`Inventory ${elementInventory.bin} - ${elementInventory.cost} - Created`);
+              }
             }
           }
         }

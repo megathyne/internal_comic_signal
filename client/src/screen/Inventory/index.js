@@ -6,7 +6,7 @@ import Analytics from '../../components/Analytics';
 class Inventory extends React.Component {
   render() {
     return (
-      <div>
+      <div style={{ marginLeft: '100px', marginRight: '100px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <AddInventory />
           <Analytics />
