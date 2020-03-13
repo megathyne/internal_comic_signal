@@ -177,6 +177,7 @@ services:
       - ${GCD_DB_PORT}:3306
     volumes:
       - mysqlgcddata:/var/lib/postgresql/data
+      - ./gcdb:/docker-entrypoint-initdb.d/
   gcd-api:
     container_name: gcd-api
     build:
