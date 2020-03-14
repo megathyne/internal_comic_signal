@@ -63,25 +63,11 @@ GCD_DB_PORT=3306
 GCD_DB_USERNAME=postgres
 GCD_DB_DATABASE_NAME=gcddev
 GCD_DB_ROOT=password
+GCD_API_SERVER_PORT=3007
 ```
-Download GCD data
+Download GCD data (need a login)
+https://www.comics.org/download/
+Save to folder at top level called 'gcdb'
 Start the GCD container
-Extract and Copy SQL file to GCD DB container
-```
-docker cp <<local sql file>> gcd-info-mysql:/
-```
-Connect to the container
-Launch mysql
-
-```
-mysql -u postgres -p
-```
-
-Run the following to seed the data:
-
-```
-    mysql> use gcddev;
-    mysql> source <<nameofsqldump.sql>>;
-```
-
+At this point the data will get copied
 Wait as this takes time!
