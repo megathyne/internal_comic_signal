@@ -8,5 +8,6 @@ import { ConditionController } from './condition.controller';
   imports: [TypeOrmModule.forFeature([ConditionRepository])],
   providers: [ConditionService],
   controllers: [ConditionController],
+  exports: [ConditionService, TypeOrmModule],
 })
 export class ConditionModule {}

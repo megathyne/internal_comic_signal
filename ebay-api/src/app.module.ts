@@ -6,13 +6,8 @@ import { EbayItemModule } from './ebay-item/ebay-item.module';
 import * as ormconfig from './ormconfig';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(ormconfig),
-    FindingModule,
-    FileUploadModule,
-    EbayItemModule,
-  ],
-  controllers: [ ],
-  providers: [ ],
+  imports: [TypeOrmModule.forRoot(ormconfig), FindingModule, FileUploadModule, EbayItemModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -10,7 +10,7 @@ export class AnalyticsService {
 
   constructor(private readonly inventoryService: InventoryService, private readonly approvalService: ApprovalService) {}
 
-  async getTotalCosts(user: User): Promise<Number> {
+  async getTotalCosts(user: User): Promise<any> {
     return await this.inventoryService.getCostsSum(user);
   }
 
@@ -28,11 +28,13 @@ export class AnalyticsService {
       }
     }
 
-    console.log(ebayItems.length);
-    const totalValue = ebayItems.reduce((prev, curr) => {
-      return (prev += parseFloat(curr.finalPrice.split('$')[1]) + parseFloat(curr.shippingCost.split('$')[1]));
-    }, 0);
+    let totalValue = 0;
+    if (ebayItems.length > 0) {
+      totalValue = ebayItems.reduce((prev, curr) => {
+        return (prev += parseFloat(curr.finalPrice.split('$')[1]) + parseFloat(curr.shippingCost.split('$')[1]));
+      }, 0);
+    }
 
-    return { valueSum: totalValue };
+    return { valueSum: `$${totalValue.toFixed(2)}` };
   }
 }

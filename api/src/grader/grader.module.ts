@@ -8,5 +8,6 @@ import { GraderController } from './grader.controller';
   imports: [TypeOrmModule.forFeature([GraderRepository])],
   providers: [GraderService],
   controllers: [GraderController],
+  exports: [GraderService, TypeOrmModule],
 })
 export class GraderModule {}

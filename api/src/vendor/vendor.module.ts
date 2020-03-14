@@ -8,5 +8,6 @@ import { VendorController } from './vendor.controller';
   imports: [TypeOrmModule.forFeature([VendorRepository])],
   providers: [VendorService],
   controllers: [VendorController],
+  exports: [VendorService, TypeOrmModule],
 })
 export class VendorModule {}

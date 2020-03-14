@@ -1,0 +1,98 @@
+export const inventoryData = [
+  {
+    bin: 1,
+    cost: 1.01,
+    acquired: '2001-01-01',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 2.02,
+    acquired: '2002-02-02',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 3.03,
+    acquired: '2003-03-03',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 4.04,
+    acquired: '2004-04-04',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 5.05,
+    acquired: '2005-05-05',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 6.06,
+    acquired: '2006-06-06',
+    notes: '',
+  },
+  {
+    bin: 1,
+    cost: 7.07,
+    acquired: '2007-07-07',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 8.08,
+    acquired: '2008-08-08',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 9.09,
+    acquired: '2009-09-09',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 10.1,
+    acquired: '2010-10-10',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 11.11,
+    acquired: '2011-11-11',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 12.12,
+    acquired: '2012-12-12',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 13.13,
+    acquired: '2013-01-13',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 14.14,
+    acquired: '2014-02-14',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 15.15,
+    acquired: '2015-03-15',
+    notes: '',
+  },
+  {
+    bin: 2,
+    cost: 16.16,
+    acquired: '2016-04-16',
+    notes: '',
+  },
+];
