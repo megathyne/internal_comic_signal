@@ -8,6 +8,6 @@ import { SeriesController } from './series.controller';
   imports: [TypeOrmModule.forFeature([SeriesRepository])],
   providers: [SeriesService],
   controllers: [SeriesController],
-  exports: [SeriesService],
+  exports: [SeriesService, TypeOrmModule],
 })
 export class SeriesModule {}

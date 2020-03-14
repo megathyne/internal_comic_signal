@@ -1,0 +1,20 @@
+export const pageData = [
+    { code: 'WHITE', name: 'White' },
+    { code: 'OFF_WHITE_TO_WHITE', name: 'Off-White to White' },
+    { code: 'OFF_WHITE', name: 'Off-White' },
+    { code: 'CREAM_TO_OFF_WHITE', name: 'Cream to Off-White' },
+    { code: 'CREAM', name: 'Cream' },
+    { code: 'LIGHT_TAN_TO_OFF_WHITE', name: 'Light Tan to Off-White' },
+    { code: 'LIGHT_TAN_TO_CREAM', name: 'Light Tan to Cream' },
+    { code: 'LIGHT_TAN', name: 'Light Tan' },
+    { code: 'TAN_TO_OFF_WHITE', name: 'Tan to Off-White' },
+    { code: 'TAN_TO_CREAM', name: 'Tan to Cream' },
+    { code: 'TAN', name: 'Tan' },
+    { code: 'DARK_TAN_TO_OFF_WHITE', name: 'Dark Tan to Off-White' },
+    { code: 'DARK_TAN', name: 'Dark Tan' },
+    { code: 'BROWN_TO_OFF_WHITE', name: 'Brown to Off-White' },
+    { code: 'BROWN_TO_TAN', name: 'Brown to Tan' },
+    { code: 'BROWN', name: 'Brown' },
+    { code: 'BROWN_TO_BRITTLE', name: 'Brown to Brittle' },
+  ];
+  
