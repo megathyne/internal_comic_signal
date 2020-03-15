@@ -216,8 +216,6 @@ services:
       DB_PASSWORD: ${GCD_DB_PASSWORD}
       DB_USERNAME: ${GCD_DB_USERNAME}
       DB_DATABASE_NAME: ${GCD_DB_DATABASE_NAME}
-      API_URL: api
-      API_PORT: ${API_SERVER_PORT}
     volumes:
       - ./gcd-api:/usr/src/app
       - /usr/src/app/node_modules

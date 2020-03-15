@@ -1,10 +1,10 @@
-import { Entity, Unique, BaseEntity, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, Unique, BaseEntity, Column, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Series } from "./series.entity";
 
 
 @Entity()
 export class Issue extends BaseEntity{
-    @Column()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
