@@ -11,7 +11,7 @@ export class Issue extends BaseEntity{
     number: number;
 
     @ManyToOne(type => Series, {eager: false})
-    @JoinColumn()
+    @JoinColumn({ name: 'series_id', referencedColumnName: 'id' })
     series: Series;
 
     
