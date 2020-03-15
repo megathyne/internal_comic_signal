@@ -1,10 +1,11 @@
 //GetByID
 //Search
 
-import { Logger, Get, Param } from "@nestjs/common";
+import { Logger, Get, Param, Controller } from "@nestjs/common";
 import { ComicService } from "./comic.service";
 import { ComicDto } from "./dto/comic.dto";
 
+@Controller('comic')
 export class ComicController {
     private logger = new Logger('ComicController');
 
