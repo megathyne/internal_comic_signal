@@ -12,7 +12,7 @@ export class ComicController {
     constructor(private readonly comicService: ComicService){}
 
     @Get('/:id')
-    getComicByIssueId(@Param('id') id: number): Promise<ComicDto> {
-        return this.comicService.getComicByIssueId(id);
+    getComicByIssueId(@Param('id') id: string): Promise<ComicDto> {
+        return this.comicService.getComicByIssueId(parseInt(id));
     }
 }

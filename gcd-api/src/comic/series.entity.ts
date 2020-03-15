@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity({name: 'gcd_series'})
 export class Series extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;

@@ -1,7 +1,7 @@
 //FUNCTIONS
 
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { InjectRepository, InjectEntityManager } from "@nestjs/typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 import { IssueRepository } from "./issue.repository";
 import { ComicDto } from "./dto/comic.dto";
 

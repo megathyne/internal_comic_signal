@@ -2,7 +2,7 @@ import { Entity, Unique, BaseEntity, Column, ManyToOne, JoinColumn, PrimaryGener
 import { Series } from "./series.entity";
 
 
-@Entity()
+@Entity({name: 'gcd_issue'})
 export class Issue extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
