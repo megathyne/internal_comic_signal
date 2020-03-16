@@ -1,7 +1,7 @@
 //GetByID
 //Search
 
-import { Logger, Get, Param, Controller } from "@nestjs/common";
+import { Logger, Get, Param, Controller, Query } from "@nestjs/common";
 import { ComicService } from "./comic.service";
 import { ComicDto } from "./dto/comic.dto";
 
@@ -11,8 +11,14 @@ export class ComicController {
 
     constructor(private readonly comicService: ComicService){}
 
+    @Get()
+    get(@Query() data: any){
+        this.logger.log(`Searching for ${JSON.stringify(data)}`);
+        return this.comicService.getComicsBySeries(data.name);
+    }
     @Get('/:id')
     getComicByIssueId(@Param('id') id: string): Promise<ComicDto> {
         return this.comicService.getComicByIssueId(parseInt(id));
     }
+
 }

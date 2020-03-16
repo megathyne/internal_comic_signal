@@ -10,9 +10,10 @@ export class Issue extends BaseEntity{
     @Column()
     number: number;
 
-    @ManyToOne(type => Series, {eager: false})
+    @ManyToOne(type => Series, {eager: true})
     @JoinColumn({ name: 'series_id', referencedColumnName: 'id' })
     series: Series;
 
-    
+    @Column({name: 'publication_date'})
+    publicationDate: string;
 }

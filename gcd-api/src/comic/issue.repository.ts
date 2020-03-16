@@ -4,7 +4,6 @@
 // RETURNS A COMIC
 
 import { EntityRepository, Repository, getManager } from "typeorm";
-import { ComicDto } from "./dto/comic.dto";
 import { Logger } from "@nestjs/common";
 import { Issue } from "./issue.entity";
 
@@ -14,14 +13,6 @@ export class IssueRepository extends Repository<Issue> {
 
     async getComicByIssueId(id: number): Promise<any>{
         return await this.findOne(id);
-
-        // const query = this.createQueryBuilder('issue')
-        // .innerJoinAndSelect('issue.id', 'id')
-        // .where('issue.id = :id', {id: id})
-        // .getOne();
-
-
-
     }
-
+    
 }
