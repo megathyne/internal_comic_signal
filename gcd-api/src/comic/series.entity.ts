@@ -8,6 +8,6 @@ export class Series extends BaseEntity{
     @Column()
     name: string;
 
-    @Column({name:'year_began'})
+    @Column({name:'year_began', type: 'int', select:true})
     yearBegan: number;
 }
