@@ -8,23 +8,33 @@ export class SeriesRepository extends Repository<Series> {
 
   async getSeries(search: string): Promise<Series[]> {
     try {
-        this.logger.log('In the try statement');
-        this.logger.log(`Search value: ${search}`);
-        const query = this.createQueryBuilder('gcd_series');
-        query.select('name');
-    //   query.where(`MATCH(name) AGAINST('Spider')`);
-    //   query.where('MATCH(name) AGAINST(:search)', { search: `${search}` });
-    //   query.andWhere('language_id=25');
-    //   query.andWhere('country_id=225');
-    //   query.andWhere('publisher_id=78');
-    //   query.andWhere('is_singleton=0');
-    //   query.andWhere('publishing_format <> "One-Shot"');
-    //   query.andWhere('publishing_format <> "collected_edition"');
-    //   query.orderBy('year_began');
+      let fullTextSearch = search
+        .split(' ')
+        .map(word => `+${word}`)
+        .join(' ');
 
-        const result = await query.getMany();
-        this.logger.log(`RESULT: ${result}`);
-        return result;
+      this.logger.log('In the try statement');
+      this.logger.log(`Search value: ${search}`);
+      const query = this.createQueryBuilder('gcd_series');
+      query.select('gcd_series.year_began');
+      query.addSelect('gcd_series.name');
+      
+      
+      query.where(`MATCH(name) AGAINST(:search IN BOOLEAN MODE)`, {
+        search: `${fullTextSearch}`,
+      });
+      query.andWhere('gcd_series.language_id=25');
+      query.andWhere('gcd_series.country_id=225');
+      query.andWhere('gcd_series.publisher_id=78');
+      query.andWhere('gcd_series.is_singleton=0');
+      query.andWhere('gcd_series.publishing_format <> "One-Shot"');
+      query.andWhere('gcd_series.publishing_format <> "collected_edition"');
+      query.orderBy('year_began');
+
+      const rawquery = await query.getQuery();
+      this.logger.log(`QUERY: ${rawquery}`);
+      const result = await query.getMany();
+      return result;
     } catch (error) {
       this.logger.error('Error in GET SERIES', error);
     }

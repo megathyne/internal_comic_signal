@@ -7,4 +7,7 @@ export class Series extends BaseEntity{
 
     @Column()
     name: string;
+
+    @Column({name:'year_began'})
+    yearBegan: number;
 }
