@@ -4,4 +4,6 @@ export class ComicDto {
     issueNumber: number;
 
     issueId: number;
+
+    coverImageURL: string;
 }
