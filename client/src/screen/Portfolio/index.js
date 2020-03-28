@@ -135,7 +135,9 @@ function PortfolioHeader(props) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Typography variant="h5">Portfolio</Typography>
-      <Button variant="contained">ADD</Button>
+      <Button variant="contained" href="/addcomic">
+        ADD
+      </Button>
     </div>
   );
 }
