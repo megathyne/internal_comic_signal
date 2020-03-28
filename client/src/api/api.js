@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 
-const BASE_URL = 'http://localhost:3000/';
+const BASE_URL = 'http://192.168.50.138:3000/';
 
 export async function APIGet(endpoint) {
   try {
