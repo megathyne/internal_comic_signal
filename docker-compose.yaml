@@ -34,6 +34,8 @@ services:
       DB_DATABASE_NAME: ${API_DB_DATABASE_NAME}
       EBAY_API_URL: ebay-api
       EBAY_API_PORT: ${EBAY_API_SERVER_PORT}
+      GCD_API_URL: gcd-api
+      GCD_API_PORT: ${GCD_API_SERVER_PORT}
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
@@ -189,8 +191,50 @@ services:
       - ${EBAY_DB_PORT}:5432
     volumes:
       - pgebaydata:/var/lib/postgresql/data
+  gcd-info-mysql:
+    container_name: gcd-info-mysql
+    image: mysql:5.7
+    networks:
+      - webnet
+    environment:
+      MYSQL_PASSWORD: ${GCD_DB_PASSWORD}
+      MYSQL_USER: ${GCD_DB_USERNAME}
+      MYSQL_DATABASE: ${GCD_DB_DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${GCD_DB_ROOT}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - ${GCD_DB_PORT}:3306
+    volumes:
+      - mysqlgcddata:/var/lib/postgresql/data
+      - ./gcdb:/docker-entrypoint-initdb.d/
+  gcd-api:
+    container_name: gcd-api
+    build:
+      context: ./gcd-api
+      target: development
+    environment:
+      DB_HOST: gcd-info-mysql
+      DB_PORT: ${GCD_DB_PORT}
+      DB_PASSWORD: ${GCD_DB_PASSWORD}
+      DB_USERNAME: ${GCD_DB_USERNAME}
+      DB_DATABASE_NAME: ${GCD_DB_DATABASE_NAME}
+    volumes:
+      - ./gcd-api:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${GCD_API_SERVER_PORT}:${GCD_API_SERVER_PORT}
+      - 9227:9229
+    # command: npm run start:dev
+    command: npm run start:debugdocker
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - gcd-info-mysql
 networks:
   webnet:
 volumes:
   pgapidata:
   pgebaydata:
+  mysqlgcddata:
