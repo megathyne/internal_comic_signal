@@ -32,9 +32,9 @@ export class ComicService {
     }
   }
 
-  async getComicsBySeries(search: string): Promise<Series[]> {
+  async getComicsBySeries(series: string, issue: number): Promise<Series[]> {
     try {
-      const found = await this.seriesRepository.getSeries(search);
+      const found = await this.seriesRepository.getSeries(series, issue);
       return found;
     } catch (error) {
       this.logger.error(error);

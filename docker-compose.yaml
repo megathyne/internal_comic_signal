@@ -34,6 +34,8 @@ services:
       DB_DATABASE_NAME: ${API_DB_DATABASE_NAME}
       EBAY_API_URL: ebay-api
       EBAY_API_PORT: ${EBAY_API_SERVER_PORT}
+      GCD_API_URL: gcd-api
+      GCD_API_PORT: ${GCD_API_SERVER_PORT}
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules

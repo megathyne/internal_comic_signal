@@ -14,7 +14,7 @@ export class ComicController {
     @Get()
     get(@Query() data: any){
         this.logger.log(`Searching for ${JSON.stringify(data)}`);
-        return this.comicService.getComicsBySeries(data.name);
+        return this.comicService.getComicsBySeries(data.series,data.issue);
     }
     @Get('/:id')
     getComicByIssueId(@Param('id') id: string): Promise<ComicDto> {

@@ -1,4 +1,4 @@
-import { EntityRepository, Repository, getManager } from 'typeorm';
+import { EntityRepository, Repository, getManager, Connection } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { Series } from './series.entity';
 
@@ -6,34 +6,54 @@ import { Series } from './series.entity';
 export class SeriesRepository extends Repository<Series> {
   private logger = new Logger('SeriesRepository');
 
-  async getSeries(search: string): Promise<Series[]> {
+  async getSeries(series: string, issue: number): Promise<any> {
     try {
-      let fullTextSearch = search
-        .split(' ')
-        .map(word => `+${word}`)
-        .join(' ');
-
-      this.logger.log('In the try statement');
-      this.logger.log(`Search value: ${search}`);
-      const query = this.createQueryBuilder('gcd_series');
-      query.select('gcd_series.name');
-      query.addSelect('gcd_series.year_began');
       
-      
-      query.where(`MATCH(name) AGAINST(:search IN BOOLEAN MODE)`, {
-        search: `${fullTextSearch}`,
-      });
-      query.andWhere('gcd_series.language_id=25');  //ENGLISH
-      query.andWhere('gcd_series.country_id=225');  //USA
-      //query.andWhere('gcd_series.publisher_id=78'); //MARVEL
-      query.andWhere('gcd_series.is_singleton=0');  //IS NOT A ONE-SHOT
-      query.andWhere('gcd_series.publishing_format <> "One-Shot"');  //NOT A ONE-SHOT
-      query.andWhere('gcd_series.publishing_format <> "collected_edition"');  //NOT A TRADE PAPERBACK/COLLECTION
-      query.orderBy('year_began');
+      interface RawComicResult {
+        series_id: number;
+        issue_id: number;
+        year_began: number;
+        series_name: string;
+      }
+      const rawResult = await this.query(`
+        SELECT gcd_series_id AS series_id, 
+              gcd_issue_id AS issue_id, 
+              gcd_series_year_began AS year_began, 
+              gcd_series_name AS series_name
+        FROM
+            (SELECT gs.id                        AS gcd_series_id,
+                    gs.name                      AS gcd_series_name,
+                    gs.year_began                AS gcd_series_year_began,
+                    gi.number                    AS gcd_issue_number,
+                    gi.id                        AS gcd_issue_id,
+                    (CASE
+                          WHEN gs.name = '${series}' then 5
+                          WHEN gs.name LIKE '%${series}' then 4
+                          WHEN gs.name LIKE '${series}%' then 4
+                          ELSE 0
+                        END) AS SEARCH_WEIGHT,
+                    gi.variant_name
+              FROM gcd_series gs
+            INNER JOIN gcd_issue gi ON gs.id = gi.series_id
+              WHERE gi.number = ${issue}
+                AND gs.language_id = 25
+                AND gs.country_id = 225) RESULTS
+        WHERE SEARCH_WEIGHT > 0
+        ORDER BY SEARCH_WEIGHT DESC, gcd_series_year_began ASC
+        LIMIT 20
+      `) as RawComicResult[];
 
-      const rawquery = await query.getQuery();
-      this.logger.log(`QUERY: ${rawquery}`);
-      const result = await query.getMany();
+               
+
+      //console.log(result);
+      const result = rawResult.map(x => {
+        return {
+          seriesId: x.series_id,
+          issueId: x.issue_id,
+          yearBegan: x.year_began,
+          seriesName: x.series_name
+        }
+      })
       return result;
     } catch (error) {
       this.logger.error('Error in GET SERIES', error);
