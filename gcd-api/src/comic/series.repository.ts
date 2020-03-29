@@ -2,23 +2,33 @@ import { EntityRepository, Repository, getManager, Connection } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { Series } from './series.entity';
 
+interface ComicResult {
+  seriesId: number;
+  issueId: number;
+  yearBegan: number;
+  seriesName: string;
+  issueNumber: string;
+}
+
 @EntityRepository(Series)
 export class SeriesRepository extends Repository<Series> {
   private logger = new Logger('SeriesRepository');
 
-  async getSeries(series: string, issue: number): Promise<any> {
+  async getSeries(series: string, issue: number): Promise<ComicResult[]> {
     try {
-      
       interface RawComicResult {
         series_id: number;
         issue_id: number;
         year_began: number;
         series_name: string;
+        issue_number: string;
       }
-      const rawResult = await this.query(`
+
+      const rawResult = (await this.query(`
         SELECT gcd_series_id AS series_id, 
               gcd_issue_id AS issue_id, 
               gcd_series_year_began AS year_began, 
+              gcd_issue_number AS issue_number,
               gcd_series_name AS series_name
         FROM
             (SELECT gs.id                        AS gcd_series_id,
@@ -40,20 +50,19 @@ export class SeriesRepository extends Repository<Series> {
                 AND gs.country_id = 225) RESULTS
         WHERE SEARCH_WEIGHT > 0
         ORDER BY SEARCH_WEIGHT DESC, gcd_series_year_began ASC
-        LIMIT 20
-      `) as RawComicResult[];
+        LIMIT 15
+      `)) as RawComicResult[];
 
-               
-
-      //console.log(result);
-      const result = rawResult.map(x => {
+      const result: ComicResult[] = rawResult.map(x => {
         return {
           seriesId: x.series_id,
           issueId: x.issue_id,
           yearBegan: x.year_began,
-          seriesName: x.series_name
-        }
-      })
+          seriesName: x.series_name,
+          issueNumber: x.issue_number,
+        };
+      });
+
       return result;
     } catch (error) {
       this.logger.error('Error in GET SERIES', error);

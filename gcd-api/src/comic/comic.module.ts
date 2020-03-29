@@ -4,9 +4,10 @@ import { IssueRepository } from "./issue.repository";
 import { ComicService } from "./comic.service";
 import { ComicController } from "./comic.controller";
 import { SeriesRepository } from "./series.repository";
+import { CoverModule } from "src/cover/cover.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([IssueRepository]), TypeOrmModule.forFeature([SeriesRepository])],
+    imports: [TypeOrmModule.forFeature([IssueRepository]), TypeOrmModule.forFeature([SeriesRepository]), CoverModule],
     providers: [ComicService],
     controllers: [ComicController],
     exports: [ComicService],
