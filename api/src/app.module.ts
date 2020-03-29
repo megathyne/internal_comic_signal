@@ -12,6 +12,8 @@ import { PageModule } from './page/page.module';
 import { EbayApiModule } from './ebay-api/ebay-api.module';
 import { ApprovalModule } from './approval/approval.module';
 import * as ormconfig from './ormconfig';
+import { ComicModule } from './comic/comic.module';
+import { GcdApiModule } from './gcd-api/gcd-api.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import * as ormconfig from './ormconfig';
     AuthModule,
     AnalyticsModule,
     ApprovalModule,
+    ComicModule,
     ConditionModule,
+    GcdApiModule,
     GraderModule,
     EbayApiModule,
     InventoryModule,

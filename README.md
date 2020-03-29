@@ -55,3 +55,21 @@ PGADMIN_PASSWORD=postgres123
 From ```/utilities/src```
 Run ```node index.js > index.txt```
 Copy files from txt and run in sql for api-database
+
+
+### GCD 
+
+```
+GCD_DB_PASSWORD=postgres
+GCD_DB_PORT=3306
+GCD_DB_USERNAME=postgres
+GCD_DB_DATABASE_NAME=gcddev
+GCD_DB_ROOT=password
+GCD_API_SERVER_PORT=3007
+```
+Download GCD data (need a login)
+https://www.comics.org/download/
+Save to folder at top level called 'gcdb'
+Start the GCD container
+At this point the data will get copied
+Wait as this takes time!
