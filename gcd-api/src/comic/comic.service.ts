@@ -17,7 +17,7 @@ export class ComicService {
     private issueRepository: IssueRepository,
     @InjectRepository(SeriesRepository)
     private seriesRepository: SeriesRepository,
-    private coverService: CoverService
+    private coverService: CoverService,
   ) {}
 
   async getComicByIssueId(id: number): Promise<ComicDto> {
@@ -37,9 +37,8 @@ export class ComicService {
   async getComicsBySeries(series: string, issue: number): Promise<any> {
     try {
       const found = await this.seriesRepository.getSeries(series, issue);
-      let cover = await this.coverService.getCover(found[0].issueId);
-      return {cover, found};
-
+      let cover = await this.coverService.getCoverSmall(found[0].issueId);
+      return { cover };
     } catch (error) {
       this.logger.error(error);
     }
