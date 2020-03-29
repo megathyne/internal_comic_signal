@@ -33,7 +33,7 @@ export class ComicService {
     }
   }
 
-  async getComicsBySeries(series: string, issue: number): Promise<any> {
+  async getComicsBySeries(series: string, issue: number): Promise<ComicDto[]> {
     try {
       const found = await this.seriesRepository.getSeries(series, issue);
       const foundCovers = await Promise.all(
