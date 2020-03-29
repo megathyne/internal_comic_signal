@@ -1,45 +1,44 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button, AppBar } from '@material-ui/core';
-import PortfolioChart from '../../components/portfolio-chart';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import {
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
+  useMediaQuery,
+  Typography,
+} from '@material-ui/core';
 import Heading from '../../components/Heading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-
-    backgroundColor: theme.palette.background.paper,
-  },
-  appbarRoot: {
-    flexGrow: 1,
-  },
-  appbar: {
-    colorPrimary: 'white',
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import PortfolioChart from '../../components/portfolio-chart';
+import PortfolioItemChart from '../../components/portfolio-item-chart';
 
 function InvestmentAmount(props) {
+  const data = {
+    totalValue: '$19,658.12',
+  };
+
+  const useStyles = makeStyles(theme => ({
+    root: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+    },
+    typography: {
+      marginTop: '4%',
+    },
+  }));
+
+  const classes = useStyles();
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-      <Typography variant="h5" style={{ marginTop: '4%' }}>
+    <div className={classes.root}>
+      <Typography variant="h5" classname={classes.typography}>
         Investing
       </Typography>
-      <Typography variant="h5" style={{ marginTop: '4%' }}>
-        $19,658.12
+      <Typography variant="h5" classname={classes.typography}>
+        {data.totalValue}
       </Typography>
     </div>
   );
@@ -62,6 +61,14 @@ function InvestmentChart(props) {
 }
 
 function PendingReview(props) {
+  const data = {
+    pendingReviewList: [
+      { name: 'Amazing Spider-Man (1963) #121', amount: '16' },
+      { name: 'Spawn (1992) #1', amount: '7' },
+      { name: 'Uncanny X-Men (1963) #266', amount: '5' },
+    ],
+  };
+
   return (
     <Card>
       <CardContent>
@@ -69,27 +76,19 @@ function PendingReview(props) {
           <ListItem>
             <ListItemText primary={<Typography variant="h5">Pending Review</Typography>} />
           </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Amazing Spider-Man (1963) #121</Typography>}
-              secondary={<Typography variant="body1">16</Typography>}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Spawn (1992) #1</Typography>}
-              secondary={<Typography variant="body1">7</Typography>}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Uncanny X-Men (1963) #266</Typography>}
-              secondary={<Typography variant="body1">5</Typography>}
-            />
-          </ListItem>
+          {data.pendingReviewList.map(item => {
+            return (
+              <React.Fragment>
+                <Divider />
+                <ListItem button>
+                  <ListItemText
+                    primary={<Typography variant="body1">{item.name}</Typography>}
+                    secondary={<Typography variant="body1">{item.amount}</Typography>}
+                  />
+                </ListItem>
+              </React.Fragment>
+            );
+          })}
         </List>
       </CardContent>
     </Card>
@@ -97,6 +96,13 @@ function PendingReview(props) {
 }
 
 function HighestValue(props) {
+  const data = {
+    highestValueList: [
+      { name: 'Incredible Hulk (1963) #181 (1.0)', amount: '$750.33' },
+      { name: 'Avengers Annual (1963) #10 (9.8)', amount: '$650.25' },
+      { name: 'Amazing Spider-Man (1963) #121', amount: '$500.15' },
+    ],
+  };
   return (
     <Card>
       <CardContent>
@@ -104,27 +110,19 @@ function HighestValue(props) {
           <ListItem>
             <ListItemText primary={<Typography variant="h5">Highest Value</Typography>} />
           </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Incredible Hulk (1963) #181 (1.0)</Typography>}
-              secondary={<Typography variant="body1">$750.33</Typography>}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Avengers Annual (1963) #10 (9.8)</Typography>}
-              secondary={<Typography variant="body1">$650.25</Typography>}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary={<Typography variant="body1">Amazing Spider-Man (1963) #121</Typography>}
-              secondary={<Typography variant="body1">$500.15</Typography>}
-            />
-          </ListItem>
+          {data.highestValueList.map(item => {
+            return (
+              <React.Fragment>
+                <Divider />
+                <ListItem button>
+                  <ListItemText
+                    primary={<Typography variant="body1">{item.name}</Typography>}
+                    secondary={<Typography variant="body1">{item.amount}</Typography>}
+                  />
+                </ListItem>
+              </React.Fragment>
+            );
+          })}
         </List>
       </CardContent>
     </Card>
@@ -143,59 +141,44 @@ function PortfolioHeader(props) {
 }
 
 function PortfolioListItem(props) {
+  const { data } = props;
   return (
     <ListItem button>
       <div style={{ height: '75px', width: '40%' }}>
         <PortfolioItemChart />
       </div>
       <div style={{ marginLeft: '20px' }}>
-        <Typography variant="body1">INCREDIBLE HULK (1963) #181 (1.0)</Typography>
-        <Typography variant="body1">$750.33</Typography>
-        <Typography variant="body1">8 COPIES</Typography>
+        <Typography variant="body1">{data.name}</Typography>
+        <Typography variant="body1">{data.value}</Typography>
+        <Typography variant="body1">{data.copies > 1 ? `${data.copies} Copies` : `${data.copies} Copy`}</Typography>
       </div>
     </ListItem>
   );
 }
 
 function PortfolioList(props) {
+  const data = {
+    portfolioList: [
+      { name: 'Incredible Hulk (1963) #181 (1.0)', value: '$750.33', copies: 8 },
+      { name: 'Avengers Annual (1963) #10 (9.8)', value: '$650.25', copies: 3 },
+      { name: 'Amazing Spider-Man (1963) #121', value: '$500.15', copies: 2 },
+      { name: 'X-Men (1963) #1', value: '$10,452.21', copies: 1 },
+      { name: 'Daredevil (1963) #1', value: '$5,452.21', copies: 1 },
+      { name: 'Amazing Spider-Man (1963) #50', value: '$452.21', copies: 1 },
+      { name: 'Fantastic Four (1963) #52', value: '$662.21', copies: 12 },
+    ],
+  };
+
   return (
     <Card>
       <CardContent>
         <List component="nav" aria-label="secondary mailbox folders">
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
-          <PortfolioListItem />
-          <Divider />
+          {data.portfolioList.map(item => (
+            <React.Fragment>
+              <PortfolioListItem data={item} />
+              <Divider />
+            </React.Fragment>
+          ))}
         </List>
       </CardContent>
     </Card>

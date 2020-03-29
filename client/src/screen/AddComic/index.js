@@ -22,6 +22,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function handleClick() {
+  console.log(boo);
+}
+
 function Search() {
   return (
     <Card
@@ -35,7 +39,9 @@ function Search() {
         <TextField id="standard-basic1" fullWidth label="Series" />
         <TextField id="standard-basic2" fullWidth label="Issue" />
         <div style={{ marginTop: '1%' }}>
-          <Button variant="contained">Search</Button>
+          <Button variant="contained" onClick={handleClick}>
+            Search
+          </Button>
         </div>
       </CardContent>
     </Card>
