@@ -8,7 +8,7 @@ export class AuthCredentialsDto {
   @MaxLength(20)
   username: string;
 
-  @ApiModelProperty({example: 'Trilogy123!'})
+  @ApiModelProperty({example: 'Password1'})
   @IsString()
   @MinLength(8)
   @MaxLength(20)

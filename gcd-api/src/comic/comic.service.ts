@@ -6,6 +6,7 @@ import { IssueRepository } from './issue.repository';
 import { ComicDto } from './dto/comic.dto';
 import { SeriesRepository } from './series.repository';
 import { Series } from './series.entity';
+import { CoverService } from 'src/cover/cover.service';
 
 @Injectable()
 export class ComicService {
@@ -16,6 +17,7 @@ export class ComicService {
     private issueRepository: IssueRepository,
     @InjectRepository(SeriesRepository)
     private seriesRepository: SeriesRepository,
+    private coverService: CoverService
   ) {}
 
   async getComicByIssueId(id: number): Promise<ComicDto> {
@@ -32,10 +34,12 @@ export class ComicService {
     }
   }
 
-  async getComicsBySeries(series: string, issue: number): Promise<Series[]> {
+  async getComicsBySeries(series: string, issue: number): Promise<any> {
     try {
       const found = await this.seriesRepository.getSeries(series, issue);
-      return found;
+      let cover = await this.coverService.getCover(found[0].issueId);
+      return {cover, found};
+
     } catch (error) {
       this.logger.error(error);
     }
