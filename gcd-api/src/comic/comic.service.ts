@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IssueRepository } from './issue.repository';
 import { ComicDto } from './dto/comic.dto';
 import { SeriesRepository } from './series.repository';
-import { Series } from './series.entity';
 import { CoverService } from 'src/cover/cover.service';
 
 @Injectable()
@@ -37,8 +36,20 @@ export class ComicService {
   async getComicsBySeries(series: string, issue: number): Promise<any> {
     try {
       const found = await this.seriesRepository.getSeries(series, issue);
-      let cover = await this.coverService.getCoverSmall(found[0].issueId);
-      return { cover };
+      const foundCovers = await Promise.all(
+        found.map(item => this.coverService.coverImageSmall(item.issueId)),
+      );
+
+      const result: ComicDto[] = found.map(x => ({
+        seriesId: x.seriesId,
+        issueId: x.issueId,
+        seriesName: x.seriesName,
+        issueNumber: x.issueNumber,
+        yearBegan: x.yearBegan,
+        coverSmall: foundCovers.find(y => x.issueId == y.issueNumber),
+      }));
+
+      return result;
     } catch (error) {
       this.logger.error(error);
     }

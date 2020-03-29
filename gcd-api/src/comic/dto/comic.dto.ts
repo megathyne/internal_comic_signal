@@ -1,9 +1,13 @@
+import { CoverSmallDto } from 'src/cover/dto/cover-small.dto';
+
 export class ComicDto {
-    seriesName: string;
+  seriesId: number;
 
-    issueNumber: number;
+  issueId: number;
 
-    issueId: number;
+  seriesName: string;
 
-    coverImageURL: string;
+  issueNumber: string;
+
+  coverSmall: CoverSmallDto;
 }
