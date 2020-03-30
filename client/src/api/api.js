@@ -2,15 +2,25 @@ import { push } from 'connected-react-router';
 
 const BASE_URL = 'http://192.168.50.138:3000/';
 
-export async function APIGet(endpoint) {
+export async function APIGet(endpoint, query) {
   try {
-    const response = await fetch(BASE_URL + endpoint, {
+    let url = BASE_URL + endpoint;
+
+    if (query) {
+      url += '?';
+      Object.keys(query).forEach(x => {
+        url += x + '=' + query[x] + '&';
+      });
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
+
     const results = await response.json();
 
     if (response.status === 401) {

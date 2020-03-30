@@ -5,7 +5,7 @@ import { Series } from './series.entity';
 interface ComicResult {
   seriesId: number;
   issueId: number;
-  yearBegan: number;
+  yearBegan: string;
   seriesName: string;
   issueNumber: string;
 }
@@ -19,7 +19,7 @@ export class SeriesRepository extends Repository<Series> {
       interface RawComicResult {
         series_id: number;
         issue_id: number;
-        year_began: number;
+        year_began: string;
         series_name: string;
         issue_number: string;
       }

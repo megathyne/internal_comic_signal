@@ -1,128 +1,80 @@
-import React, { PureComponent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button } from '@material-ui/core';
-import PortfolioChart from '../../components/portfolio-chart';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import ASM from '../../mockData/730623.jpg';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
+
+import {
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  LinearProgress,
+  makeStyles,
+  TextField,
+  useMediaQuery,
+} from '@material-ui/core';
+import { APIGet, APIPost } from '../../api/api';
 import Heading from '../../components/Heading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Form from './form';
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
   },
 }));
+function Search(props) {
+  const classes = useStyles();
 
-function handleClick() {
-  console.log(boo);
-}
-
-function Search() {
   return (
     <Card
       style={{
-        marginTop: '4%',
         width: '100%',
       }}
     >
       <CardContent>
         <Typography variant="h5">Add Comic</Typography>
-        <TextField id="standard-basic1" fullWidth label="Series" />
-        <TextField id="standard-basic2" fullWidth label="Issue" />
-        <div style={{ marginTop: '1%' }}>
-          <Button variant="contained" onClick={handleClick}>
+        <TextField id="standard-basic-series" fullWidth label="Series" onChange={props.handleChange('series')} />
+        <TextField id="standard-basic-issue" fullWidth label="Issue" onChange={props.handleChange('issue')} />
+        <div style={{ marginTop: '1%', display: 'flex' }}>
+          <Button
+            style={{ marginRight: '5%' }}
+            variant="contained"
+            onClick={() => props.handleClick()}
+            disabled={props.disableSubmit}
+          >
             Search
           </Button>
+          <div className={classes.root}>{props.disableSubmit ? <LinearProgress /> : null}</div>
         </div>
       </CardContent>
     </Card>
   );
 }
 
-function SearchResultItem() {
+function SearchResultItem(props) {
   return (
     <Card
       style={{
         marginTop: '4%',
-        // width: '100%',
       }}
     >
       <CardContent>
         <div style={{ display: 'flex' }}>
-          <img width="150px" height="225px" src={ASM} />
+          <img width="100" height="151px" src={`data:image/jpeg;base64,${props.data.coverSmall.small}`} />
+
           <div style={{ marginLeft: '25px' }}>
-            <Typography variant="body1">Amazing Spider-Man (1963)</Typography>
+            <Typography variant="body1">{props.data.seriesName}</Typography>
 
             <Typography variant="body1" style={{ marginTop: '5%' }}>
-              #121
+              {`(${props.data.yearBegan})`}
             </Typography>
-            <Button variant="contained" style={{ marginTop: '5%' }}>
-              Select
-            </Button>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
-function SearchResults() {
-  return (
-    <div>
-      <SearchResultItem />
-      <SearchResultItem />
-      <SearchResultItem />
-    </div>
-  );
-}
-
-function AddComicForm() {
-  return (
-    <Card
-      style={{
-        marginTop: '1%',
-        // width: '40%',
-      }}
-    >
-      <CardContent>
-        <div style={{ display: 'flex' }}>
-          <img width="150px" height="225px" src={ASM} />
-          <div style={{ marginLeft: '25px' }}>
-            <Typography variant="h6">Amazing Spider-man (1963)</Typography>
-            <Typography variant="h6">#121</Typography>
-            <div>
-              <TextField fullWidth id="standard-basic1" label="Grade" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic2" label="Page Color" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic3" label="Grader" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic4" label="Cost" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic5" label="Acquired" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic6" label="Vendor" />
-            </div>
-            <div>
-              <TextField fullWidth id="standard-basic7" label="Notes" />
-            </div>
-            <div style={{ marginTop: '4%' }}>
-              <Button variant="contained">Submit</Button>
-            </div>
+            <Typography variant="body1" style={{ marginTop: '5%' }}>
+              {`#${props.data.issueNumber}`}
+            </Typography>
+            <Form data={props.data} submitComic={props.submitComic} />
           </div>
         </div>
       </CardContent>
@@ -132,12 +84,52 @@ function AddComicForm() {
 
 export default function AddComic(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
+  const dispatch = useDispatch();
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  const [search, setSearch] = useState({
+    series: '',
+    issue: '',
+  });
+
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleChange = name => event => {
+    let s = search;
+    s[name] = event.target.value;
+    setSearch(s);
+  };
+
+  const handleClick = async (param1, param2) => {
+    try {
+      setDisableSubmit(true);
+      const results = await APIGet('comic', {
+        issueNumber: search.issue,
+        comicSeries: search.series,
+      });
+      setDisableSubmit(false);
+
+      setSearchResults(results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const submitComic = async item => {
+    try {
+      await APIPost('inventory', item);
+      dispatch(push('/'));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Heading />
-      <div style={{ marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
+      <div style={{ marginTop: '2%', marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Search />
+          <Search disableSubmit={disableSubmit} handleChange={handleChange} handleClick={handleClick} />
         </div>
 
         <div
@@ -146,8 +138,11 @@ export default function AddComic(props) {
             justifyContent: matches ? 'space-around' : null,
           }}
         >
-          <SearchResults />
-          <AddComicForm />
+          <div>
+            {searchResults.map(x => {
+              return <SearchResultItem key={x.issueId} data={x} submitComic={submitComic} />;
+            })}
+          </div>
         </div>
       </div>
     </div>

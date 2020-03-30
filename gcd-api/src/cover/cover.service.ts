@@ -3,7 +3,7 @@ import { Agent } from 'http';
 import * as https from 'https';
 import { map, mapTo, flatMap } from 'rxjs/operators';
 import * as cheerio from 'cheerio';
-import { CoverSmallDto } from './dto/cover-small.dto';
+import { CoverDto } from './dto/cover-small.dto';
 
 @Injectable()
 export class CoverService {
@@ -11,21 +11,33 @@ export class CoverService {
 
   constructor(private httpService: HttpService) {}
 
-  async coverImageSmall(issueNumber: number): Promise<CoverSmallDto> {
+  async coverImageSmall(issueNumber: number): Promise<CoverDto> {
     try {
       const response = await this.httpService
         .get('https://comics.org/issue/' + issueNumber)
         .toPromise();
 
       const $ = cheerio.load(response.data);
-      const coverImageSmallUrl = $('.coverImage > a > img').attr('src');
+
+      const coverImageSmallUrl: string = $('.coverImage > a > img')
+        .attr('src')
+        .split('?')[0];
+
       const coverLargeUrl = $(
         '.issue_cover_links > .left > a:first-child',
       ).attr('href');
 
-      const result: CoverSmallDto = {
+      const imageResponse = await this.httpService
+        .get(coverImageSmallUrl, {
+          responseType: 'arraybuffer',
+        })
+        .toPromise();
+
+      let image = Buffer.from(imageResponse.data, 'binary').toString('base64');
+
+      const result: CoverDto = {
         issueNumber,
-        coverImageSmallUrl,
+        small: image,
         coverLargeUrl,
       };
 
