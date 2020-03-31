@@ -11,7 +11,7 @@ import { Issue } from "./issue.entity";
 export class IssueRepository extends Repository<Issue> {
     private logger = new Logger('ComicRepository');
 
-    async getComicByIssueId(id: number): Promise<any>{
+    async getComicByIssueId(id: number): Promise<Issue>{
         return await this.findOne(id);
     }
     

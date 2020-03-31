@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,10 +12,15 @@ import Grader from './components/grader';
 import Acquired from './components/acquired';
 import Cost from './components/cost';
 import Notes from './components/notes';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [openConfirm, setOpenConfirm] = React.useState(false);
+
   const [comic, setComic] = React.useState({});
+  const dispatch = useDispatch();
 
   const handleChange = name => data => {
     let c = comic;
@@ -35,7 +39,18 @@ export default function FormDialog(props) {
 
   const handleSubmit = () => {
     props.submitComic(comic);
+    setOpenConfirm(true);
+  };
+
+  const handleContinue = () => {
     setOpen(false);
+    setOpenConfirm(false);
+  };
+
+  const handleRoute = () => {
+    dispatch(push('/'));
+    setOpen(false);
+    setOpenConfirm(false);
   };
 
   return (
@@ -64,6 +79,25 @@ export default function FormDialog(props) {
           </Button>
           <Button onClick={handleSubmit} color="primary">
             Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={openConfirm}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Success!'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Add another?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleContinue} color="primary">
+            ok
+          </Button>
+          <Button onClick={handleRoute} color="primary" autoFocus>
+            exit
           </Button>
         </DialogActions>
       </Dialog>

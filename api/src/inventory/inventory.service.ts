@@ -6,6 +6,7 @@ import { Inventory } from './inventory.entity';
 import { UpdateInventoryDto } from './dto/update-inventory.dto';
 import { User } from '../auth/user.entity';
 import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
+import { GcdApiService } from 'src/gcd-api/gcd-api.service';
 
 @Injectable()
 export class InventoryService {
@@ -14,6 +15,8 @@ export class InventoryService {
   constructor(
     @InjectRepository(InventoryRepository)
     private inventoryRepository: InventoryRepository,
+
+    private gcdApiService: GcdApiService,
   ) {}
 
   async getInventory(filterDto: GetInventoryFilterDto, user: User): Promise<Inventory[]> {
@@ -62,5 +65,24 @@ export class InventoryService {
     } else {
       this.logger.log(`Inventory with ID "${id}" deleted`);
     }
+  }
+
+  async getPortfolio(user: User) {
+    const inventory = await this.inventoryRepository.find({ where: { userId: user.id } });
+    const results = await Promise.all(inventory.map(x => this.gcdApiService.getById(x.comicId, user)));
+
+    const groupedBySeries = results.reduce((prev, curr) => {
+      (prev[`${curr.series.name} (${curr.series.year_began}) #${curr.number}`] =
+        prev[`${curr.series.name} (${curr.series.year_began}) #${curr.number}`] || []).push(true);
+
+      return prev;
+    }, {});
+
+    const final = Object.keys(groupedBySeries).map(key => ({
+      name: key,
+      copies: groupedBySeries[key].length,
+    }));
+
+    return final;
   }
 }

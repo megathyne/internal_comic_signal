@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -14,6 +14,7 @@ import {
 import Heading from '../../components/Heading';
 import PortfolioChart from '../../components/portfolio-chart';
 import PortfolioItemChart from '../../components/portfolio-item-chart';
+import { APIGet } from '../../api/api';
 
 function InvestmentAmount(props) {
   const data = {
@@ -149,7 +150,7 @@ function PortfolioListItem(props) {
       </div>
       <div style={{ marginLeft: '20px' }}>
         <Typography variant="body1">{data.name}</Typography>
-        <Typography variant="body1">{data.value}</Typography>
+        <Typography variant="body1">{data.value || '$55.55'}</Typography>
         <Typography variant="body1">{data.copies > 1 ? `${data.copies} Copies` : `${data.copies} Copy`}</Typography>
       </div>
     </ListItem>
@@ -157,23 +158,33 @@ function PortfolioListItem(props) {
 }
 
 function PortfolioList(props) {
-  const data = {
-    portfolioList: [
-      { name: 'Incredible Hulk (1963) #181 (1.0)', value: '$750.33', copies: 8 },
-      { name: 'Avengers Annual (1963) #10 (9.8)', value: '$650.25', copies: 3 },
-      { name: 'Amazing Spider-Man (1963) #121', value: '$500.15', copies: 2 },
-      { name: 'X-Men (1963) #1', value: '$10,452.21', copies: 1 },
-      { name: 'Daredevil (1963) #1', value: '$5,452.21', copies: 1 },
-      { name: 'Amazing Spider-Man (1963) #50', value: '$452.21', copies: 1 },
-      { name: 'Fantastic Four (1963) #52', value: '$662.21', copies: 12 },
-    ],
-  };
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchPortfolio = async () => {
+      const response = await APIGet('inventory/portfolio');
+      setData(response);
+    };
+    fetchPortfolio();
+  }, []);
+
+  // const data = {
+  //   portfolioList: [
+  //     { name: 'Incredible Hulk (1963) #181 (1.0)', value: '$750.33', copies: 8 },
+  //     { name: 'Avengers Annual (1963) #10 (9.8)', value: '$650.25', copies: 3 },
+  //     { name: 'Amazing Spider-Man (1963) #121', value: '$500.15', copies: 2 },
+  //     { name: 'X-Men (1963) #1', value: '$10,452.21', copies: 1 },
+  //     { name: 'Daredevil (1963) #1', value: '$5,452.21', copies: 1 },
+  //     { name: 'Amazing Spider-Man (1963) #50', value: '$452.21', copies: 1 },
+  //     { name: 'Fantastic Four (1963) #52', value: '$662.21', copies: 12 },
+  //   ],
+  // };
 
   return (
     <Card>
       <CardContent>
         <List component="nav" aria-label="secondary mailbox folders">
-          {data.portfolioList.map(item => (
+          {data.map(item => (
             <React.Fragment>
               <PortfolioListItem data={item} />
               <Divider />

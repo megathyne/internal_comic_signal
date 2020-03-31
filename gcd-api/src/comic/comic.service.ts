@@ -6,6 +6,7 @@ import { IssueRepository } from './issue.repository';
 import { ComicDto } from './dto/comic.dto';
 import { SeriesRepository } from './series.repository';
 import { CoverService } from 'src/cover/cover.service';
+import { Issue } from './issue.entity';
 
 @Injectable()
 export class ComicService {
@@ -19,7 +20,7 @@ export class ComicService {
     private coverService: CoverService,
   ) {}
 
-  async getComicByIssueId(id: number): Promise<ComicDto> {
+  async getComicByIssueId(id: number): Promise<Issue> {
     try {
       const found = await this.issueRepository.getComicByIssueId(id);
 
@@ -27,6 +28,7 @@ export class ComicService {
         this.logger.error(`Issue with ID "${id}" not found`);
         throw new NotFoundException(`Issue with ID "${id}" not found`);
       }
+
       return found;
     } catch (error) {
       this.logger.error(error);

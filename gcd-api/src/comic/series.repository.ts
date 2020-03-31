@@ -14,6 +14,10 @@ interface ComicResult {
 export class SeriesRepository extends Repository<Series> {
   private logger = new Logger('SeriesRepository');
 
+  async getSeriesById(id: number): Promise<Series> {
+    return await this.findOne(id)
+  }
+ 
   async getSeries(series: string, issue: number): Promise<ComicResult[]> {
     try {
       interface RawComicResult {

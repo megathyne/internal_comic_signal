@@ -84,7 +84,6 @@ function SearchResultItem(props) {
 
 export default function AddComic(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
-  const dispatch = useDispatch();
   const [disableSubmit, setDisableSubmit] = useState(false);
 
   const [search, setSearch] = useState({
@@ -118,7 +117,6 @@ export default function AddComic(props) {
   const submitComic = async item => {
     try {
       await APIPost('inventory', item);
-      dispatch(push('/'));
     } catch (error) {
       console.log(error);
     }
