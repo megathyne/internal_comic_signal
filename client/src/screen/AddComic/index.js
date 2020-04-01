@@ -26,6 +26,11 @@ const useStyles = makeStyles(theme => ({
 }));
 function Search(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleSendHome = () => {
+    dispatch(push('/'));
+  };
 
   return (
     <Card
@@ -39,7 +44,7 @@ function Search(props) {
         <TextField id="standard-basic-issue" fullWidth label="Issue" onChange={props.handleChange('issue')} />
         <div style={{ marginTop: '1%', display: 'flex' }}>
           <Button
-            style={{ marginRight: '5%' }}
+            style={{ marginRight: '5%', marginTop: '2%' }}
             variant="contained"
             onClick={() => props.handleClick()}
             disabled={props.disableSubmit}
@@ -48,6 +53,9 @@ function Search(props) {
           </Button>
           <div className={classes.root}>{props.disableSubmit ? <LinearProgress /> : null}</div>
         </div>
+        <Button style={{ marginTop: '2%' }} variant="contained" onClick={handleSendHome} disabled={props.disableSubmit}>
+          Cancel
+        </Button>
       </CardContent>
     </Card>
   );

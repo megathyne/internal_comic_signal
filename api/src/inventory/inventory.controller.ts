@@ -38,6 +38,12 @@ export class InventoryController {
     return this.inventoryService.getInventory(filterDto, user);
   }
 
+  @Get('comic')
+  getPortfolioItem(@Query() data, @GetUser() user: User) {
+    const comics = data.list.split(',');
+    return this.inventoryService.getPortfolioItem(comics, user);
+  }
+
   @Get('portfolio')
   getPortfolio(@GetUser() user: User) {
     this.logger.verbose(`User "${user.username}" retrieving portfolio.`);

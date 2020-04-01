@@ -33,4 +33,17 @@ export class GcdApiService {
       this.logger.error(error);
     }
   }
+
+  async getCoverById(id, user): Promise<any> {
+    this.logger.log(`Fetching cover details for UserId: ${user.id}. ComicId: ${id}`);
+
+    try {
+      const response = await this.httpService
+        .get(`http://${process.env.GCD_API_URL}:${process.env.GCD_API_PORT}/cover/${id}`)
+        .toPromise();
+      return response.data;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
 }

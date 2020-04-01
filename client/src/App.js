@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 
 import Auth from './components/auth';
 import Login from './screen/Login';
@@ -27,7 +27,7 @@ export default class App extends React.Component {
             <Route path="/register" component={Register} />
             <Auth path="/oldhome" component={Inventory} />
             <Auth path="/addcomic" component={AddComic} />
-            <Auth path="/comic" component={Comic} />
+            <Auth path="/comic/:id" component={Comic} />
             <Auth path="/approvalhistory" component={ApprovalHistory} />
             <Auth path="/approval" component={Approval} />
             <Auth path="/" component={Portfolio} />

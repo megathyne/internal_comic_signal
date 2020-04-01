@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 import {
   Button,
   Card,
@@ -35,10 +37,10 @@ function InvestmentAmount(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Typography variant="h5" classname={classes.typography}>
+      <Typography variant="h5" className={classes.typography}>
         Investing
       </Typography>
-      <Typography variant="h5" classname={classes.typography}>
+      <Typography variant="h5" className={classes.typography}>
         {data.totalValue}
       </Typography>
     </div>
@@ -143,15 +145,23 @@ function PortfolioHeader(props) {
 
 function PortfolioListItem(props) {
   const { data } = props;
+  const dispatch = useDispatch();
+
+  const handleListItemClick = () => {
+    dispatch(push(`/comic/${data.copies.join('-')}`));
+  };
+
   return (
-    <ListItem button>
+    <ListItem button onClick={event => handleListItemClick(event, 0)}>
       <div style={{ height: '75px', width: '40%' }}>
         <PortfolioItemChart />
       </div>
       <div style={{ marginLeft: '20px' }}>
         <Typography variant="body1">{data.name}</Typography>
         <Typography variant="body1">{data.value || '$55.55'}</Typography>
-        <Typography variant="body1">{data.copies > 1 ? `${data.copies} Copies` : `${data.copies} Copy`}</Typography>
+        <Typography variant="body1">
+          {data.copies.length > 1 ? `${data.copies.length} Copies` : `${data.copies.length} Copy`}
+        </Typography>
       </div>
     </ListItem>
   );
@@ -185,7 +195,7 @@ function PortfolioList(props) {
       <CardContent>
         <List component="nav" aria-label="secondary mailbox folders">
           {data.map(item => (
-            <React.Fragment>
+            <React.Fragment key={item.name}>
               <PortfolioListItem data={item} />
               <Divider />
             </React.Fragment>

@@ -7,6 +7,7 @@ import { UpdateInventoryDto } from './dto/update-inventory.dto';
 import { User } from '../auth/user.entity';
 import { GetInventoryFilterDto } from './dto/get-inventory-filter.dto';
 import { GcdApiService } from 'src/gcd-api/gcd-api.service';
+import { In } from 'typeorm';
 
 @Injectable()
 export class InventoryService {
@@ -73,16 +74,34 @@ export class InventoryService {
 
     const groupedBySeries = results.reduce((prev, curr) => {
       (prev[`${curr.series.name} (${curr.series.year_began}) #${curr.number}`] =
-        prev[`${curr.series.name} (${curr.series.year_began}) #${curr.number}`] || []).push(true);
+        prev[`${curr.series.name} (${curr.series.year_began}) #${curr.number}`] || []).push(curr.id);
 
       return prev;
     }, {});
 
     const final = Object.keys(groupedBySeries).map(key => ({
       name: key,
-      copies: groupedBySeries[key].length,
+      copies: groupedBySeries[key],
     }));
 
     return final;
+  }
+
+  async getPortfolioItem(data: string[], user: User) {
+    const results = [];
+    const inventory = await this.inventoryRepository.find({
+      where: {
+        userId: user.id,
+        comicId: In(data),
+      },
+    });
+
+    const comics = await Promise.all(inventory.map(x => this.gcdApiService.getById(x.comicId, user)));
+    const covers = await Promise.all(inventory.map(x => this.gcdApiService.getCoverById(x.comicId, user)));
+
+    for (let i = 0; i < inventory.length; i++) {
+      results.push({ ...inventory[i], comic: comics[i], cover: covers[i] });
+    }
+    return results;
   }
 }
