@@ -104,7 +104,7 @@ function ComicListItem(props) {
     <Card style={{ marginBottom: '5%' }}>
       <CardContent>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" href={`/approval/${props.data.id}`}>
             Waiting Review: ??
           </Button>
         </div>
@@ -191,7 +191,6 @@ function ComicList(props) {
 export default function Comic(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const { id } = useParams();
-  console.log('comic id:', id.split('-'));
   const [data, setData] = useState([]);
 
   useEffect(() => {

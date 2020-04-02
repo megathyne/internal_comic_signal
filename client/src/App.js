@@ -25,11 +25,10 @@ export default class App extends React.Component {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Auth path="/oldhome" component={Inventory} />
             <Auth path="/addcomic" component={AddComic} />
             <Auth path="/comic/:id" component={Comic} />
-            <Auth path="/approvalhistory" component={ApprovalHistory} />
-            <Auth path="/approval" component={Approval} />
+            <Auth path="/approvalhistory/:inventoryId" component={ApprovalHistory} />
+            <Auth path="/approval/:inventoryId" component={Approval} />
             <Auth path="/" component={Portfolio} />
           </Switch>
         </ConnectedRouter>

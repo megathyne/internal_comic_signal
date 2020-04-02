@@ -1,12 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
 import PortfolioChart from '../../components/portfolio-chart';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import ASM from '../../mockData/730623.jpg';
@@ -16,6 +12,8 @@ import Heading from '../../components/Heading';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import { useParams } from 'react-router-dom';
+import { APIGet } from '../../api/api';
 
 const tileData = [
   {
@@ -59,11 +57,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ComicTitle(props) {
-  return <Typography variant="h6">Amazing Spider-Man (1963) #121</Typography>;
+  return (
+    <Typography variant="h6">
+      {`${props.data.series.name} (${props.data.series.year_began}) #${props.data.number}`}
+    </Typography>
+  );
 }
 
 function ComicImage(props) {
-  return <img width="150" height="225px" src={ASM} />;
+  return <img width="200" height="302px" src={`data:image/jpeg;base64,${props.data.small}`} />;
 }
 
 function ComicDescription(props) {
@@ -103,15 +105,14 @@ function ComicDescription(props) {
 }
 
 function EbayListItem(props) {
+  const { data } = props;
   const classes = useStyles();
 
   return (
     <Card style={{ marginBottom: '5%' }}>
       <CardContent>
-        <Typography variant="subtitle2">
-          The Amazing Spider-Man 121 ~~~ CGC 7.5 ~~~ "Death" of Gwen Stacy ~ Off-White Page
-        </Typography>
-
+        <Typography variant="subtitle2">{data.title}</Typography>
+        <img src={data.galleryURL} />
         <div className={classes.root}>
           <GridList className={classes.gridList} cols={4}>
             {tileData.map(tile => (
@@ -125,7 +126,7 @@ function EbayListItem(props) {
         <div style={{ marginTop: '10px', minWidth: '250px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
             <Typography variant="body1">Total</Typography>
-            <Typography variant="body1">$300.15 (+12%)</Typography>
+            <Typography variant="body1">{data.totalCost}</Typography>
           </div>
           <Divider />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
@@ -135,7 +136,7 @@ function EbayListItem(props) {
           <Divider />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
             <Typography variant="body1">Type</Typography>
-            <Typography variant="body1">Auction</Typography>
+            <Typography variant="body1">{data.listingType}</Typography>
           </div>
           <Divider />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
@@ -145,12 +146,12 @@ function EbayListItem(props) {
           <Divider />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
             <Typography variant="body1">Shipping</Typography>
-            <Typography variant="body1">$12.95</Typography>
+            <Typography variant="body1">{data.shippingCost}</Typography>
           </div>
           <Divider />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
             <Typography variant="body1">Sold</Typography>
-            <Typography variant="body1">$2000,00</Typography>
+            <Typography variant="body1">{data.finalPrice}</Typography>
           </div>
         </div>
 
@@ -166,24 +167,42 @@ function EbayListItem(props) {
 function EbayList(props) {
   return (
     <div style={{ width: '95%' }}>
-      <EbayListItem />
-      <EbayListItem />
-      <EbayListItem />
-      <EbayListItem />
-      <EbayListItem />
+      {props.data.map(x => (
+        <EbayListItem data={x} />
+      ))}
     </div>
   );
 }
 
 export default function Approval(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
+  const { inventoryId } = useParams();
+  const [data, setData] = useState({
+    comic: {
+      series: {},
+    },
+    cover: {
+      small: '',
+    },
+    pendingApprovals: [],
+  });
+
+  useEffect(() => {
+    const fetchApproval = async () => {
+      const response = await APIGet('approval/pending/' + inventoryId);
+      setData(response);
+      console.log(response);
+    };
+    fetchApproval();
+  }, []);
+
   return (
     <div>
       <Heading />
       <div style={{ marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
         <div style={{ display: matches ? 'flex' : null, justifyContent: matches ? 'space-between' : null }}>
           <div style={{ marginTop: '4%', width: matches ? '48%' : null }}>
-            <ComicTitle />
+            <ComicTitle data={data.comic} />
 
             <div
               style={{
@@ -193,10 +212,10 @@ export default function Approval(props) {
               }}
             >
               <div style={{ width: matches ? '250px' : null }}>
-                <ComicImage />
+                <ComicImage data={data.cover} />
               </div>
               <div style={{ width: matches ? '49%' : null }}>
-                <ComicDescription />
+                <ComicDescription data={data.comic} />
               </div>
             </div>
           </div>
@@ -210,7 +229,7 @@ export default function Approval(props) {
                 overflow: matches ? 'auto' : null,
               }}
             >
-              <EbayList />
+              <EbayList data={data.pendingApprovals} />
             </div>
           </div>
         </div>

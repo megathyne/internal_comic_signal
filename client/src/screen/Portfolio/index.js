@@ -168,12 +168,17 @@ function PortfolioListItem(props) {
 }
 
 function PortfolioList(props) {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchPortfolio = async () => {
-      const response = await APIGet('inventory/portfolio');
-      setData(response);
+      try {
+        const response = await APIGet('inventory/portfolio');
+        setData(response);
+      } catch (error) {
+        dispatch(push('/login'));
+      }
     };
     fetchPortfolio();
   }, []);
