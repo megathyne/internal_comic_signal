@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpService } from '@nestjs/common';
 import { EbayItemRepository } from './ebay-item.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../finding/dto/findCompletedItemsResponse.dto';
@@ -9,7 +9,7 @@ import { EbayItem } from './ebay-item.entity';
 @Injectable()
 export class EbayItemService {
   private logger = new Logger('EbayItemService');
-  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository) { }
+  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository, private readonly httpsService: HttpService) { }
 
   async dataMapper(rawEbayItem: Item): Promise<CreateEbayItemDto> {
     const {
@@ -77,5 +77,24 @@ export class EbayItemService {
 
   async getByIds(ebayItemIds: string[]): Promise<EbayItem[]> {
     return await this.ebayItemRepository.getByIds(ebayItemIds)
+  }
+
+  async getItemById(id:string): Promise<any>{
+
+    const url = `https://open.api.ebay.com/shopping/`;
+    const params = {
+      'callname': 'GetSingleItem',
+      'responseencoding': 'JSON',
+      'appId': process.env.EBAY_API_APPID,
+      'version': 1141,
+      'ItemID': id,
+    };
+    
+    try {
+      const response = await this.httpsService.get(url, {params}).toPromise();
+      return response.data;
+    }catch (error){
+      this.logger.error(`Error fetching ebay item from ebay. Params: ${params}`,error);
+    }
   }
 }
