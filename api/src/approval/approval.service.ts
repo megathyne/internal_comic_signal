@@ -100,11 +100,25 @@ export class ApprovalService {
       };
 
       const pendingApprovals = await this.ebayApiService.get(getEbayItemFilterDto, user);
+
+      // Get Ebay Item Details
+      const approvalDetails = await Promise.all(
+        pendingApprovals.map(x => this.ebayApiService.getDetailsById(x.itemId, user)),
+      );
+      console.log(approvalDetails);
+
+      const pendingApprovalsWithDetails = [];
+      for (let i = 0; i < pendingApprovals.length; i++) {
+        const element = pendingApprovals[i];
+        let data = { ...element, details: approvalDetails[i] };
+        pendingApprovalsWithDetails.push(data);
+      }
+
       const retVal = {
         inventory,
         comic,
         cover,
-        pendingApprovals,
+        pendingApprovals: pendingApprovalsWithDetails,
       };
 
       return retVal;
