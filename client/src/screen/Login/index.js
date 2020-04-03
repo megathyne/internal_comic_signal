@@ -1,24 +1,10 @@
-import React, { Component, useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Typography, Button, TextField, useMediaQuery, Link } from '@material-ui/core';
 import { loginSaga } from '../../actions';
-import styles from './styles';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    marginTop: '30vh',
-  },
-}));
+import Deadpool from '../../content/deadpool-venom.jpg';
 
 export default function Login(props) {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const [data, setData] = useState({});
@@ -45,30 +31,57 @@ export default function Login(props) {
     dispatch(loginSaga(data));
   };
 
+  const matches = useMediaQuery('(max-resolution: 1dppx)');
   return (
-    <div className={classes.root}>
-      <div>
-        <div style={{ marginBottom: '4%' }}>
-          <TextField
-            id="standard-username-input"
-            label="username"
-            variant="outlined"
-            onChange={handleChange('username')}
-          />
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      {matches ? <img alt="" src={Deadpool} style={{ height: '100vh' }}></img> : null}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          marginTop: '20%',
+          width: '100%',
+          maxWidth: '550px',
+          // minWidth: '30%',
+        }}
+      >
+        <div style={{ width: '75%' }}>
+          <Typography variant="h1">Login</Typography>
+          <Typography variant="h4">Welcome to Comic Signal</Typography>
+          <div style={{ marginBottom: '4%', marginTop: '4%' }}>
+            <TextField
+              id="standard-username-input"
+              label="username"
+              variant="outlined"
+              fullWidth
+              onChange={handleChange('username')}
+            />
+          </div>
+          <div style={{ marginBottom: '4%' }}>
+            <TextField
+              id="standard-password-input"
+              label="Password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              autoComplete="current-password"
+              onChange={handleChange('password')}
+            />
+          </div>
+          <Button
+            style={{ marginBottom: '4%' }}
+            variant="contained"
+            type="submit"
+            fullWidth
+            color="primary"
+            onClick={handleBtnOnClick}
+          >
+            Login
+          </Button>
+          <Typography>
+            <Link href="/register">Need an account? Click here.</Link>
+          </Typography>
         </div>
-        <div style={{ marginBottom: '4%' }}>
-          <TextField
-            id="standard-password-input"
-            label="Password"
-            type="password"
-            variant="outlined"
-            autoComplete="current-password"
-            onChange={handleChange('password')}
-          />
-        </div>
-        <Button variant="contained" type="submit" fullWidth color="primary" onClick={handleBtnOnClick}>
-          Login
-        </Button>
       </div>
     </div>
   );

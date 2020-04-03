@@ -66,9 +66,9 @@ function InvestmentChart(props) {
 function PendingReview(props) {
   const data = {
     pendingReviewList: [
-      { name: 'Amazing Spider-Man (1963) #121', amount: '16' },
-      { name: 'Spawn (1992) #1', amount: '7' },
-      { name: 'Uncanny X-Men (1963) #266', amount: '5' },
+      { id: 1, name: 'Amazing Spider-Man (1963) #121', amount: '16' },
+      { id: 2, name: 'Spawn (1992) #1', amount: '7' },
+      { id: 3, name: 'Uncanny X-Men (1963) #266', amount: '5' },
     ],
   };
 
@@ -81,7 +81,7 @@ function PendingReview(props) {
           </ListItem>
           {data.pendingReviewList.map(item => {
             return (
-              <React.Fragment>
+              <React.Fragment key={item.id}>
                 <Divider />
                 <ListItem button>
                   <ListItemText
@@ -101,9 +101,9 @@ function PendingReview(props) {
 function HighestValue(props) {
   const data = {
     highestValueList: [
-      { name: 'Incredible Hulk (1963) #181 (1.0)', amount: '$750.33' },
-      { name: 'Avengers Annual (1963) #10 (9.8)', amount: '$650.25' },
-      { name: 'Amazing Spider-Man (1963) #121', amount: '$500.15' },
+      { id: 1, name: 'Incredible Hulk (1963) #181 (1.0)', amount: '$750.33' },
+      { id: 2, name: 'Avengers Annual (1963) #10 (9.8)', amount: '$650.25' },
+      { id: 3, name: 'Amazing Spider-Man (1963) #121', amount: '$500.15' },
     ],
   };
   return (
@@ -115,7 +115,7 @@ function HighestValue(props) {
           </ListItem>
           {data.highestValueList.map(item => {
             return (
-              <React.Fragment>
+              <React.Fragment key={item.id}>
                 <Divider />
                 <ListItem button>
                   <ListItemText

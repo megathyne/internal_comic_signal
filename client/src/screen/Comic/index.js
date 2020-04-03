@@ -1,32 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button } from '@material-ui/core';
+import { Button, Card, CardContent, Divider, useMediaQuery, Typography } from '@material-ui/core';
 import PortfolioChart from '../../components/portfolio-chart';
-import Divider from '@material-ui/core/Divider';
-import ASM from '../../content/730623.jpg';
-import Heading from '../../components/Heading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
+import Heading from '../../components/Heading';
 import { APIGet } from '../../api/api';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 function ComicTitle(props) {
   return (
     <Typography variant="h6">{`${props.data[0].comic.series.name} (${props.data[0].comic.series.year_began}) #${props.data[0].comic.number}`}</Typography>
   );
-}
-
-function ComicImage(props) {
-  return <img width="150" height="225px" src={ASM} />;
 }
 
 function ComicDescription(props) {
@@ -109,7 +91,7 @@ function ComicListItem(props) {
           </Button>
         </div>
         <div style={{ display: 'flex', marginTop: '2%' }}>
-          <img width="200" height="302px" src={`data:image/jpeg;base64,${props.data.cover.small}`} />
+          <img alt="" width="200" height="302px" src={`data:image/jpeg;base64,${props.data.cover.small}`} />
           <div style={{ marginLeft: '25px', width: '50%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Typography variant="body1">Grade: </Typography>
@@ -185,7 +167,7 @@ function ComicListItem(props) {
 }
 
 function ComicList(props) {
-  return props.data.map(x => <ComicListItem data={x} />);
+  return props.data.map(x => <ComicListItem key={x.id} data={x} />);
 }
 
 export default function Comic(props) {

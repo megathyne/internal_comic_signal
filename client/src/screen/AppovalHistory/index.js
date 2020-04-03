@@ -1,22 +1,9 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
-import PortfolioChart from '../../components/portfolio-chart';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import ASM from '../../mockData/730623.jpg';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, Divider, Paper, Tab, Tabs, useMediaQuery } from '@material-ui/core';
 import Heading from '../../components/Heading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ASM from '../../mockData/730623.jpg';
 
 // import ebay1 from './s-l1600.jpg';
 // import ebay2 from './s-l1600 (1).jpg';

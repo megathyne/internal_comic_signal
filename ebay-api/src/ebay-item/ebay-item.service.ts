@@ -9,7 +9,7 @@ import { EbayItem } from './ebay-item.entity';
 @Injectable()
 export class EbayItemService {
   private logger = new Logger('EbayItemService');
-  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository) { }
+  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository) {}
 
   async dataMapper(rawEbayItem: Item): Promise<CreateEbayItemDto> {
     const {
@@ -72,10 +72,11 @@ export class EbayItemService {
   }
 
   async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
+    this.logger.log(`getEbayItems: Getting ebay items. Filter: ${JSON.stringify(filterDto)}`);
     return await this.ebayItemRepository.getEbayItems(filterDto);
   }
 
   async getByIds(ebayItemIds: string[]): Promise<EbayItem[]> {
-    return await this.ebayItemRepository.getByIds(ebayItemIds)
+    return await this.ebayItemRepository.getByIds(ebayItemIds);
   }
 }

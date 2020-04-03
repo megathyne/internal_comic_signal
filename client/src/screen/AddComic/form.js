@@ -63,7 +63,7 @@ export default function FormDialog(props) {
           {`${props.data.seriesName} (${props.data.yearBegan}) #${props.data.issueNumber}`}
         </DialogTitle>
         <DialogContent>
-          <img width="100" height="151px" src={`data:image/jpeg;base64,${props.data.coverSmall.small}`} />
+          <img width="100" alt="" height="151px" src={`data:image/jpeg;base64,${props.data.coverSmall.small}`} />
           <DialogContentText>Fill out the form to create a new item in your inventory</DialogContentText>
           <Condition handleChange={handleChange} />
           <Page handleChange={handleChange} />

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Auth from './components/auth';
 import Login from './screen/Login';
-import Inventory from './screen/Inventory';
 import Portfolio from './screen/Portfolio';
 import Comic from './screen/Comic';
 import AddComic from './screen/AddComic';

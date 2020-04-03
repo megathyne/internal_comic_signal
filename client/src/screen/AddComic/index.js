@@ -70,7 +70,7 @@ function SearchResultItem(props) {
     >
       <CardContent>
         <div style={{ display: 'flex' }}>
-          <img width="100" height="151px" src={`data:image/jpeg;base64,${props.data.coverSmall.small}`} />
+          <img alt="" width="100" height="151px" src={`data:image/jpeg;base64,${props.data.coverSmall.small}`} />
 
           <div style={{ marginLeft: '25px' }}>
             <Typography variant="body1">{props.data.seriesName}</Typography>

@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-// import { setAquired } from '../../actions';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';

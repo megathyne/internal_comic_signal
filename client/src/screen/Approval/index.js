@@ -1,11 +1,11 @@
-import React, { PureComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
-import PortfolioChart from '../../components/portfolio-chart';
+
 import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import ASM from '../../mockData/730623.jpg';
+
 import ebay1 from '../../mockData/s-l1600.jpg';
 import ebay2 from '../../mockData/s-l1600 (1).jpg';
 import Heading from '../../components/Heading';
@@ -13,7 +13,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
-import { APIGet } from '../../api/api';
+import { APIGet, APIPost } from '../../api/api';
 
 const tileData = [
   {
@@ -65,40 +65,46 @@ function ComicTitle(props) {
 }
 
 function ComicImage(props) {
-  return <img width="200" height="302px" src={`data:image/jpeg;base64,${props.data.small}`} />;
+  return <img alt="" width="200" height="302px" src={`data:image/jpeg;base64,${props.data.small}`} />;
 }
 
 function ComicDescription(props) {
+  const { inventory } = props.data;
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Copies</Typography>
-        <Typography variant="body1">3</Typography>
+        <Typography variant="body1">Condition</Typography>
+        <Typography variant="body1">{inventory.condition.numerical}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Average Cost</Typography>
-        <Typography variant="body1">$175.54</Typography>
+        <Typography variant="body1">Page</Typography>
+        <Typography variant="body1">{inventory.page.name}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Total Return</Typography>
-        <Typography variant="body1">+$600.00 (+17.51%)</Typography>
+        <Typography variant="body1">Grader</Typography>
+        <Typography variant="body1">{inventory.grader.name}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Total Value</Typography>
-        <Typography variant="body1">$1,300.00</Typography>
+        <Typography variant="body1">Cost</Typography>
+        <Typography variant="body1">{inventory.cost}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Portfolio Diversity</Typography>
-        <Typography variant="body1">22%</Typography>
+        <Typography variant="body1">Acquired</Typography>
+        <Typography variant="body1">{inventory.acquired}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">30 Day Return</Typography>
-        <Typography variant="body1">+100.00 (+4.22%)</Typography>
+        <Typography variant="body1">Vendor</Typography>
+        <Typography variant="body1">{inventory.vendor.name}</Typography>
+      </div>
+      <Divider />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="body1">Notes</Typography>
+        <Typography variant="body1">{inventory.notes}</Typography>
       </div>
     </div>
   );
@@ -108,11 +114,19 @@ function EbayListItem(props) {
   const { data } = props;
   const classes = useStyles();
 
+  const handleApprove = () => {
+    props.handleSetApproval(data.itemId, true);
+  };
+
+  const handleReject = () => {
+    props.handleSetApproval(data.itemId, false);
+  };
+
   return (
     <Card style={{ marginBottom: '5%' }}>
       <CardContent>
         <Typography variant="subtitle2">{data.title}</Typography>
-        <img src={data.galleryURL} />
+        <img alt="" src={data.galleryURL} />
         <div className={classes.root}>
           <GridList className={classes.gridList} cols={4}>
             {tileData.map(tile => (
@@ -156,8 +170,12 @@ function EbayListItem(props) {
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4%' }}>
-          <Button variant="contained">Reject</Button>
-          <Button variant="contained">Approve</Button>
+          <Button variant="contained" onClick={handleReject}>
+            Reject
+          </Button>
+          <Button variant="contained" onClick={handleApprove}>
+            Approve
+          </Button>
         </div>
       </CardContent>
     </Card>
@@ -168,7 +186,7 @@ function EbayList(props) {
   return (
     <div style={{ width: '95%' }}>
       {props.data.map(x => (
-        <EbayListItem data={x} />
+        <EbayListItem handleSetApproval={props.handleSetApproval} data={x} />
       ))}
     </div>
   );
@@ -178,6 +196,12 @@ export default function Approval(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const { inventoryId } = useParams();
   const [data, setData] = useState({
+    inventory: {
+      condition: {},
+      page: {},
+      grader: {},
+      vendor: {},
+    },
     comic: {
       series: {},
     },
@@ -190,11 +214,23 @@ export default function Approval(props) {
   useEffect(() => {
     const fetchApproval = async () => {
       const response = await APIGet('approval/pending/' + inventoryId);
-      setData(response);
       console.log(response);
+      setData(response);
     };
     fetchApproval();
   }, []);
+
+  const handleSetApproval = async (ebayItemId, isApproved) => {
+    const dto = {
+      inventoryId: inventoryId,
+      ebayItemId: ebayItemId,
+      isApproved: isApproved,
+    };
+    await APIPost('approval', dto);
+    let d = data;
+    d.pendingApprovals = data.pendingApprovals.filter(x => x.itemId !== ebayItemId);
+    setData(d);
+  };
 
   return (
     <div>
@@ -215,7 +251,7 @@ export default function Approval(props) {
                 <ComicImage data={data.cover} />
               </div>
               <div style={{ width: matches ? '49%' : null }}>
-                <ComicDescription data={data.comic} />
+                <ComicDescription data={data} />
               </div>
             </div>
           </div>
@@ -229,7 +265,7 @@ export default function Approval(props) {
                 overflow: matches ? 'auto' : null,
               }}
             >
-              <EbayList data={data.pendingApprovals} />
+              <EbayList data={data.pendingApprovals} handleSetApproval={handleSetApproval} />
             </div>
           </div>
         </div>

@@ -8,16 +8,16 @@ import { ApiUseTags } from '@nestjs/swagger';
 export class AuthController {
   private logger = new Logger('AuthController');
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  signUp(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
     return this.authService.signUp(authCredentialsDto);
   }
 
   @Post('/signin')
   signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-    this.logger.log(`User: ${authCredentialsDto.username} attempting to log in`)
+    this.logger.log(`User: ${authCredentialsDto.username} attempting to log in`);
     return this.authService.signIn(authCredentialsDto);
   }
 }

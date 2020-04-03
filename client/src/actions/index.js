@@ -19,6 +19,7 @@ import {
   SET_PENDING_APPROVALS,
 } from '../constants';
 import { LOGIN_SAGA, SET_TOKEN } from '../constants';
+import { REGISTER_SAGA } from '../constants';
 
 export function setUsers(users) {
   return {
@@ -36,6 +37,13 @@ export function getUsersSaga() {
 export function loginSaga(user) {
   return {
     type: LOGIN_SAGA,
+    user,
+  };
+}
+
+export function registerSaga(user) {
+  return {
+    type: REGISTER_SAGA,
     user,
   };
 }

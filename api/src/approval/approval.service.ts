@@ -74,13 +74,11 @@ export class ApprovalService {
   async getPending(inventoryId: number, user: User): Promise<any> {
     try {
       // Get Issue number
-      console.log('here');
       const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
 
       const comic = await this.gcdApiService.getById(inventory.comicId, user);
       const cover = await this.gcdApiService.getCoverById(inventory.comicId, user);
 
-      console.log('got comic got cover');
       // Get Series name
       //const series = await this.seriesService.getSeriesById(inventory.issue.series.id);
 
@@ -97,7 +95,7 @@ export class ApprovalService {
 
       const getEbayItemFilterDto: GetEbayItemFilterDto = {
         series: comic.series.name,
-        issue: comic.issueNumber,
+        issue: comic.number,
         excludingIds: ebayIds,
       };
 
@@ -109,7 +107,6 @@ export class ApprovalService {
         pendingApprovals,
       };
 
-      console.log(retVal);
       return retVal;
     } catch (error) {
       this.logger.error(error);
