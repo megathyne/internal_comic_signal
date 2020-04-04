@@ -62,7 +62,7 @@ export class InventoryRepository extends Repository<Inventory> {
   async createInventory(createInventoryDto: CreateInventoryDto, user: User): Promise<Inventory> {
     const {
       bin,
-      issueId,
+      // issueId,
       comicId,
       tag,
       cost,
@@ -74,11 +74,11 @@ export class InventoryRepository extends Repository<Inventory> {
       pageId,
     } = createInventoryDto;
 
-    const issue = await Issue.findOne(issueId);
-    if (!issue) {
-      this.logger.error(`Faild to create an inventory for UserId: ${user.id}, IssueId: ${issueId} does not exist`);
-      throw new BadRequestException();
-    }
+    // const issue = await Issue.findOne(issueId);
+    // if (!issue) {
+    //   this.logger.error(`Faild to create an inventory for UserId: ${user.id}, IssueId: ${issueId} does not exist`);
+    //   throw new BadRequestException();
+    // }
 
     const vendor = await Vendor.findOne(vendorId);
     if (!vendor) {

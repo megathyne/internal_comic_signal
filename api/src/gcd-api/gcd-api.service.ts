@@ -19,9 +19,10 @@ export class GcdApiService {
     } catch (error) {
       this.logger.error(error);
     }
-  }
+  } 
 
   async getById(id, user): Promise<any> {
+    console.log(id);
     this.logger.log(`Fetching comic details for UserId: ${user.id}. ComicId: ${id}`);
 
     try {
@@ -32,7 +33,7 @@ export class GcdApiService {
     } catch (error) {
       this.logger.error(error);
     }
-  }
+  } 
 
   async getCoverById(id, user): Promise<any> {
     this.logger.log(`Fetching cover details for UserId: ${user.id}. ComicId: ${id}`);

@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
+import ImageGallery from 'react-image-gallery';
 
 import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+
+// import 'react-responsive-carousel/lib/styles/carousel.min.css';
+// import { Carousel } from 'react-responsive-carousel';
+// import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, ImageWithZoom, DotGroup } from 'pure-react-carousel';
+// import 'pure-react-carousel/dist/react-carousel.es.css';
+
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
 
 import ebay1 from '../../mockData/s-l1600.jpg';
 import ebay2 from '../../mockData/s-l1600 (1).jpg';
@@ -14,6 +23,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
 import { APIGet, APIPost } from '../../api/api';
+
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
 
 const tileData = [
   {
@@ -42,7 +58,7 @@ const tileData = [
   },
 ];
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -110,9 +126,30 @@ function ComicDescription(props) {
   );
 }
 
+function SimpleDialog(props) {
+  const classes = useStyles();
+  const { onClose, open } = props;
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const handleListItemClick = (value) => {
+    onClose();
+  };
+
+  return (
+    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+      <img src={props.selectedValue} />
+    </Dialog>
+  );
+}
+
 function EbayListItem(props) {
   const { data } = props;
   const classes = useStyles();
+  const [selectedValue, setSelectedValue] = React.useState();
 
   const handleApprove = () => {
     props.handleSetApproval(data.itemId, true);
@@ -122,12 +159,74 @@ function EbayListItem(props) {
     props.handleSetApproval(data.itemId, false);
   };
 
+  const IMAGES = data.details.PictureURL;
+  console.log(IMAGES);
+
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = (position) => {
+    setSelectedValue(IMAGES[position]);
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
+
   return (
-    <GridList>
-      {data.details.PictureURL.map(url => (
-        <img src={url} alt="" />
-      ))}
-    </GridList>
+    <div>
+      <SimpleDialog open={open} selectedValue={selectedValue} onClose={handleClose} />
+      <Card style={{ marginBottom: '5%' }}>
+        <CardContent>
+          <div>
+            <Carousel showThumbs={false} onClickItem={handleClickOpen}>
+              {IMAGES.map((x) => (
+                <div>
+                  <img src={x} />
+                </div>
+              ))}
+            </Carousel>
+            <div style={{ marginTop: '10px', minWidth: '250px' }}>
+              <Typography variant="body1">{data.title}</Typography>
+
+              <Divider />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                <Typography variant="body1">End Date</Typography>
+                <Typography variant="body1">{data.details.EndTime.split('T')[0]}</Typography>
+              </div>
+              <Divider />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                <Typography variant="body1">Type</Typography>
+                <Typography variant="body1">{data.listingType}</Typography>
+              </div>
+              <Divider />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                <Typography variant="body1">Bids</Typography>
+                <Typography variant="body1">30</Typography>
+              </div>
+              <Divider />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                <Typography variant="body1">Shipping</Typography>
+                <Typography variant="body1">{data.shippingCost}</Typography>
+              </div>
+              <Divider />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                <Typography variant="body1">Sold</Typography>
+                <Typography variant="body1">{data.finalPrice}</Typography>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4%' }}>
+              <Button variant="contained" onClick={handleReject}>
+                Reject
+              </Button>
+              <Button variant="contained" onClick={handleApprove}>
+                Approve
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 
   //   return (
@@ -199,7 +298,7 @@ function EbayListItem(props) {
 function EbayList(props) {
   return (
     <div style={{ width: '95%' }}>
-      {props.data.map(x => (
+      {props.data.map((x) => (
         <EbayListItem key={x.id} handleSetApproval={props.handleSetApproval} data={x} />
       ))}
     </div>
@@ -242,7 +341,7 @@ export default function Approval(props) {
     };
     await APIPost('approval', dto);
     let d = data;
-    d.pendingApprovals = data.pendingApprovals.filter(x => x.itemId !== ebayItemId);
+    d.pendingApprovals = data.pendingApprovals.filter((x) => x.itemId !== ebayItemId);
     setData(d);
   };
 

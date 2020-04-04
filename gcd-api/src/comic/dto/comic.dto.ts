@@ -11,5 +11,5 @@ export class ComicDto {
 
   issueNumber: string;
 
-  coverSmall: CoverDto;
+  coverSmall: CoverDto; 
 }

@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, AppBar, Link } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: '2%',
   },
   title: {
     flexGrow: 1,
@@ -17,7 +18,7 @@ export default function Heading(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="sticky">
+      <AppBar position="static">
         <Toolbar style={{ background: 'black' }}>
           <Link style={{ color: 'white' }} href="/" variant="h6" className={classes.title}>
             COMIC SIGNAL

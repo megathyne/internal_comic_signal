@@ -51,7 +51,7 @@ export class FindingService {
 
   async getCompletedItems() {
     try {
-      let initialPage = 100;
+      let initialPage = 1;
 
       // Call the above function ONCE to return the intial payload
       this.logger.log(`Processing starting for page 1`);
@@ -70,14 +70,14 @@ export class FindingService {
       const totalPages = parseInt(initialResults.findCompletedItemsResponse[0].paginationOutput[0].totalPages[0]);
       this.logger.log(`Processing completed for page 1 of ${totalPages}`);
 
-      for (let i = 101; i <= totalPages; i++) {
+      for (let i = initialPage + 1; i <= totalPages; i++) {
         await this.delay(4000); // Artifical Delays
 
         this.logger.log(`Processing starting for page ${i} of ${totalPages}`);
 
         const results = await this.apiRequest(i);
         console.log(results.findCompletedItemsResponse[0].ack[0]);
-        
+
         if (results.findCompletedItemsResponse[0].errorMessage) {
           this.logger.log(JSON.stringify(results.findCompletedItemsResponse[0].errorMessage));
         }
