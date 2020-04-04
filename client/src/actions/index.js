@@ -34,10 +34,11 @@ export function getUsersSaga() {
   };
 }
 
-export function loginSaga(user) {
+export function loginSaga(user, history) {
   return {
     type: LOGIN_SAGA,
     user,
+    history,
   };
 }
 

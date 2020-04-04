@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Auth from './components/auth';
 import Login from './screen/Login';
@@ -20,17 +20,38 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <ConnectedRouter history={history}>
+        {/* <ConnectedRouter history={history}> */}
+        <Router>
           <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Auth path="/addcomic" component={AddComic} />
-            <Auth path="/comic/:id" component={Comic} />
-            <Auth path="/approvalhistory/:inventoryId" component={ApprovalHistory} />
-            <Auth path="/approval/:inventoryId" component={Approval} />
-            <Auth path="/" component={Portfolio} />
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+
+            <Auth path="/addcomic">
+              <AddComic />
+            </Auth>
+
+            <Auth path="/comic/:id">
+              <Comic />
+            </Auth>
+
+            <Auth path="/approvalhistory/:inventoryId">
+              <ApprovalHistory />
+            </Auth>
+
+            <Auth path="/approval/:inventoryId">
+              <Approval />
+            </Auth>
+
+            <Auth path="/">
+              <Portfolio />
+            </Auth>
           </Switch>
-        </ConnectedRouter>
+        </Router>
+        {/* </ConnectedRouter> */}
       </Provider>
     );
   }

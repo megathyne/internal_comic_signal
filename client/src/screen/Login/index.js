@@ -1,34 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Button, TextField, useMediaQuery, Link } from '@material-ui/core';
 import { loginSaga } from '../../actions';
 import Deadpool from '../../content/deadpool-venom.jpg';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export default function Login(props) {
-  const dispatch = useDispatch();
-
   const [data, setData] = useState({});
+  const dispatch = useDispatch();
+  let history = useHistory();
+  let location = useLocation();
 
   useEffect(() => {
-    const listener = event => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-        dispatch(loginSaga(data));
-      }
+    const listener = (event) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') handleBtnOnClick();
     };
+
     document.addEventListener('keydown', listener);
+
     return () => {
       document.removeEventListener('keydown', listener);
     };
   }, []);
 
-  const handleChange = input => event => {
+  const handleChange = (input) => (event) => {
     const d = data;
     d[input] = event.target.value;
     setData(d);
   };
 
-  const handleBtnOnClick = () => {
-    dispatch(loginSaga(data));
+  const handleBtnOnClick = async () => {
+    dispatch(loginSaga(data, history));
   };
 
   const matches = useMediaQuery('(max-resolution: 1dppx)');

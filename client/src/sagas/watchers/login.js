@@ -13,7 +13,7 @@ function* workerLoginSaga(action) {
   if (token.statusCode !== 400) {
     yield call(setAuthToken, token);
     yield put(saveToken(token));
-    yield put(push('/'));
+    action.history.push('/');
   }
 }
 

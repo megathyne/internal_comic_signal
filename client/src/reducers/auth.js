@@ -9,6 +9,7 @@ const initialState = {
 export default function createState(state = initialState, action) {
   switch (action.type) {
     case SET_TOKEN: {
+      console.log('setting token');
       return {
         ...state,
         // token: action.accessToken,
