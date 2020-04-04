@@ -16,9 +16,10 @@ import { APIGet, APIPost } from '../../api/api';
 import Heading from '../../components/Heading';
 import Form from './form';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    marginTop: '2%',
     '& > * + *': {
       marginTop: theme.spacing(2),
     },
@@ -51,11 +52,16 @@ function Search(props) {
           >
             Search
           </Button>
+          <Button
+            style={{ marginRight: '5%', marginTop: '2%' }}
+            variant="contained"
+            onClick={handleSendHome}
+            disabled={props.disableSubmit}
+          >
+            Cancel
+          </Button>
           <div className={classes.root}>{props.disableSubmit ? <LinearProgress /> : null}</div>
         </div>
-        <Button style={{ marginTop: '2%' }} variant="contained" onClick={handleSendHome} disabled={props.disableSubmit}>
-          Cancel
-        </Button>
       </CardContent>
     </Card>
   );
@@ -101,7 +107,7 @@ export default function AddComic(props) {
 
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     let s = search;
     s[name] = event.target.value;
     setSearch(s);
@@ -122,7 +128,7 @@ export default function AddComic(props) {
     }
   };
 
-  const submitComic = async item => {
+  const submitComic = async (item) => {
     try {
       await APIPost('inventory', item);
     } catch (error) {
@@ -134,20 +140,28 @@ export default function AddComic(props) {
     <div>
       <Heading />
       <div style={{ marginTop: '2%', marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Search disableSubmit={disableSubmit} handleChange={handleChange} handleClick={handleClick} />
-        </div>
-
         <div
           style={{
             display: matches ? 'flex' : null,
-            justifyContent: matches ? 'space-around' : null,
+            justifyContent: matches ? 'space-between' : null,
           }}
         >
+          <div style={{ width: matches ? '60%' : null }}>
+            <Search disableSubmit={disableSubmit} handleChange={handleChange} handleClick={handleClick} />
+          </div>
           <div>
-            {searchResults.map(x => {
-              return <SearchResultItem key={x.issueId} data={x} submitComic={submitComic} />;
-            })}
+            <div
+              style={{
+                display: matches ? 'flex' : null,
+                justifyContent: matches ? 'space-around' : null,
+              }}
+            >
+              <div>
+                {searchResults.map((x) => {
+                  return <SearchResultItem key={x.issueId} data={x} submitComic={submitComic} />;
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
