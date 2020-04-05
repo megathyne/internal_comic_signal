@@ -70,6 +70,7 @@ export class InventoryService {
 
   async getPortfolio(user: User) {
     const inventory = await this.inventoryRepository.find({ where: { userId: user.id } });
+    //inventory.id, go to approval table, get all ebayitem IDs which are set to true, go to ebay-api, get final price for each, then add that up and return it
     const results = await Promise.all(inventory.map(x => this.gcdApiService.getById(x.comicId, user)));
 
     const groupedBySeries = results.reduce((prev, curr) => {
