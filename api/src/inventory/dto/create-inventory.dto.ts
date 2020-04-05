@@ -11,9 +11,11 @@ export class CreateInventoryDto {
   @ApiModelProperty({ example: '3F45DF3YU55V' })
   readonly serial: number;
 
-  @ApiModelProperty({ example: 1 })
-  @IsNotEmpty()
+  @ApiModelProperty({ example: 23034 })
   readonly issueId: number;
+
+  @ApiModelProperty({ example: 23034 })
+  readonly comicId: number;
 
   @ApiModelPropertyOptional({ example: 1 })
   readonly conditionId: number;
@@ -36,10 +38,8 @@ export class CreateInventoryDto {
   readonly value: number;
 
   @ApiModelProperty({ type: 'string', format: 'date' })
-  @IsNotEmpty()
   readonly acquired: Date;
 
   @ApiModelPropertyOptional({ example: 'my note' })
-  @IsNotEmpty()
   readonly notes: string;
 }

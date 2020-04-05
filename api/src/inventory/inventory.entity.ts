@@ -32,9 +32,12 @@ export class Inventory extends BaseEntity {
   @Column({ unique: true, nullable: true })
   serial: string;
 
-  @ManyToOne(type => Issue, { eager: true })
+  @ManyToOne(type => Issue, { eager: true, nullable: true })
   @JoinColumn()
   issue: Issue;
+
+  @Column({ nullable: true })
+  comicId: number;
 
   @ManyToOne(type => Condition, { eager: true, nullable: true })
   @JoinColumn()

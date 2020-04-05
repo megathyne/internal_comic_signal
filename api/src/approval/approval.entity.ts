@@ -28,7 +28,7 @@ export class Approval extends BaseEntity {
   inventory: Inventory;
 
   @Column()
-  ebayItemId: number;
+  ebayItemId: string;
 
   @Column()
   isApproved: boolean;

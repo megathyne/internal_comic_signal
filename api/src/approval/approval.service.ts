@@ -10,6 +10,7 @@ import { InventoryService } from '../inventory/inventory.service';
 import { SeriesService } from '../series/series.service';
 import { IssueService } from '../issue/issue.service';
 import { GetEbayItemFilterDto } from '../ebay-api/dto/get-ebay-item-filter.dto';
+import { GcdApiService } from 'src/gcd-api/gcd-api.service';
 
 @Injectable()
 export class ApprovalService {
@@ -21,6 +22,7 @@ export class ApprovalService {
     private inventoryService: InventoryService,
     private seriesService: SeriesService,
     private issueService: IssueService,
+    private gcdApiService: GcdApiService,
   ) {}
 
   async getCompleted(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
@@ -65,17 +67,20 @@ export class ApprovalService {
     }
   }
 
-  async createApproval(createApprovalDto: CreateApprovalDto, user: User): Promise<Approval> {
+  async createApproval(createApprovalDto: CreateApprovalDto, user: User): Promise<any> {
     return this.approvalRepository.createApproval(createApprovalDto, user);
   }
 
-  async getPending(inventoryId: number, user: User): Promise<GetEbayItemResponseDto[]> {
+  async getPending(inventoryId: number, user: User): Promise<any> {
     try {
       // Get Issue number
       const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
 
+      const comic = await this.gcdApiService.getById(inventory.comicId, user);
+      const cover = await this.gcdApiService.getCoverById(inventory.comicId, user);
+
       // Get Series name
-      const series = await this.seriesService.getSeriesById(inventory.issue.series.id);
+      //const series = await this.seriesService.getSeriesById(inventory.issue.series.id);
 
       // Get the ids of approvals to filter out
       const currentApprovals = await this.approvalRepository.find({
@@ -89,13 +94,34 @@ export class ApprovalService {
       }
 
       const getEbayItemFilterDto: GetEbayItemFilterDto = {
-        series: series.name,
-        issue: inventory.issue.issueNumber,
+        series: comic.series.name,
+        issue: comic.number,
         excludingIds: ebayIds,
       };
 
-      const results = await this.ebayApiService.get(getEbayItemFilterDto, user);
-      return results;
+      const pendingApprovals = await this.ebayApiService.get(getEbayItemFilterDto, user);
+
+      // Get Ebay Item Details
+      const approvalDetails = await Promise.all(
+        pendingApprovals.map(x => this.ebayApiService.getDetailsById(x.itemId, user)),
+      );
+      console.log(approvalDetails);
+
+      const pendingApprovalsWithDetails = [];
+      for (let i = 0; i < pendingApprovals.length; i++) {
+        const element = pendingApprovals[i];
+        let data = { ...element, details: approvalDetails[i] };
+        pendingApprovalsWithDetails.push(data);
+      }
+
+      const retVal = {
+        inventory,
+        comic,
+        cover,
+        pendingApprovals: pendingApprovalsWithDetails,
+      };
+
+      return retVal;
     } catch (error) {
       this.logger.error(error);
     }

@@ -5,7 +5,7 @@ import { Series } from './series.entity';
 interface ComicResult {
   seriesId: number;
   issueId: number;
-  yearBegan: number;
+  yearBegan: string;
   seriesName: string;
   issueNumber: string;
 }
@@ -14,12 +14,16 @@ interface ComicResult {
 export class SeriesRepository extends Repository<Series> {
   private logger = new Logger('SeriesRepository');
 
+  async getSeriesById(id: number): Promise<Series> {
+    return await this.findOne(id)
+  }
+ 
   async getSeries(series: string, issue: number): Promise<ComicResult[]> {
     try {
       interface RawComicResult {
         series_id: number;
         issue_id: number;
-        year_began: number;
+        year_began: string;
         series_name: string;
         issue_number: string;
       }

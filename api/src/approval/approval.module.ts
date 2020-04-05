@@ -8,6 +8,7 @@ import { EbayApiModule } from '../ebay-api/ebay-api.module';
 import { InventoryModule } from '../inventory/inventory.module';
 import { SeriesModule } from '../series/series.module';
 import { IssueModule } from '../issue/issue.module';
+import { GcdApiModule } from 'src/gcd-api/gcd-api.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { IssueModule } from '../issue/issue.module';
     InventoryModule,
     SeriesModule,
     IssueModule,
+    GcdApiModule,
   ],
   controllers: [ApprovalController],
   providers: [ApprovalService],

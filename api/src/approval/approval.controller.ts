@@ -15,7 +15,7 @@ import { GetEbayItemResponseDto } from 'src/ebay-api/dto/get-ebay-item-response.
 export class ApprovalController {
   private logger = new Logger('ApprovalController');
 
-  constructor(private readonly approvalService: ApprovalService) { }
+  constructor(private readonly approvalService: ApprovalService) {}
 
   @Get(':inventoryId')
   get(@Param('inventoryId') inventoryId: string, @GetUser() user: User): Promise<GetEbayItemResponseDto[]> {
@@ -35,7 +35,7 @@ export class ApprovalController {
 
   @Post()
   post(@Body() createApprovalDto: CreateApprovalDto, @GetUser() user: User): Promise<Approval> {
-    this.logger.verbose(`User "${user.username}" posting new approval`);
+    this.logger.verbose(`User "${user.username}" posting new approval, Body: ${JSON.stringify(createApprovalDto)}`);
     return this.approvalService.createApproval(createApprovalDto, user);
   }
 }

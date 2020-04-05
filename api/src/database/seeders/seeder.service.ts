@@ -23,14 +23,14 @@ export class SeederService {
   ) {}
   async seed() {
     try {
-      await this.seriesSeederService.create();
-      await this.issueSeederService.create();
+      // await this.seriesSeederService.create();
+      // await this.issueSeederService.create();
       await this.authSeederService.create();
       await this.conditionSeederService.create();
       await this.graderSeederService.create();
       await this.pageSeederService.create();
       await this.vendorSeederService.create();
-      await this.inventorySeederService.create();
+      // await this.inventorySeederService.create();
     } catch (error) {
       this.logger.log('Error in SeederService: ', error);
     }

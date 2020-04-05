@@ -10,6 +10,7 @@ export class FindingController {
   @Get('completed')
   get() {
     this.logger.verbose(`Initiating eBay API calls for completed items`);
-    return this.findingService.getCompletedItems();
+    this.findingService.getCompletedItems();
+    return 'processing starting'
   }
 }

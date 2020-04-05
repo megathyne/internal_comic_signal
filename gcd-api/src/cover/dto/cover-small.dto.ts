@@ -1,5 +1,5 @@
-export class CoverSmallDto {
+export class CoverDto {
   issueNumber: number;
-  coverImageSmallUrl: string;
+  small: any;
   coverLargeUrl: string;
 }

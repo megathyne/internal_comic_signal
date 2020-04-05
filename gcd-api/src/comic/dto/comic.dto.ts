@@ -1,4 +1,4 @@
-import { CoverSmallDto } from 'src/cover/dto/cover-small.dto';
+import { CoverDto } from 'src/cover/dto/cover-small.dto';
 
 export class ComicDto {
   seriesId: number;
@@ -7,7 +7,9 @@ export class ComicDto {
 
   seriesName: string;
 
+  yearBegan: string;
+
   issueNumber: string;
 
-  coverSmall: CoverSmallDto;
+  coverSmall: CoverDto; 
 }

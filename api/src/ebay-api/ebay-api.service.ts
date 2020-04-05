@@ -38,4 +38,16 @@ export class EbayApiService {
       this.logger.error(error);
     }
   }
+
+  async getDetailsById(id: string, user: User): Promise<any> {
+    this.logger.log(`Fetching ebay item details by Id forfor UserId: ${user.id}. Ids ${id}`);
+    try {
+      const response = await this.httpService
+        .get(`http://${process.env.EBAY_API_URL}:${process.env.EBAY_API_PORT}/ebay-item/item/${id}`)
+        .toPromise();
+      return response.data;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
 }

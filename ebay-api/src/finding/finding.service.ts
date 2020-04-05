@@ -13,7 +13,7 @@ export class FindingService {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async apiRequest(pageNumber): Promise<FindCompletedItemsResponse> {
+  async apiRequest(pageNumber): Promise<any> {
     const url = 'https://svcs.ebay.com/services/search/FindingService/v1';
     const params: FindCompletedItemsConfig = {
       'OPERATION-NAME': 'findCompletedItems',
@@ -32,14 +32,17 @@ export class FindingService {
       const response = await this.httpService.get(url, { params }).toPromise();
       return response.data;
     } catch (error) {
-      this.logger.error(`Error making api request to ebay. Params: ${params}`, error);
+      this.logger.error(`Error making api request to ebay. Params: ${JSON.stringify(params)}`, error);
     }
   }
 
   async storeBatch(items: Item[]): Promise<void> {
+    this.logger.log(items.length);
     try {
       for (let i = 0; i < items.length; i++) {
+        //this.logger.log(`Processing Item Batch. Storing subItem ${i + 1} of ${items.length}`);
         await this.ebayItemService.createEbayItem(items[i]);
+        //this.logger.log(`Processed Item Batch. Stored subItem ${i + 1} of ${items.length}`);
       }
     } catch (error) {
       this.logger.error('Error trying to store completed items ', error);
@@ -51,6 +54,7 @@ export class FindingService {
       let initialPage = 1;
 
       // Call the above function ONCE to return the intial payload
+      this.logger.log(`Processing starting for page 1`);
       const initialResults = await this.apiRequest(initialPage);
 
       // Store the values temporarily
@@ -64,15 +68,34 @@ export class FindingService {
 
       // We extract the current page number and the MAX page number
       const totalPages = parseInt(initialResults.findCompletedItemsResponse[0].paginationOutput[0].totalPages[0]);
+      this.logger.log(`Processing completed for page 1 of ${totalPages}`);
 
       for (let i = initialPage + 1; i <= totalPages; i++) {
-        await this.delay(3000); // Artifical Delays
+        await this.delay(4000); // Artifical Delays
+
+        this.logger.log(`Processing starting for page ${i} of ${totalPages}`);
+
         const results = await this.apiRequest(i);
-        items = results.findCompletedItemsResponse[0].searchResult[0].item;
-        await this.storeBatch(items);
+        console.log(results.findCompletedItemsResponse[0].ack[0]);
+
+        if (results.findCompletedItemsResponse[0].errorMessage) {
+          this.logger.log(JSON.stringify(results.findCompletedItemsResponse[0].errorMessage));
+        }
+
+        if (!results.findCompletedItemsResponse[0]) {
+          this.logger.error('Problem in results.findCompletedItemsResponse');
+        }
+
+        if (!results.findCompletedItemsResponse[0].searchResult[0]) {
+          this.logger.error('Problem in results.findCompletedItemsResponse[0].searchResult[0]');
+        }
+
+        await this.storeBatch(results.findCompletedItemsResponse[0].searchResult[0].item);
+
+        this.logger.log(`Processing completed for page ${i} of ${totalPages}`);
       }
     } catch (error) {
       this.logger.error('Error in getCompletedItem: ', error);
-    } 
+    }
   }
 }

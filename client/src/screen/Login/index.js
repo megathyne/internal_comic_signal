@@ -1,68 +1,90 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { Typography, Button, TextField, useMediaQuery, Link } from '@material-ui/core';
 import { loginSaga } from '../../actions';
-import styles from './styles';
+import Deadpool from '../../content/deadpool-venom.jpg';
+import { useHistory, useLocation } from 'react-router-dom';
 
-class Login extends Component {
-  constructor() {
-    super();
-    this.handleBtnOnClick = this.handleBtnOnClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
+export default function Login(props) {
+  const [data, setData] = useState({});
+  const dispatch = useDispatch();
+  let history = useHistory();
+  let location = useLocation();
 
-  handleChange = input => event => {
-    this.setState({ [input]: event.target.value });
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.code === 'Enter' || event.code === 'NumpadEnter') handleBtnOnClick();
+    };
+
+    document.addEventListener('keydown', listener);
+
+    return () => {
+      document.removeEventListener('keydown', listener);
+    };
+  }, []);
+
+  const handleChange = (input) => (event) => {
+    const d = data;
+    d[input] = event.target.value;
+    setData(d);
   };
 
-  handleBtnOnClick() {
-    this.props.loginSaga({
-      username: this.state.username,
-      password: this.state.password,
-    });
-  }
+  const handleBtnOnClick = async () => {
+    dispatch(loginSaga(data, history));
+  };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
+  const matches = useMediaQuery('(max-resolution: 1dppx)');
+  return (
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+      {matches ? <img alt="" src={Deadpool} style={{ height: '100vh' }}></img> : null}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          marginTop: '20%',
+          width: '100%',
+          maxWidth: '550px',
+          // minWidth: '30%',
+        }}
+      >
+        <div style={{ width: '75%' }}>
+          <Typography variant="h1">Login</Typography>
+          <Typography variant="h4">Welcome to Comic Signal</Typography>
+          <div style={{ marginBottom: '4%', marginTop: '4%' }}>
             <TextField
               id="standard-username-input"
               label="username"
               variant="outlined"
-              onChange={this.handleChange('username')}
+              fullWidth
+              onChange={handleChange('username')}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </div>
+          <div style={{ marginBottom: '4%' }}>
             <TextField
               id="standard-password-input"
               label="Password"
               type="password"
               variant="outlined"
+              fullWidth
               autoComplete="current-password"
-              onChange={this.handleChange('password')}
+              onChange={handleChange('password')}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={this.handleBtnOnClick}>
-              Login
-            </Button>
-          </Grid>
-        </Grid>
+          </div>
+          <Button
+            style={{ marginBottom: '4%' }}
+            variant="contained"
+            type="submit"
+            fullWidth
+            color="primary"
+            onClick={handleBtnOnClick}
+          >
+            Login
+          </Button>
+          <Typography>
+            <Link href="/register">Need an account? Click here.</Link>
+          </Typography>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-const mapDispatchToProps = dispatch => ({
-  loginSaga: user => dispatch(loginSaga(user)),
-});
-
-export default connect(null, mapDispatchToProps)(withStyles(styles)(Login));

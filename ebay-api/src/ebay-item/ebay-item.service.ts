@@ -9,7 +9,10 @@ import { EbayItem } from './ebay-item.entity';
 @Injectable()
 export class EbayItemService {
   private logger = new Logger('EbayItemService');
-  constructor(@InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository, private readonly httpsService: HttpService) { }
+  constructor(
+    @InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository,
+    private readonly httpsService: HttpService,
+  ) {}
 
   async dataMapper(rawEbayItem: Item): Promise<CreateEbayItemDto> {
     const {
@@ -25,6 +28,18 @@ export class EbayItemService {
       shippingInfo,
       listingInfo,
     } = rawEbayItem;
+
+    if (!itemId) console.log('missing itemId ' + itemId);
+    if (!title) console.log('missing title ' + title);
+    if (!globalId) console.log('missing globalId ' + globalId);
+    if (!viewItemURL) console.log('missing viewItemURL ' + viewItemURL);
+    if (!galleryURL) console.log('missing galleryURL ' + galleryURL);
+    if (!primaryCategory) console.log('missing primaryCategory ' + primaryCategory);
+    if (!sellingStatus) console.log('missing sellingStatus ' + sellingStatus);
+    if (!location) console.log('missing location ' + location);
+    if (!country) console.log('missing country ' + country);
+    if (!shippingInfo) console.log('missing shippingInfo ' + shippingInfo);
+    if (!listingInfo) console.log('missing listingInfo ' + listingInfo);
 
     try {
       let finalPrice = 0; // International sellers sometimes sell on US ebay. Need to check converted price first
@@ -44,7 +59,7 @@ export class EbayItemService {
         title: title[0],
         globalId: globalId[0],
         viewItemURL: viewItemURL[0],
-        galleryURL: galleryURL ? galleryURL[0] : '',
+        galleryURL: !galleryURL ? '' : galleryURL[0],
         primaryCategoryId: primaryCategory[0].categoryId[0],
         finalPrice,
         location: location[0],
@@ -65,36 +80,37 @@ export class EbayItemService {
   async createEbayItem(rawEbayItem: Item): Promise<void> {
     try {
       const mappedData = await this.dataMapper(rawEbayItem);
-      return this.ebayItemRepository.createEbayItem(mappedData);
+      return await this.ebayItemRepository.createEbayItem(mappedData);
     } catch (error) {
       this.logger.error('createEbayItem: ', error);
     }
   }
 
   async getEbayItems(filterDto: GetEbayItemFilterDto): Promise<EbayItem[]> {
+    this.logger.log(`getEbayItems: Getting ebay items. Filter: ${JSON.stringify(filterDto)}`);
     return await this.ebayItemRepository.getEbayItems(filterDto);
   }
 
   async getByIds(ebayItemIds: string[]): Promise<EbayItem[]> {
-    return await this.ebayItemRepository.getByIds(ebayItemIds)
+    return await this.ebayItemRepository.getByIds(ebayItemIds);
   }
 
-  async getItemById(id:string): Promise<any>{
-
+  async getItemById(id: string): Promise<any> {
     const url = `https://open.api.ebay.com/shopping/`;
     const params = {
-      'callname': 'GetSingleItem',
-      'responseencoding': 'JSON',
-      'appId': process.env.EBAY_API_APPID,
-      'version': 1141,
-      'ItemID': id,
+      callname: 'GetSingleItem',
+      responseencoding: 'JSON',
+      appId: process.env.EBAY_API_APPID,
+      version: 1141,
+      ItemID: id,
     };
-    
+
     try {
-      const response = await this.httpsService.get(url, {params}).toPromise();
-      return response.data;
-    }catch (error){
-      this.logger.error(`Error fetching ebay item from ebay. Params: ${params}`,error);
+      const response = await this.httpsService.get(url, { params }).toPromise();
+      console.log(response.data.Item);
+      return response.data.Item;
+    } catch (error) {
+      this.logger.error(`Error fetching ebay item from ebay. Params: ${params}`, error);
     }
   }
 }

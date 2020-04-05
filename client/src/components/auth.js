@@ -2,36 +2,30 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-// export default function(ComposedComponent) {
-//   class Authentication extends Component {
-//     componentDidMount() {
-//       if (!this.props.authenticated) {
-//         localStorage.removeItem('accessToken');
-//         this.props.history.push('/login');
-//       }
-//     }
+// function PrivateRoute({ component: Component, ...rest }) {
 
-//     componentDidUpdate(nextProps) {
-//       if (!nextProps.authenticated) {
-//         localStorage.removeItem('accessToken');
-//         this.props.history.push('/login');
-//       }
-//     }
-
-//     render() {
-//       return <ComposedComponent {...this.props} />;
-//     }
-//   }
-
-//   function mapStateToProps(state) {
-//     return { authenticated: state.authReducer.authenticated };
-//   }
-
-//   return connect(mapStateToProps, null)(Authentication);
+//   return <Route {...rest} render={(props) => (authenticated ? <Component {...props} /> : <Redirect to="/login" />)} />;
 // }
 
-function Auth({ component: Component, ...rest }) {
-  const authenticated = useSelector(state => state.authReducer.authenticated);
-  return <Route {...rest} render={props => (authenticated ? <Component {...props} /> : <Redirect to="/login" />)} />;
+function PrivateRoute({ children, ...rest }) {
+  const authenticated = useSelector((state) => state.authReducer.authenticated);
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        authenticated ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
 }
-export default Auth;
+
+export default PrivateRoute;
