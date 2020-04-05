@@ -1,0 +1,9 @@
+Process:
+1. Get Account from ebay Account API
+2. Setup Taxonomy from ebay Taxonomy API
+3. Use Catalog API to match with like products on ebay
+4. Use Inventory API to 
+    a. Add items to Inventory
+    b. Create listing
+    c. Manage items
+5. Use Listing API to make a draft listing
