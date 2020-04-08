@@ -9,10 +9,10 @@ export default function HighestValue(props) {
           <ListItem>
             <ListItemText primary={<Typography variant="h5">Highest Value</Typography>} />
           </ListItem>
-          {props.data.map((item) => {
+          {props.data.map((item, i) => {
             const title = `${item.comic.seriesName} (${item.comic.volume}) #${item.comic.number} `;
             return (
-              <React.Fragment key={item.id}>
+              <React.Fragment key={i}>
                 <Divider />
                 <ListItem button>
                   <ListItemText

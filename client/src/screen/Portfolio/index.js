@@ -10,8 +10,8 @@ import {
   useMediaQuery,
   Typography,
 } from '@material-ui/core';
-import PortfolioChart from '../../components/portfolio-chart';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
+import PortfolioChart from './components/portfolio-chart';
+import PortfolioItemChart from './components/portfolio-item-chart';
 import { APIGet } from '../../api/api';
 import { withRouter } from 'react-router-dom';
 import HighestValue from './components/highest-value';
@@ -55,7 +55,7 @@ function InvestmentChart(props) {
     >
       <CardContent>
         <div style={{ height: '30vh' }}>
-          <PortfolioChart />
+          <PortfolioChart data={props.data} />
         </div>
       </CardContent>
     </Card>
@@ -85,7 +85,7 @@ function PortfolioListItem(props) {
   return (
     <ListItem button onClick={(event) => handleListItemClick(event, 0)}>
       <div style={{ height: '75px', width: '40%' }}>
-        <PortfolioItemChart />
+        <PortfolioItemChart data={data.inventory.validTransactions} />
       </div>
       <div style={{ marginLeft: '20px' }}>
         <Typography variant="body1">{title}</Typography>
@@ -100,6 +100,10 @@ const Portfolio = ({ history }) => {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const [data, setData] = useState({
     portfolio: [],
+    portfolioChart: {
+      cost: [],
+      value: [],
+    },
     topThreeValue: [],
     topThreePending: [],
   });
@@ -136,7 +140,7 @@ const Portfolio = ({ history }) => {
           }}
         >
           <InvestmentAmount />
-          <InvestmentChart matches={matches} />
+          <InvestmentChart matches={matches} data={data.portfolioChart} />
           <div
             style={{
               display: 'flex',
