@@ -18,7 +18,11 @@ export class InventoryService {
     private inventoryRepository: InventoryRepository,
 
     private gcdApiService: GcdApiService,
-  ) {}
+  ) { }
+
+  async get(user: User): Promise<Inventory[]> {
+    return await this.inventoryRepository.find({ where: { userId: user.id } });
+  }
 
   async getInventory(filterDto: GetInventoryFilterDto, user: User): Promise<Inventory[]> {
     return await this.inventoryRepository.getInventory(filterDto, user);

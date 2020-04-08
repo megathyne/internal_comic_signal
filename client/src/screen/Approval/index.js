@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
-import ImageGallery from 'react-image-gallery';
+
 
 import Divider from '@material-ui/core/Divider';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 
-// import 'react-responsive-carousel/lib/styles/carousel.min.css';
-// import { Carousel } from 'react-responsive-carousel';
-// import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, ImageWithZoom, DotGroup } from 'pure-react-carousel';
-// import 'pure-react-carousel/dist/react-carousel.es.css';
+
+
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -24,39 +20,12 @@ import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
 import { APIGet, APIPost } from '../../api/api';
 
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 
-const tileData = [
-  {
-    img: ebay1,
-    title: 'Image',
-    author: 'author',
-    cols: 1,
-  },
-  {
-    img: ebay2,
-    title: 'Image',
-    author: 'author',
-    cols: 1,
-  },
-  {
-    img: ebay1,
-    title: 'Image',
-    author: 'author',
-    cols: 1,
-  },
-  {
-    img: ebay2,
-    title: 'Image',
-    author: 'author',
-    cols: 1,
-  },
-];
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -229,70 +198,7 @@ function EbayListItem(props) {
     </div>
   );
 
-  //   return (
-  //     <Card style={{ marginBottom: '5%' }}>
-  //       <CardContent>
-  //         <Typography variant="subtitle2">{data.title}</Typography>
-  //         <img alt="" src={data.galleryURL} />
-  //         <div className={classes.root}>
-  //           <GridList className={classes.gridList} cols={2}>
-  //             {/* {tileData.map(tile => (
-  //               <GridListTile key={tile.img} cols={tile.cols || 1}>
-  //                 <img src={tile.img} alt={tile.title} />
-  //               </GridListTile>
-  //             ))} */}
 
-  //             {data.details.PictureURL.map(tile => (
-  //               <GridListTile key={tile} cols={tile.cols || 2}>
-  //                 <img src={tile} alt="" />
-  //               </GridListTile>
-  //             ))}
-  //           </GridList>
-  //         </div>
-
-  //         <div style={{ marginTop: '10px', minWidth: '250px' }}>
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">Total</Typography>
-  //             <Typography variant="body1">{data.totalCost}</Typography>
-  //           </div>
-  //           <Divider />
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">End Date</Typography>
-  //             <Typography variant="body1">12/12/2019</Typography>
-  //           </div>
-  //           <Divider />
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">Type</Typography>
-  //             <Typography variant="body1">{data.listingType}</Typography>
-  //           </div>
-  //           <Divider />
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">Bids</Typography>
-  //             <Typography variant="body1">30</Typography>
-  //           </div>
-  //           <Divider />
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">Shipping</Typography>
-  //             <Typography variant="body1">{data.shippingCost}</Typography>
-  //           </div>
-  //           <Divider />
-  //           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-  //             <Typography variant="body1">Sold</Typography>
-  //             <Typography variant="body1">{data.finalPrice}</Typography>
-  //           </div>
-  //         </div>
-
-  //         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '4%' }}>
-  //           <Button variant="contained" onClick={handleReject}>
-  //             Reject
-  //           </Button>
-  //           <Button variant="contained" onClick={handleApprove}>
-  //             Approve
-  //           </Button>
-  //         </div>
-  //       </CardContent>
-  //     </Card>
-  //   );
 }
 
 function EbayList(props) {
@@ -347,7 +253,6 @@ export default function Approval(props) {
 
   return (
     <div>
-      <Heading />
       <div style={{ marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
         <EbayList data={data.pendingApprovals} handleSetApproval={handleSetApproval} />
 

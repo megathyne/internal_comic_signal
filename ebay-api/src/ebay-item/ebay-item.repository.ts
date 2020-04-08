@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, In } from 'typeorm';
 import { EbayItem } from './ebay-item.entity';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
 import { CreateEbayItemDto } from './dto/create-ebay-item.dto';
@@ -23,12 +23,12 @@ export class EbayItemRepository extends Repository<EbayItem> {
       ebayItem.country = createEbayItemDto.country;
       ebayItem.shippingCost = createEbayItemDto.shippingCost;
       ebayItem.listingType = createEbayItemDto.listingType;
+      ebayItem.endTime = createEbayItemDto.endTime;
       ebayItem.bestOfferEnabled = createEbayItemDto.bestOfferEnabled;
       ebayItem.totalCost = ebayItem.totalCost;
 
       try {
         await ebayItem.save();
-        this.logger.log(`Item saved`);
       } catch (error) {
         if (error.code === '23505') {
           //duplicate ebay item entry
@@ -37,8 +37,6 @@ export class EbayItemRepository extends Repository<EbayItem> {
           this.logger.error(`Unable to add eBay item.`, error);
         }
       }
-    } else {
-      this.logger.log(`Item already exists`);
     }
   }
 
@@ -68,11 +66,11 @@ export class EbayItemRepository extends Repository<EbayItem> {
     }
   }
 
-  async getByIds(ids: string[]): Promise<EbayItem[]> {
+  async getByIds(itemIds: string[]): Promise<EbayItem[]> {
     try {
-      return await this.findByIds(ids);
+      return await this.find({ where: { itemId: In(itemIds) } });
     } catch (error) {
-      this.logger.error(`Failed to get ebay items by ids. Ids: ${JSON.stringify(ids)}`, error.stack);
+      this.logger.error(`Failed to get ebay items by ids. Ids: ${JSON.stringify(itemIds)}`, error.stack);
       throw new InternalServerErrorException();
     }
   }

@@ -33,7 +33,7 @@ export class EbayItem extends BaseEntity {
   @Column({ nullable: true })
   primaryCategoryId: string;
 
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   finalPrice: number;
 
   @Column({ nullable: true })
@@ -42,14 +42,17 @@ export class EbayItem extends BaseEntity {
   @Column({ nullable: true })
   country: string;
 
-  @Column({ type: 'money' })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   shippingCost: number;
 
-  @Column({ type: 'money', nullable: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   totalCost: number;
 
   @Column({ nullable: true })
   listingType: string;
+
+  @Column()
+  endTime: Date;
 
   @Column({ type: 'boolean' })
   bestOfferEnabled: boolean;

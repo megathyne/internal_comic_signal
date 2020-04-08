@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button } from '@material-ui/core';
 import { Card, CardContent, Divider, Paper, Tab, Tabs, useMediaQuery } from '@material-ui/core';
-import Heading from '../../components/Heading';
 import ASM from '../../mockData/730623.jpg';
 
 // import ebay1 from './s-l1600.jpg';
@@ -178,7 +177,6 @@ export default function ApprovalHistory(props) {
 
   return (
     <div>
-      <Heading />
       <div style={{ marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
         <div style={{ display: matches ? 'flex' : null, justifyContent: matches ? 'space-between' : null }}>
           <div style={{ marginTop: '4%', width: matches ? '48%' : null }}>

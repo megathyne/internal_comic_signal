@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Divider, useMediaQuery, Typography } from '@material-ui/core';
 import PortfolioChart from '../../components/portfolio-chart';
 import { useParams } from 'react-router-dom';
-import Heading from '../../components/Heading';
 import { APIGet } from '../../api/api';
 
 function ComicTitle(props) {
@@ -185,7 +184,7 @@ export default function Comic(props) {
 
   return (
     <div>
-      <Heading />
+
 
       <div
         style={{

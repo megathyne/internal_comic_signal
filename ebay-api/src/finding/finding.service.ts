@@ -37,12 +37,9 @@ export class FindingService {
   }
 
   async storeBatch(items: Item[]): Promise<void> {
-    this.logger.log(items.length);
     try {
       for (let i = 0; i < items.length; i++) {
-        //this.logger.log(`Processing Item Batch. Storing subItem ${i + 1} of ${items.length}`);
         await this.ebayItemService.createEbayItem(items[i]);
-        //this.logger.log(`Processed Item Batch. Stored subItem ${i + 1} of ${items.length}`);
       }
     } catch (error) {
       this.logger.error('Error trying to store completed items ', error);
@@ -76,23 +73,15 @@ export class FindingService {
         this.logger.log(`Processing starting for page ${i} of ${totalPages}`);
 
         const results = await this.apiRequest(i);
-        console.log(results.findCompletedItemsResponse[0].ack[0]);
 
-        if (results.findCompletedItemsResponse[0].errorMessage) {
+        if (results.findCompletedItemsResponse[0].ack[0] !== 'Success') {
+          // Usually this error occurs when the postal code we send doesnt work
+          // TODO: Retry the page without the buyerPostalCode: 10036 property on the config in place
           this.logger.log(JSON.stringify(results.findCompletedItemsResponse[0].errorMessage));
+        } else {
+          await this.storeBatch(results.findCompletedItemsResponse[0].searchResult[0].item);
+          this.logger.log(`Processing completed for page ${i} of ${totalPages}`);
         }
-
-        if (!results.findCompletedItemsResponse[0]) {
-          this.logger.error('Problem in results.findCompletedItemsResponse');
-        }
-
-        if (!results.findCompletedItemsResponse[0].searchResult[0]) {
-          this.logger.error('Problem in results.findCompletedItemsResponse[0].searchResult[0]');
-        }
-
-        await this.storeBatch(results.findCompletedItemsResponse[0].searchResult[0].item);
-
-        this.logger.log(`Processing completed for page ${i} of ${totalPages}`);
       }
     } catch (error) {
       this.logger.error('Error in getCompletedItem: ', error);

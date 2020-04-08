@@ -10,7 +10,6 @@ import {
   useMediaQuery,
   Typography,
 } from '@material-ui/core';
-import Heading from '../../components/Heading';
 import PortfolioChart from '../../components/portfolio-chart';
 import PortfolioItemChart from '../../components/portfolio-item-chart';
 import { APIGet } from '../../api/api';
@@ -77,8 +76,10 @@ function PortfolioHeader(props) {
 function PortfolioListItem(props) {
   const { data, history } = props;
 
+  const title = `${data.comic.seriesName} (${data.comic.volume}) #${data.comic.number} `;
+
   const handleListItemClick = () => {
-    history.push(`/comic/${data.copies.join('-')}`);
+    history.push(`/comic/${data.comic.issueId}`);
   };
 
   return (
@@ -87,11 +88,9 @@ function PortfolioListItem(props) {
         <PortfolioItemChart />
       </div>
       <div style={{ marginLeft: '20px' }}>
-        <Typography variant="body1">{data.name}</Typography>
-        <Typography variant="body1">{data.value || '$55.55'}</Typography>
-        <Typography variant="body1">
-          {data.copies.length > 1 ? `${data.copies.length} Copies` : `${data.copies.length} Copy`}
-        </Typography>
+        <Typography variant="body1">{title}</Typography>
+        <Typography variant="body1">Cost: {data.inventory.amount}</Typography>
+        <Typography variant="body1">Value: {data.inventory.value}</Typography>
       </div>
     </ListItem>
   );
@@ -99,14 +98,20 @@ function PortfolioListItem(props) {
 
 const Portfolio = ({ history }) => {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    portfolio: [],
+    topThreeValue: [],
+    topThreePending: [],
+  });
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await APIGet('inventory/portfolio');
+        const response = await APIGet('portfolio');
+        console.log(response);
         if (!response) history.push('/login');
         setData(response);
+        console.log(data);
       } catch (error) {
         history.push('/login');
       }
@@ -116,7 +121,6 @@ const Portfolio = ({ history }) => {
 
   return (
     <div>
-      <Heading />
       <div
         style={{
           marginLeft: matches ? '4%' : '10%',
@@ -146,7 +150,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <PendingReview matches />
+              <PendingReview matches data={data.topThreePending} />
             </div>
             <div
               style={{
@@ -154,7 +158,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <HighestValue matches />
+              <HighestValue matches data={data.topThreeValue} />
             </div>
           </div>
         </div>
@@ -171,8 +175,8 @@ const Portfolio = ({ history }) => {
             <Card>
               <CardContent>
                 <List component="nav" aria-label="secondary mailbox folders">
-                  {data.map((item) => (
-                    <React.Fragment key={item.name}>
+                  {data.portfolio.map((item, i) => (
+                    <React.Fragment key={i}>
                       <PortfolioListItem data={item} history={history} />
                       <Divider />
                     </React.Fragment>

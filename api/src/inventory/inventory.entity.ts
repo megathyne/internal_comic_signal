@@ -65,10 +65,10 @@ export class Inventory extends BaseEntity {
   @Column()
   userId: number;
 
-  @Column({ type: 'money', default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0, })
   cost: number;
 
-  @Column({ type: 'money', nullable: true })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0, })
   value: number;
 
   @Column({ type: 'date' })

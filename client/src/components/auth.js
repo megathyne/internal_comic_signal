@@ -1,11 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import Heading from './Heading';
 
-// function PrivateRoute({ component: Component, ...rest }) {
-
-//   return <Route {...rest} render={(props) => (authenticated ? <Component {...props} /> : <Redirect to="/login" />)} />;
-// }
 
 function PrivateRoute({ children, ...rest }) {
   const authenticated = useSelector((state) => state.authReducer.authenticated);
@@ -14,15 +11,17 @@ function PrivateRoute({ children, ...rest }) {
       {...rest}
       render={({ location }) =>
         authenticated ? (
-          children
+          <Heading >
+            {children}
+          </Heading>
         ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: location },
-            }}
-          />
-        )
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location },
+              }}
+            />
+          )
       }
     />
   );

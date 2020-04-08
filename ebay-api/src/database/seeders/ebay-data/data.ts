@@ -14,6 +14,7 @@ export const ebayData: CreateEbayItemDto[] = [
         shippingCost: 6.25,
         listingType: 'StoreInventory',
         bestOfferEnabled: true,
+        endTime: new Date('2020-02-02'),
         totalCost: undefined
     },
     {
@@ -29,6 +30,7 @@ export const ebayData: CreateEbayItemDto[] = [
         shippingCost: 4.99,
         listingType: 'Auction',
         bestOfferEnabled: true,
+        endTime: new Date('2020-02-02'),
         totalCost: undefined
     },
     { 
@@ -44,7 +46,8 @@ export const ebayData: CreateEbayItemDto[] = [
         shippingCost: 6,
         listingType: 'Auction',
         bestOfferEnabled: true,
+        endTime: new Date('2020-02-02'),
         totalCost: undefined
     },
     // ... and others ... 
-  ];
+];

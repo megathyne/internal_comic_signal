@@ -23,5 +23,7 @@ export class CreateEbayItemDto {
 
   listingType: string;
 
+  endTime: Date;
+
   bestOfferEnabled: boolean;
 }
