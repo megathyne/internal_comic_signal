@@ -2,7 +2,6 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function PortfolioItemChart(props) {
-  console.log('data', props.data);
   return (
     <ResponsiveContainer>
       <LineChart

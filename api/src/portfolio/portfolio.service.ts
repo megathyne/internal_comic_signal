@@ -14,14 +14,11 @@ export class PortfolioService {
     private inventoryService: InventoryService,
     private gcdApiService: GcdApiService,
     private approvalService: ApprovalService,
-    private ebayApiService: EbayApiService,
   ) {}
 
   async getPortfolioItem(inventory: Inventory, user: User) {
     const comic = await this.gcdApiService.getById(inventory.comicId, user);
-
     const approvals = await this.approvalService.getCompletedByApproved(inventory.id, user);
-
     const pendingApprovalCount = await this.approvalService.getPendingCount(inventory.id, user);
 
     return {
@@ -40,7 +37,7 @@ export class PortfolioService {
           amount: parseFloat(finalPrice),
           date: new Date(endTime).toISOString().split('T')[0],
         })),
-        value: approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length,
+        value: approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length || 0,
         pendingApprovalCount,
       },
     };
@@ -55,11 +52,23 @@ export class PortfolioService {
       portfolio.push(portfolioItem);
     }
 
-    const topThreeValue = portfolio.sort((a, b) => b.inventory.value - a.inventory.value).slice(0, 3);
+    const topThreeValue = portfolio
+      .sort((a, b) => b.inventory.value - a.inventory.value)
+      .slice(0, 3)
+      .map(({ comic: { issueId, seriesName, volume, number }, inventory: { id, value } }) => ({
+        issueId,
+        title: seriesName + ' (' + volume + ') ' + '#' + number,
+        data: value.toFixed(2),
+      }));
 
-    const topThreePending = portfolio.sort(
-      (a, b) => b.inventory.pendingApprovalCount - a.inventory.pendingApprovalCount,
-    );
+    const topThreePending = portfolio
+      .sort((a, b) => b.inventory.pendingApprovalCount - a.inventory.pendingApprovalCount)
+      .slice(0, 3)
+      .map(({ comic: { issueId, seriesName, volume, number }, inventory: { id, pendingApprovalCount } }) => ({
+        issueId,
+        title: seriesName + ' (' + volume + ') ' + '#' + number,
+        data: pendingApprovalCount,
+      }));
 
     const portfolioChart = {
       cost: portfolio

@@ -10,12 +10,12 @@ import {
   useMediaQuery,
   Typography,
 } from '@material-ui/core';
-import PortfolioChart from './components/portfolio-chart';
-import PortfolioItemChart from './components/portfolio-item-chart';
+import PortfolioChart from './components/PortfolioChart';
+import PortfolioItemChart from './components/PortfolioItemChart';
 import { APIGet } from '../../api/api';
 import { withRouter } from 'react-router-dom';
-import HighestValue from './components/highest-value';
-import PendingReview from './components/pending-review';
+import HighestValue from './components/HighestValueList';
+import PendingReview from './components/PendingReview';
 
 function InvestmentAmount(props) {
   const data = {
@@ -154,7 +154,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <PendingReview matches data={data.topThreePending} />
+              <PendingReview matches data={data.topThreePending} history={history} />
             </div>
             <div
               style={{
@@ -162,7 +162,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <HighestValue matches data={data.topThreeValue} />
+              <HighestValue matches data={data.topThreeValue} history={history} />
             </div>
           </div>
         </div>

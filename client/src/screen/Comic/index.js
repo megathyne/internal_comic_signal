@@ -3,64 +3,11 @@ import { Button, Card, CardContent, Divider, useMediaQuery, Typography } from '@
 import PortfolioChart from '../../components/portfolio-chart';
 import { useParams } from 'react-router-dom';
 import { APIGet } from '../../api/api';
+import Description from './components/description';
 
 function ComicTitle(props) {
   return (
     <Typography variant="h6">{`${props.data[0].comic.series.name} (${props.data[0].comic.series.year_began}) #${props.data[0].comic.number}`}</Typography>
-  );
-}
-
-function ComicDescription(props) {
-  return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Copies</Typography>
-        <Typography variant="body1">{props.data.length}</Typography>
-      </div>
-      <Divider />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1">Average Cost</Typography>
-        <Typography variant="body1">
-          {`$${props.data.reduce((prev, curr) => (prev += parseInt(curr.cost.split('$')[1])), 0).toFixed(2)}`}
-        </Typography>
-      </div>
-      <Divider />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1" color="primary">
-          Total Return
-        </Typography>
-        <Typography variant="body1" color="primary">
-          +$600.00 (+17.51%)
-        </Typography>
-      </div>
-      <Divider />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1" color="primary">
-          Total Value
-        </Typography>
-        <Typography variant="body1" color="primary">
-          $1,300.00
-        </Typography>
-      </div>
-      <Divider />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1" color="primary">
-          Portfolio Diversity
-        </Typography>
-        <Typography variant="body1" color="primary">
-          22%
-        </Typography>
-      </div>
-      <Divider />
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="body1" color="primary">
-          30 Day Return
-        </Typography>
-        <Typography variant="body1" color="primary">
-          +100.00 (+4.22%)
-        </Typography>
-      </div>
-    </div>
   );
 }
 
@@ -165,10 +112,6 @@ function ComicListItem(props) {
   );
 }
 
-function ComicList(props) {
-  return props.data.map(x => <ComicListItem key={x.id} data={x} />);
-}
-
 export default function Comic(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const { id } = useParams();
@@ -184,8 +127,6 @@ export default function Comic(props) {
 
   return (
     <div>
-
-
       <div
         style={{
           marginLeft: matches ? '4%' : '10%',
@@ -212,7 +153,7 @@ export default function Comic(props) {
                   <ComicImage />
                 </div> */}
                 <div style={{ width: matches ? '49%' : null }}>
-                  <ComicDescription data={data} />
+                  <Description data={data} />
                 </div>
               </div>
               <InvestmentChart matches={matches} />
@@ -221,7 +162,9 @@ export default function Comic(props) {
 
           <div style={{ marginTop: '4%', width: matches ? '48%' : null }}>
             <div style={{ width: '100%', maxHeight: matches ? '80vh' : null, overflow: matches ? 'auto' : null }}>
-              <ComicList data={data} />
+              {data.map((x) => (
+                <ComicListItem key={x.id} data={x} />
+              ))}
             </div>
           </div>
         </div>
