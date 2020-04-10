@@ -10,19 +10,14 @@ import {
   useMediaQuery,
   Typography,
 } from '@material-ui/core';
-import Heading from '../../components/Heading';
-import PortfolioChart from '../../components/portfolio-chart';
-import PortfolioItemChart from '../../components/portfolio-item-chart';
+import PortfolioChart from './components/PortfolioChart';
+import PortfolioItemChart from './components/PortfolioItemChart';
 import { APIGet } from '../../api/api';
 import { withRouter } from 'react-router-dom';
-import HighestValue from './components/highest-value';
-import PendingReview from './components/pending-review';
+import HighestValue from './components/HighestValueList';
+import PendingReview from './components/PendingReview';
 
 function InvestmentAmount(props) {
-  const data = {
-    totalValue: '$19,658.12',
-  };
-
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -41,7 +36,7 @@ function InvestmentAmount(props) {
         Investing
       </Typography>
       <Typography variant="h5" className={classes.typography}>
-        {data.totalValue}
+        {props.data}
       </Typography>
     </div>
   );
@@ -56,7 +51,7 @@ function InvestmentChart(props) {
     >
       <CardContent>
         <div style={{ height: '30vh' }}>
-          <PortfolioChart />
+          <PortfolioChart data={props.data} />
         </div>
       </CardContent>
     </Card>
@@ -76,22 +71,23 @@ function PortfolioHeader(props) {
 
 function PortfolioListItem(props) {
   const { data, history } = props;
+  console.log('PortfolioListItem', data);
+
+  const title = `${data.comic.seriesName} (${data.comic.volume}) #${data.comic.number} `;
 
   const handleListItemClick = () => {
-    history.push(`/comic/${data.copies.join('-')}`);
+    history.push(`/comic/${data.comic.issueId}`);
   };
 
   return (
     <ListItem button onClick={(event) => handleListItemClick(event, 0)}>
       <div style={{ height: '75px', width: '40%' }}>
-        <PortfolioItemChart />
+        <PortfolioItemChart data={data.inventory.validTransactions} />
       </div>
       <div style={{ marginLeft: '20px' }}>
-        <Typography variant="body1">{data.name}</Typography>
-        <Typography variant="body1">{data.value || '$55.55'}</Typography>
-        <Typography variant="body1">
-          {data.copies.length > 1 ? `${data.copies.length} Copies` : `${data.copies.length} Copy`}
-        </Typography>
+        <Typography variant="body1">{title}</Typography>
+        <Typography variant="body1">Cost: {data.inventory.amount}</Typography>
+        <Typography variant="body1">Value: {data.inventory.value}</Typography>
       </div>
     </ListItem>
   );
@@ -99,14 +95,25 @@ function PortfolioListItem(props) {
 
 const Portfolio = ({ history }) => {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    portfolioValue: 0,
+    portfolio: [],
+    portfolioChart: {
+      cost: [],
+      value: [],
+    },
+    topThreeValue: [],
+    topThreePending: [],
+  });
 
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await APIGet('inventory/portfolio');
+        const response = await APIGet('portfolio');
+        console.log(response);
         if (!response) history.push('/login');
         setData(response);
+        console.log(data);
       } catch (error) {
         history.push('/login');
       }
@@ -116,7 +123,6 @@ const Portfolio = ({ history }) => {
 
   return (
     <div>
-      <Heading />
       <div
         style={{
           marginLeft: matches ? '4%' : '10%',
@@ -131,8 +137,8 @@ const Portfolio = ({ history }) => {
             width: matches ? '48%' : null,
           }}
         >
-          <InvestmentAmount />
-          <InvestmentChart matches={matches} />
+          <InvestmentAmount data={data.portfolioValue} />
+          <InvestmentChart matches={matches} data={data.portfolioChart} />
           <div
             style={{
               display: 'flex',
@@ -146,7 +152,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <PendingReview matches />
+              <PendingReview matches data={data.topThreePending} history={history} />
             </div>
             <div
               style={{
@@ -154,7 +160,7 @@ const Portfolio = ({ history }) => {
                 width: matches ? '48%' : '100%',
               }}
             >
-              <HighestValue matches />
+              <HighestValue matches data={data.topThreeValue} history={history} />
             </div>
           </div>
         </div>
@@ -171,8 +177,8 @@ const Portfolio = ({ history }) => {
             <Card>
               <CardContent>
                 <List component="nav" aria-label="secondary mailbox folders">
-                  {data.map((item) => (
-                    <React.Fragment key={item.name}>
+                  {data.portfolio.map((item, i) => (
+                    <React.Fragment key={i}>
                       <PortfolioListItem data={item} history={history} />
                       <Divider />
                     </React.Fragment>

@@ -12,7 +12,7 @@ export class EbayItemService {
   constructor(
     @InjectRepository(EbayItemRepository) private ebayItemRepository: EbayItemRepository,
     private readonly httpsService: HttpService,
-  ) {}
+  ) { }
 
   async dataMapper(rawEbayItem: Item): Promise<CreateEbayItemDto> {
     const {
@@ -66,10 +66,11 @@ export class EbayItemService {
         country: country[0],
         shippingCost,
         listingType: listingInfo[0].listingType[0],
+        endTime: new Date(listingInfo[0].endTime[0]),
         bestOfferEnabled: Boolean(listingInfo[0].bestOfferEnabled[0]),
         totalCost: finalPrice + shippingCost,
       };
-      return createEbayItemDto;
+      return createEbayItemDto; 
     } catch (error) {
       this.logger.error(
         `Error converting raw ebay item for database use: ${error}, Raw ebay item: ${JSON.stringify(rawEbayItem)}`,

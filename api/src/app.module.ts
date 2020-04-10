@@ -14,6 +14,7 @@ import { ApprovalModule } from './approval/approval.module';
 import * as ormconfig from './ormconfig';
 import { ComicModule } from './comic/comic.module';
 import { GcdApiModule } from './gcd-api/gcd-api.module';
+import { PortfolioModule } from './portfolio/portfolio.module';
 
 @Module({
   imports: [
@@ -29,10 +30,11 @@ import { GcdApiModule } from './gcd-api/gcd-api.module';
     InventoryModule,
     IssueModule,
     PageModule,
+    PortfolioModule,
     SeriesModule,
     VendorModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

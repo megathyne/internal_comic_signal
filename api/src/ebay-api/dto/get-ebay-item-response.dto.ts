@@ -5,9 +5,11 @@ export class GetEbayItemResponseDto {
 
   title: string;
 
-  finalPrice: number;
+  finalPrice: string;
 
   shippingCost: number;
 
   totalCost: number;
+
+  endTime: Date;
 }

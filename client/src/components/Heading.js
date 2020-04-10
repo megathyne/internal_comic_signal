@@ -32,6 +32,7 @@ export default function Heading(props) {
           </div>
         </Toolbar>
       </AppBar>
+      {props.children}
     </div>
   );
 }

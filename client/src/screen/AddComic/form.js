@@ -22,7 +22,7 @@ export default function FormDialog(props) {
   const [comic, setComic] = React.useState({});
   const dispatch = useDispatch();
 
-  const handleChange = name => data => {
+  const handleChange = (name) => (data) => {
     let c = comic;
     c[name] = data;
     setComic(c);
@@ -96,7 +96,7 @@ export default function FormDialog(props) {
           <Button onClick={handleContinue} color="primary">
             ok
           </Button>
-          <Button onClick={handleRoute} color="primary" autoFocus>
+          <Button href="/" color="primary" autoFocus>
             exit
           </Button>
         </DialogActions>

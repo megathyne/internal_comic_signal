@@ -71,6 +71,31 @@ export class ApprovalService {
     return this.approvalRepository.createApproval(createApprovalDto, user);
   }
 
+  async getPendingCount(inventoryId: number, user: User): Promise<any> {
+    const inventory = await this.inventoryService.getInventoryById(inventoryId, user);
+    const comic = await this.gcdApiService.getById(inventory.comicId, user);
+
+    const currentApprovals = await this.approvalRepository.find({
+      select: ['ebayItemId'],
+      where: { userId: user.id, inventory: inventoryId },
+    });
+
+    let ebayIds = [];
+    if (currentApprovals.length > 0) {
+      ebayIds = currentApprovals.map(item => item.ebayItemId);
+    }
+
+    const getEbayItemFilterDto: GetEbayItemFilterDto = {
+      series: comic.series.name,
+      issue: comic.number,
+      excludingIds: ebayIds,
+    };
+
+    const pendingApprovals = await this.ebayApiService.get(getEbayItemFilterDto, user);
+
+    return pendingApprovals.length;
+  }
+
   async getPending(inventoryId: number, user: User): Promise<any> {
     try {
       // Get Issue number

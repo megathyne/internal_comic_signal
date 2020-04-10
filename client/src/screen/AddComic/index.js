@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { push } from 'connected-react-router';
-
 import {
   Typography,
   Button,
@@ -13,7 +10,6 @@ import {
   useMediaQuery,
 } from '@material-ui/core';
 import { APIGet, APIPost } from '../../api/api';
-import Heading from '../../components/Heading';
 import Form from './form';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Search(props) {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const handleSendHome = () => {
-    dispatch(push('/'));
-  };
 
   return (
     <Card
@@ -55,7 +46,7 @@ function Search(props) {
           <Button
             style={{ marginRight: '5%', marginTop: '2%' }}
             variant="contained"
-            onClick={handleSendHome}
+            href='/'
             disabled={props.disableSubmit}
           >
             Cancel
@@ -99,11 +90,7 @@ function SearchResultItem(props) {
 export default function AddComic(props) {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const [disableSubmit, setDisableSubmit] = useState(false);
-
-  const [search, setSearch] = useState({
-    series: '',
-    issue: '',
-  });
+  const [search, setSearch] = useState({});
 
   const [searchResults, setSearchResults] = useState([]);
 
@@ -113,16 +100,15 @@ export default function AddComic(props) {
     setSearch(s);
   };
 
-  const handleClick = async (param1, param2) => {
+  const handleClick = async () => {
     try {
       setDisableSubmit(true);
       const results = await APIGet('comic', {
         issueNumber: search.issue,
         comicSeries: search.series,
       });
-      setDisableSubmit(false);
-
       setSearchResults(results);
+      setDisableSubmit(false);
     } catch (error) {
       console.log(error);
     }
@@ -138,7 +124,6 @@ export default function AddComic(props) {
 
   return (
     <div>
-      <Heading />
       <div style={{ marginTop: '2%', marginLeft: matches ? '4%' : '10%', marginRight: matches ? '4%' : '10%' }}>
         <div
           style={{

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Auth from './components/auth';
@@ -12,17 +11,18 @@ import Approval from './screen/Approval';
 import ApprovalHistory from './screen/AppovalHistory';
 import Register from './screen/Register';
 
-import store, { history } from './store';
+import store from './store';
 
 // import './App.css';
 import 'typeface-roboto';
+
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        {/* <ConnectedRouter history={history}> */}
         <Router>
           <Switch>
+
             <Route path="/login">
               <Login />
             </Route>
@@ -34,7 +34,7 @@ export default class App extends React.Component {
               <AddComic />
             </Auth>
 
-            <Auth path="/comic/:id">
+            <Auth path="/comic/:issueId">
               <Comic />
             </Auth>
 
@@ -51,7 +51,6 @@ export default class App extends React.Component {
             </Auth>
           </Switch>
         </Router>
-        {/* </ConnectedRouter> */}
       </Provider>
     );
   }
