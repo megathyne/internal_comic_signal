@@ -21,8 +21,8 @@ export class PortfolioController {
   }
 
   @Get(':id')
-  getPortfolioById(@Param('id') inventoryId, @GetUser() user: User) {
-    this.logger.log(`User "${user.username}" retrieving portfolio id: ${inventoryId}`);
-    return this.portfolioService.getPortfolioItem(inventoryId, user);
+  getPortfolioById(@Param('id') issueId, @GetUser() user: User) {
+    this.logger.log(`User "${user.username}" retrieving portfolio issueId: ${issueId}`);
+    return this.portfolioService.getById(issueId, user);
   }
 }

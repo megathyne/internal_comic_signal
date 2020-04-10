@@ -32,14 +32,78 @@ export class PortfolioService {
         id: inventory.id,
         date: inventory.acquired,
         amount: inventory.cost,
+        condition: inventory.condition.numerical + ' ' + inventory.condition.name,
         validTransactions: approvals.map(({ itemId, finalPrice, endTime }) => ({
           ebayItemId: itemId,
           amount: parseFloat(finalPrice),
           date: new Date(endTime).toISOString().split('T')[0],
         })),
+        validTransactionsCount: approvals.length,
         value: approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length || 0,
+        high: approvals
+          .map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))
+          .sort((a, b) => parseFloat(b.finalPrice) - parseFloat(a.finalPrice))[0] || {
+          finalPrice: 'no data',
+          endTime: 'no data',
+        },
+        low: approvals
+          .map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))
+          .sort((a, b) => parseFloat(a.finalPrice) - parseFloat(b.finalPrice))[0] || {
+          finalPrice: 'no data',
+          endTime: 'no data',
+        },
+        last: approvals.map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))[approvals.length - 1] || {
+          finalPrice: 'no data',
+          endTime: 'no data',
+        },
         pendingApprovalCount,
       },
+    };
+  }
+
+  async getById(issueId, user: User) {
+    const inventory = (await this.inventoryService.get(user)).filter(item => item.comicId == issueId);
+    const portfolio = [];
+    for (let i = 0; i < inventory.length; i++) {
+      const portfolioItem = await this.getPortfolioItem(inventory[i], user);
+      portfolio.push(portfolioItem);
+    }
+
+    const portfolioChart = {
+      cost: portfolio
+        .map(({ inventory }) => ({
+          id: inventory.id,
+          date: inventory.date,
+          amount: parseFloat(inventory.amount),
+        }))
+        .sort((a, b) => b.date - a.date),
+    };
+
+    const totalCost = portfolio
+      .map(({ inventory }) => ({
+        id: inventory.id,
+        date: inventory.date,
+        amount: parseFloat(inventory.amount),
+      }))
+      .reduce((prev, curr) => (prev += curr.amount), 0);
+
+    const averageCost =
+      portfolio
+        .map(({ inventory }) => ({
+          amount: parseFloat(inventory.amount),
+        }))
+        .reduce((prev, curr) => (prev += curr.amount), 0) / portfolio.length;
+
+    return {
+      meta: {
+        title:
+          portfolio[0].comic.seriesName + ' (' + portfolio[0].comic.volume + ') ' + '#' + portfolio[0].comic.number,
+        copies: portfolio.length,
+        totalCost,
+        averageCost,
+      },
+      portfolioChart,
+      portfolio,
     };
   }
 
@@ -80,7 +144,10 @@ export class PortfolioService {
         .sort((a, b) => b.date - a.date),
     };
 
+    const portfolioValue = portfolio.reduce((prev, curr) => (prev += curr.inventory.value), 0);
+
     return {
+      portfolioValue,
       portfolioChart,
       portfolio,
       topThreeValue,

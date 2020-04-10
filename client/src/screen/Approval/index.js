@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Button } from '@material-ui/core';
-
-
-import Divider from '@material-ui/core/Divider';
-
-
-
-
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-
-import ebay1 from '../../mockData/s-l1600.jpg';
-import ebay2 from '../../mockData/s-l1600 (1).jpg';
-import Heading from '../../components/Heading';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
-import { APIGet, APIPost } from '../../api/api';
-
-
-
+import {
+  Card,
+  CardContent,
+  Dialog,
+  DialogTitle,
+  Divider,
+  Button,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-
-
+import { APIGet, APIPost } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,7 +117,7 @@ function EbayListItem(props) {
   };
 
   const IMAGES = data.details.PictureURL;
-  console.log(IMAGES);
+  // console.log(IMAGES);
 
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = (position) => {
@@ -142,7 +130,7 @@ function EbayListItem(props) {
   };
 
   return (
-    <div>
+    <div style={{ width: '75%' }}>
       <SimpleDialog open={open} selectedValue={selectedValue} onClose={handleClose} />
       <Card style={{ marginBottom: '5%' }}>
         <CardContent>
@@ -197,8 +185,6 @@ function EbayListItem(props) {
       </Card>
     </div>
   );
-
-
 }
 
 function EbayList(props) {

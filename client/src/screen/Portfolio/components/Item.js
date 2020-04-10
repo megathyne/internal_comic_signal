@@ -8,6 +8,8 @@ export default function Item(props) {
   } = props;
 
   const handleListItemClick = () => {
+    console.log(issueId);
+    console.log('3333');
     history.push(`/comic/${issueId}`);
   };
 

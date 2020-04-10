@@ -2,18 +2,17 @@ import React from 'react';
 import { Divider, Typography } from '@material-ui/core';
 
 export default function Description(props) {
+  const { copies, averageCost } = props.data;
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="body1">Copies</Typography>
-        <Typography variant="body1">{props.data.length}</Typography>
+        <Typography variant="body1">{copies}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="body1">Average Cost</Typography>
-        <Typography variant="body1">
-          {`$${props.data.reduce((prev, curr) => (prev += parseInt(curr.cost.split('$')[1])), 0).toFixed(2)}`}
-        </Typography>
+        <Typography variant="body1">{`$${averageCost}`}</Typography>
       </div>
       <Divider />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>

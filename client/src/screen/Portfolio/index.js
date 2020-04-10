@@ -18,10 +18,6 @@ import HighestValue from './components/HighestValueList';
 import PendingReview from './components/PendingReview';
 
 function InvestmentAmount(props) {
-  const data = {
-    totalValue: '$19,658.12',
-  };
-
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -40,7 +36,7 @@ function InvestmentAmount(props) {
         Investing
       </Typography>
       <Typography variant="h5" className={classes.typography}>
-        {data.totalValue}
+        {props.data}
       </Typography>
     </div>
   );
@@ -75,6 +71,7 @@ function PortfolioHeader(props) {
 
 function PortfolioListItem(props) {
   const { data, history } = props;
+  console.log('PortfolioListItem', data);
 
   const title = `${data.comic.seriesName} (${data.comic.volume}) #${data.comic.number} `;
 
@@ -99,6 +96,7 @@ function PortfolioListItem(props) {
 const Portfolio = ({ history }) => {
   const matches = useMediaQuery('(max-resolution: 1dppx)');
   const [data, setData] = useState({
+    portfolioValue: 0,
     portfolio: [],
     portfolioChart: {
       cost: [],
@@ -139,7 +137,7 @@ const Portfolio = ({ history }) => {
             width: matches ? '48%' : null,
           }}
         >
-          <InvestmentAmount />
+          <InvestmentAmount data={data.portfolioValue} />
           <InvestmentChart matches={matches} data={data.portfolioChart} />
           <div
             style={{

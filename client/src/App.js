@@ -34,7 +34,7 @@ export default class App extends React.Component {
               <AddComic />
             </Auth>
 
-            <Auth path="/comic/:id">
+            <Auth path="/comic/:issueId">
               <Comic />
             </Auth>
 
