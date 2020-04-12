@@ -32,7 +32,7 @@ PortfolioList.propTypes = {
       issueId: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
       copies: PropTypes.number.isRequired,
-      value: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
       hasGains: PropTypes.bool.isRequired,
       chartData: PropTypes.arrayOf(
         PropTypes.shape({

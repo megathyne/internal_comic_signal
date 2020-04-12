@@ -16,51 +16,6 @@ export class PortfolioService {
     private approvalService: ApprovalService,
   ) {}
 
-  // async getPortfolioItem(inventory: Inventory, user: User) {
-  //   const comic = await this.gcdApiService.getById(inventory.comicId, user);
-  //   const approvals = await this.approvalService.getCompletedByApproved(inventory.id, user);
-  //   const pendingApprovalCount = await this.approvalService.getPendingCount(inventory.id, user);
-
-  //   return {
-  //     comic: {
-  //       issueId: inventory.comicId,
-  //       seriesName: comic.series.name,
-  //       volume: comic.series.year_began,
-  //       number: comic.number,
-  //     },
-  //     inventory: {
-  //       id: inventory.id,
-  //       date: inventory.acquired,
-  //       amount: inventory.cost,
-  //       condition: inventory.condition.numerical + ' ' + inventory.condition.name,
-  //       validTransactions: approvals.map(({ itemId, finalPrice, endTime }) => ({
-  //         ebayItemId: itemId,
-  //         amount: parseFloat(finalPrice),
-  //         date: new Date(endTime).toISOString().split('T')[0],
-  //       })),
-  //       validTransactionsCount: approvals.length,
-  //       value: approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length || 0,
-  //       high: approvals
-  //         .map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))
-  //         .sort((a, b) => parseFloat(b.finalPrice) - parseFloat(a.finalPrice))[0] || {
-  //         finalPrice: 'no data',
-  //         endTime: 'no data',
-  //       },
-  //       low: approvals
-  //         .map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))
-  //         .sort((a, b) => parseFloat(a.finalPrice) - parseFloat(b.finalPrice))[0] || {
-  //         finalPrice: 'no data',
-  //         endTime: 'no data',
-  //       },
-  //       last: approvals.map(({ finalPrice, endTime }) => ({ finalPrice, endTime }))[approvals.length - 1] || {
-  //         finalPrice: 'no data',
-  //         endTime: 'no data',
-  //       },
-  //       pendingApprovalCount,
-  //     },
-  //   };
-  // }
-
   async getById(issueId, user: User) {
     const inventory = (await this.inventoryService.get(user)).filter(item => item.comicId == issueId);
     const portfolio = [];
@@ -114,7 +69,8 @@ export class PortfolioService {
 
     const issueId = inventory.comicId;
     const description = comic.series.name + ' (' + comic.series.year_began + ') ' + '#' + comic.number;
-    const value = approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length;
+    const value =
+      approvals.length > 0 ? approvals.reduce((p, c) => (p += parseFloat(c.finalPrice)), 0) / approvals.length : 0;
     const cost = inventory.cost;
     const hasGains = value >= cost ? true : false;
     const chartData = approvals.map(({ finalPrice, endTime }) => ({ date: endTime, amt: parseFloat(finalPrice) }));
@@ -127,6 +83,7 @@ export class PortfolioService {
       value,
       hasGains,
       chartData,
+      copies: 1,
     };
   }
 
@@ -143,7 +100,11 @@ export class PortfolioService {
       list: portfolio
         .sort((a, b) => b.value - a.value)
         .slice(0, 3)
-        .map(({ issueId, description, value }) => ({ issueId, description, value })),
+        .map(({ issueId, description, value }) => ({
+          issueId,
+          description,
+          value: `$${value.toFixed(2)}`,
+        })),
     };
 
     const reviewAnalyticListData = {
@@ -154,7 +115,7 @@ export class PortfolioService {
         .map(({ issueId, description, pendingApprovalCount }) => ({
           issueId,
           description,
-          value: pendingApprovalCount,
+          value: pendingApprovalCount.toFixed(),
         })),
     };
 
@@ -176,52 +137,4 @@ export class PortfolioService {
       portfolioListData: portfolio,
     };
   }
-
-  // async get(user: User) {
-  //   const inventory = await this.inventoryService.get(user);
-
-  //   const portfolio = [];
-  //   for (let i = 0; i < inventory.length; i++) {
-  //     const portfolioItem = await this.getPortfolioItem(inventory[i], user);
-  //     portfolio.push(portfolioItem);
-  //   }
-
-  //   const topThreeValue = portfolio
-  //     .sort((a, b) => b.inventory.value - a.inventory.value)
-  //     .slice(0, 3)
-  //     .map(({ comic: { issueId, seriesName, volume, number }, inventory: { id, value } }) => ({
-  //       issueId,
-  //       title: seriesName + ' (' + volume + ') ' + '#' + number,
-  //       data: value.toFixed(2),
-  //     }));
-
-  //   const topThreePending = portfolio
-  //     .sort((a, b) => b.inventory.pendingApprovalCount - a.inventory.pendingApprovalCount)
-  //     .slice(0, 3)
-  //     .map(({ comic: { issueId, seriesName, volume, number }, inventory: { id, pendingApprovalCount } }) => ({
-  //       issueId,
-  //       title: seriesName + ' (' + volume + ') ' + '#' + number,
-  //       data: pendingApprovalCount,
-  //     }));
-
-  //   const portfolioChart = {
-  //     cost: portfolio
-  //       .map(({ inventory }) => ({
-  //         id: inventory.id,
-  //         date: inventory.date,
-  //         amount: parseFloat(inventory.amount),
-  //       }))
-  //       .sort((a, b) => b.date - a.date),
-  //   };
-
-  //   const portfolioValue = portfolio.reduce((prev, curr) => (prev += curr.inventory.value), 0);
-
-  //   return {
-  //     portfolioValue,
-  //     portfolioChart,
-  //     portfolio,
-  //     topThreeValue,
-  //     topThreePending,
-  //   };
-  // }
 }
