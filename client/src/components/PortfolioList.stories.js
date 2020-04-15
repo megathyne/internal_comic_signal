@@ -32,23 +32,23 @@ export const portfolioListData = [
         amt: 221,
       },
       {
-        name: '2019-03-01',
+        date: '2019-03-01',
         amt: 229,
       },
       {
-        name: '2019-04-01',
+        date: '2019-04-01',
         amt: 200,
       },
       {
-        name: '2019-05-01',
+        date: '2019-05-01',
         amt: 218,
       },
       {
-        name: '2019-06-01',
+        date: '2019-06-01',
         amt: 250,
       },
       {
-        name: '2019-07-01',
+        date: '2019-07-01',
         amt: 210,
       },
     ],
@@ -70,11 +70,11 @@ export const portfolioListData = [
         amt: 2210,
       },
       {
-        name: '2019-03-01',
+        date: '2019-03-01',
         amt: 2290,
       },
       {
-        name: '2019-04-01',
+        date: '2019-04-01',
         amt: 2000,
       },
     ],
@@ -85,6 +85,24 @@ export const portfolioListData = [
     description: 'The Amazing Spider-Man (1963) #123',
     copies: 3,
     value: '$4.34',
+    chartData: [
+      {
+        date: '2019-01-01',
+        amt: 2400,
+      },
+      {
+        date: '2019-02-01',
+        amt: 2210,
+      },
+      {
+        date: '2019-03-01',
+        amt: 2290,
+      },
+      {
+        date: '2019-04-01',
+        amt: 2000,
+      },
+    ],
   },
   {
     ...portfolioItemData.data,
@@ -92,6 +110,24 @@ export const portfolioListData = [
     description: 'The Amazing Spider-Man (1963) #124',
     copies: 4,
     value: '$1,212.11',
+    chartData: [
+      {
+        date: '2019-01-01',
+        amt: 2400,
+      },
+      {
+        date: '2019-02-01',
+        amt: 2210,
+      },
+      {
+        date: '2019-03-01',
+        amt: 2290,
+      },
+      {
+        date: '2019-04-01',
+        amt: 2000,
+      },
+    ],
   },
   {
     ...portfolioItemData.data,
@@ -110,23 +146,23 @@ export const portfolioListData = [
         amt: 210,
       },
       {
-        name: '2019-03-01',
+        date: '2019-03-01',
         amt: 290,
       },
       {
-        name: '2019-04-01',
+        date: '2019-04-01',
         amt: 100,
       },
       {
-        name: '2019-05-01',
+        date: '2019-05-01',
         amt: 181,
       },
       {
-        name: '2019-06-01',
+        date: '2019-06-01',
         amt: 500,
       },
       {
-        name: '2019-07-01',
+        date: '2019-07-01',
         amt: 100,
       },
     ],
@@ -148,23 +184,23 @@ export const portfolioListData = [
         amt: 1210,
       },
       {
-        name: '2019-03-01',
+        date: '2019-03-01',
         amt: 1290,
       },
       {
-        name: '2019-04-01',
+        date: '2019-04-01',
         amt: 1000,
       },
       {
-        name: '2019-05-01',
+        date: '2019-05-01',
         amt: 1181,
       },
       {
-        name: '2019-06-01',
+        date: '2019-06-01',
         amt: 1500,
       },
       {
-        name: '2019-07-01',
+        date: '2019-07-01',
         amt: 1100,
       },
     ],

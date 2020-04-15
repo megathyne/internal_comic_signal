@@ -16,23 +16,38 @@ export class PortfolioService {
     private approvalService: ApprovalService,
   ) {}
 
-  async getById(issueId, user: User) {
+  async getByIssueId(issueId, user: User) {
+    const comic = await this.gcdApiService.getById(issueId, user);
+    const comicImage = await this.gcdApiService.getCoverById(issueId, user);
     const inventory = (await this.inventoryService.get(user)).filter(item => item.comicId == issueId);
+
     const portfolio = [];
     for (let i = 0; i < inventory.length; i++) {
       const portfolioItem = await this.getPortfolioItem(inventory[i], user);
       portfolio.push(portfolioItem);
     }
 
-    const portfolioChart = {
-      cost: portfolio
+    const description = comic.series.name + ' (' + comic.series.year_began + ') ' + '#' + comic.number;
+    const portfolioValue = portfolio.reduce((p, c) => (p += c.value), 0);
+    const portfolioCost = portfolio.reduce((p, c) => (p += parseFloat(c.cost)), 0);
+    const chartData = portfolio.reduce((p, c) => p.concat(c.chartData), []).sort((a, b) => b.date > a.date);
+
+    const comicDescriptionData = {
+      description,
+      hasGains: portfolioValue >= portfolioCost ? true : false,
+      chartData,
+    };
+
+    const comicImageData = {
+      image: comicImage.small,
+    };
+
+    const averageCost =
+      portfolio
         .map(({ inventory }) => ({
-          id: inventory.id,
-          date: inventory.date,
           amount: parseFloat(inventory.amount),
         }))
-        .sort((a, b) => b.date - a.date),
-    };
+        .reduce((prev, curr) => (prev += curr.amount), 0) / portfolio.length;
 
     const totalCost = portfolio
       .map(({ inventory }) => ({
@@ -42,13 +57,57 @@ export class PortfolioService {
       }))
       .reduce((prev, curr) => (prev += curr.amount), 0);
 
+    const comicStatsData = {
+      copies: inventory.length,
+      averageCost,
+      totalCost,
+      averageValue: 0,
+      totalValue: 0,
+    };
+
+    const comicInventoryData = [];
+
+    return {
+      comicDescriptionData,
+      comicImageData,
+      comicStatsData,
+      comicInventoryData,
+    };
+  }
+
+  async getById(issueId, user: User) {
+    console.log('======', issueId);
+    const inventory = (await this.inventoryService.get(user)).filter(item => item.comicId == issueId);
+    const portfolio = [];
+    for (let i = 0; i < inventory.length; i++) {
+      const portfolioItem = await this.getPortfolioItem(inventory[i], user);
+      portfolio.push(portfolioItem);
+    }
+    console.log(1);
+    console.log(portfolio);
+    const portfolioChart = {
+      cost: portfolio
+        .map(({ inventory }) => ({
+          date: inventory.acquired,
+          amount: parseFloat(inventory.amount),
+        }))
+        .sort((a, b) => b.date - a.date),
+    };
+    console.log(2);
+    const totalCost = portfolio
+      .map(({ inventory }) => ({
+        date: inventory.acquired,
+        amount: parseFloat(inventory.amount),
+      }))
+      .reduce((prev, curr) => (prev += curr.amount), 0);
+    console.log(3);
     const averageCost =
       portfolio
         .map(({ inventory }) => ({
           amount: parseFloat(inventory.amount),
         }))
         .reduce((prev, curr) => (prev += curr.amount), 0) / portfolio.length;
-
+    console.log(4);
     return {
       meta: {
         title:
@@ -75,7 +134,19 @@ export class PortfolioService {
     const hasGains = value >= cost ? true : false;
     const chartData = approvals.map(({ finalPrice, endTime }) => ({ date: endTime, amt: parseFloat(finalPrice) }));
 
+    const high =
+      approvals.length > 0
+        ? approvals.reduce((p, c) => (p > parseFloat(c.finalPrice) ? p : parseFloat(c.finalPrice)), 0)
+        : 0;
+    const low =
+      approvals.length > 0
+        ? approvals.reduce((p, c) => (p < parseFloat(c.finalPrice) ? p : parseFloat(c.finalPrice)), 0)
+        : 0;
+    const last = approvals.length > 0 ? approvals[approvals.length - 1].finalPrice : 0;
+
     return {
+      condition: inventory.condition.name,
+      acquired: inventory.acquired,
       issueId,
       description,
       pendingApprovalCount,
@@ -84,6 +155,10 @@ export class PortfolioService {
       hasGains,
       chartData,
       copies: 1,
+      high,
+      low,
+      last,
+      totalApproved: approvals.length,
     };
   }
 

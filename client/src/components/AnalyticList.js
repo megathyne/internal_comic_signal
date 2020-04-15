@@ -9,11 +9,11 @@ export default function AnalyticList({ history, data: { type, list } }) {
   return (
     <Paper elevation={0}>
       <List component="nav">
-        <ListItem>
+        <ListItem key={type}>
           <ListItemText primary={type} />
         </ListItem>
-        {list.map((item) => (
-          <AnalyticItem data={item} history={history} />
+        {list.map((item, i) => (
+          <AnalyticItem key={item.issueId} data={item} history={history} />
         ))}
       </List>
     </Paper>

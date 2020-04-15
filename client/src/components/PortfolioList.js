@@ -8,7 +8,7 @@ export default function PortfolioList({ data, history }) {
   return (
     <Paper elevation={0}>
       <List component="nav">
-        <ListItem>
+        <ListItem key="porfoliolistheadeing">
           <ListItemText primary="Portfolio" />
           <Button variant="outlined" href="/addcomic">
             Add comic
@@ -16,7 +16,7 @@ export default function PortfolioList({ data, history }) {
         </ListItem>
         <Divider />
         {data.map((item, i) => (
-          <PortfolioItem data={item} history={history} />
+          <PortfolioItem key={item.issueId} data={item} history={history} />
         ))}
       </List>
     </Paper>
@@ -32,7 +32,7 @@ PortfolioList.propTypes = {
       issueId: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
       copies: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
+      value: PropTypes.string.isRequired,
       hasGains: PropTypes.bool.isRequired,
       chartData: PropTypes.arrayOf(
         PropTypes.shape({

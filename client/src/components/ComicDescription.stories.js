@@ -1,16 +1,14 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
-
-import PortfolioChart from './PortfolioChart';
+import ComicDescription from './ComicDescription';
 
 export default {
-  component: PortfolioChart,
-  title: 'PortfolioChart',
+  component: ComicDescription,
+  title: 'ComicDescription',
   excludeStories: /.*Data$/,
 };
 
-export const portfolioChartData = {
-  value: '$23,522.03',
+export const comicDescriptionData = {
+  description: 'The Amazing Spider-Man (1963) #121',
   hasGains: true,
   chartData: [
     {
@@ -44,4 +42,4 @@ export const portfolioChartData = {
   ],
 };
 
-export const Default = () => <PortfolioChart data={{ ...portfolioChartData }} />;
+export const Default = () => <ComicDescription data={comicDescriptionData} />;

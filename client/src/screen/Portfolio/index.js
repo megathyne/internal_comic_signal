@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import Portfolio from '../../components/Portfolio';
 import { APIGet } from '../../api/api';
-import { withRouter } from 'react-router-dom';
 
 const PortfolioScreen = ({ history }) => {
   const [data, setData] = useState({
